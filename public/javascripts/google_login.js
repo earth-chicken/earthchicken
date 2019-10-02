@@ -6,10 +6,9 @@ function renderButton() {
         'height': 50,
         'longtitle': true,
         'theme': 'dark',
-        'onsuccess': var id = onSuccess,
+        'onsuccess': onSuccess,
         'onfailure': onFailure
     });
-    return id;
 }
 
 // Sign-in success callback
@@ -22,17 +21,17 @@ function onSuccess(googleUser) {
         var request = gapi.client.oauth2.userinfo.get({
             'userId': 'me'
         });
-        var resp = request.execute;
-        return resp.id;
-            // Save user data
-//            saveUserData(resp);
-//            console.log('User Data Saved/updated successfully.');
-//            setTimeout(function(){}, 10);
-//            var gamerInfo = getGamerData(resp);
-//            console.log('Gamer Data fetched successfully.');
+        request.execute(function (resp) {
 
-//            console.log(gamerInfo);
-            /*
+            // Save user data
+            saveUserData(resp);
+            console.log('User Data Saved/updated successfully.');
+            setTimeout(function(){}, 10);
+            var gamerInfo = getGamerData(resp);
+            console.log('Gamer Data fetched successfully.');
+
+            console.log(gamerInfo);
+
             // Display the user details
             var profileHTML =
                 '<h3>' +
@@ -51,8 +50,6 @@ function onSuccess(googleUser) {
             for(var i = 0;i<arr.length;i++){
                 arr[i].onclick = function() { gamerAction(resp.id,this);changeButtonStyle(this) }
             }
-
-             */
         });
     });
 }
@@ -78,5 +75,5 @@ function signOut() {
 
 // Save user data to the database
 function saveUserData(userData){
-//    $.post('userData.php', { oauth_provider:'google', userData: JSON.stringify(userData) });
+    $.post('userData.php', { oauth_provider:'google', userData: JSON.stringify(userData) });
 }
