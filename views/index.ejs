@@ -3,9 +3,26 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <!-- google login button -->
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="795354931669-g57mp7k3fb52u9vk1mscp78unk19sied.apps.googleusercontent.com">
+    <script src="https://apis.google.com/js/client:platform.js" async defer></script>
+    <script src="/javascripts/google_login.js"></script>
   </head>
+
   <body>
     <h1><%= title %></h1>
     <p>Welcome to <%= title %></p>
+
+    <!-- Display Google sign-in button -->
+    <div id="gSignIn" data-theme="dark"></div>
+
   </body>
+  <script>
+    window.onload = function () {
+      renderButton();
+    }
+  </script>
+
 </html>
