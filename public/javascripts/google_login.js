@@ -11,7 +11,6 @@ function renderButton() {
     });
 }
 
-
 // Sign-in success callback
 function onSuccess(googleUser) {
     // Get the Google profile data (basic)
@@ -33,8 +32,6 @@ function onSuccess(googleUser) {
 
             console.log(gamerInfo);
 
-
-
             // Display the user details
             var profileHTML =
                 '<h3>' +
@@ -42,28 +39,6 @@ function onSuccess(googleUser) {
                 '! <a href="javascript:void(0);" onclick="signOut();">Sign out</a>' +
                 '</h3>';
 
-            profileHTML +=
-                '<img src="'+resp.picture+'" width="50" height="50"/>' +
-                '<p><b>Google ID: </b>'+resp.id+'</p>' +
-                '<p><b>Name: </b>'+resp.name+'</p>';
-
-            profileHTML +=
-                '<p id = "currency"><b>Currency: </b>'+ gamerInfo['currency'] +'</p>' +
-                '<p id = "carboin"><b>Carboin: </b>'+ gamerInfo['carboin'] +'</p>';
-
-            profileHTML +=
-                '<div class="btn-group" style="margin-top:1em;" align="center">' +
-                '  <button id = "add_100d" type = "button" class = "btn1">add_100d</button>' +
-                '  <button id = "add_100c" type = "button" class = "btn1">add_100c</button>' +
-                '  <button id = "convert_100d_to_1c" type = "button" class = "btn1">100d_to_1c</button>' +
-                '  <button id = "zero" type = "button" class = "btn1"> zero</button>' +
-                '</div>' +
-                '<div class="btn-group" style="" align="center">' +
-                '  <button id = "5" type = "button" class = "btn1"> 5</button>' +
-                '  <button id = "6" type = "button" class = "btn1"> 6</button>' +
-                '  <button id = "7" type = "button" class = "btn1"> 7</button>' +
-                '  <button id = "8" type = "button" class = "btn1"> 8</button>' +
-                '</div>\n';
 
             document.getElementsByClassName("userContent")[0].innerHTML = profileHTML;
 
@@ -80,11 +55,25 @@ function onSuccess(googleUser) {
 }
 
 
-
+// Sign-in failure callback
 function onFailure(error) {
     alert(error);
 }
 
+// Sign out the user
 function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+        document.getElementsByClassName("userContent")[0].innerHTML = '';
+        document.getElementsByClassName("userContent")[0].style.display = "none";
+        document.getElementById("gSignIn").style.display = "block";
+    });
+
+    auth2.disconnect();
 }
 
+
+// Save user data to the database
+function saveUserData(userData){
+//    $.post('userData.php', { oauth_provider:'google', userData: JSON.stringify(userData) });
+}
