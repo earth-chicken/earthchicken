@@ -23,16 +23,9 @@ router.post('/', function(req, res, next) {
       audience: CLIENT_ID,
     });
     const payload = ticket.getPayload();
-    const userid = payload['sub'];
-    const email = payload['email'];
-    const picture = payload['const'];
-    const given_name = payload['given_name'];
-    const family_name = payload['family_name'];
-    const locale = payload['locale'];
-
     saveUserData(payload);
 
-    console.log(userid,email,given_name,family_name,locale);
+//    console.log(userid,email,given_name,family_name,locale);
   }
   verify().catch(console.error);
 
@@ -61,6 +54,12 @@ function saveUserData(userData){
     if (err) throw err;
   });
   */
+
+  var sql = "SHOW tables";
+  connection.query(sql, function(err, result, fields) {
+    if (err) throw err;
+  });
+
 
   var sql = "CREATE TABLE users (" +
       "         id int(11) NOT NULL AUTO_INCREMENT," +
