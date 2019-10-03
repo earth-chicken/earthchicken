@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.get('/tokensignin', function(req, res, next) {
+router.post('/tokensignin', function(req, res, next) {
   console.log('at /tokensignin');
 
   res.render('tokensignin.ejs',{
