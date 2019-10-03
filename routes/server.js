@@ -53,27 +53,29 @@ function saveUserData(userData){
 
   //開始連接
   connection.connect();
+  console.log('Database connected ...');
 
-  var sql = "CREATE TABLE users (\n" +
-      "         id int(11) NOT NULL AUTO_INCREMENT,\n" +
-      "         oauth_provider varchar(10) COLLATE utf8_unicode_ci NOT NULL,\n" +
-      "         oauth_uid varchar(50) COLLATE utf8_unicode_ci NOT NULL,\n" +
-      "         first_name varchar(25) COLLATE utf8_unicode_ci NOT NULL,\n" +
-      "         last_name varchar(25) COLLATE utf8_unicode_ci NOT NULL,\n" +
-      "         email varchar(50) COLLATE utf8_unicode_ci NOT NULL,\n" +
-      "         gender varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,\n" +
-      "         locale varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL,\n" +
-      "         picture varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,\n" +
-      "         link varchar(255) COLLATE utf8_unicode_ci NOT NULL,\n" +
-      "         created datetime NOT NULL,\n" +
-      "         modified datetime NOT NULL,\n" +
-      "         PRIMARY KEY (id)\n" +
-      "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;\n";
+  var sql = "CREATE TABLE users (" +
+      "         id int(11) NOT NULL AUTO_INCREMENT," +
+      "         oauth_provider varchar(10) COLLATE utf8_unicode_ci NOT NULL," +
+      "         oauth_uid varchar(50) COLLATE utf8_unicode_ci NOT NULL," +
+      "         first_name varchar(25) COLLATE utf8_unicode_ci NOT NULL," +
+      "         last_name varchar(25) COLLATE utf8_unicode_ci NOT NULL," +
+      "         email varchar(50) COLLATE utf8_unicode_ci NOT NULL," +
+      "         gender varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL," +
+      "         locale varchar(10) COLLATE utf8_unicode_ci DEFAULT NULL," +
+      "         picture varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL," +
+      "         link varchar(255) COLLATE utf8_unicode_ci NOT NULL," +
+      "         created datetime NOT NULL," +
+      "         modified datetime NOT NULL," +
+      "         PRIMARY KEY (id)" +
+      "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+  console.log('Creating table ...');
 
   connection.query(sql, data, function(error){
     if(error){
-      console.log('寫入資料失敗！');
-      throw error;
+      console.log('Table create fail!');
+      //throw error;
     }
   });
 
