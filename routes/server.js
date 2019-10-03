@@ -52,8 +52,8 @@ function saveUserData(userData){
   const locale = userData['locale'];
 
   //開始連接
+  console.log("Connected to Mysql");
   connection.connect();
-  console.log('Database connected ...');
 
   var sql = "CREATE TABLE users (" +
       "         id int(11) NOT NULL AUTO_INCREMENT," +
@@ -85,29 +85,30 @@ function saveUserData(userData){
   var num_rows = 0;
 
   sql = "SELECT * FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
-  connection.query(sql, function(error, result, fields){
-    console.log(result.length);
+  connection.query(sql, function(err, result, fields){
+    if (err) throw err;
     num_rows = result.length;
-    console.log('t1 ',num_rows);
-    if(error){
-      console.log('寫入資料失敗！');
-      throw error;
+    console.log(num_rows);
+
+    if(num_rows > 0) {
+      console.log('user existed');
+      // Update user data if already exists
+      sql = "UPDATE users SET first_name = '" + given_name + "', last_name = '" + family_name + "', email = '" +
+            email + "', gender = ' ', locale = '"+ locale + "', picture = '"+ picture +
+            "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
+    } else {
+      sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
+          family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
+
+      //connection.query(sql, function(error, result, fields) {
+      //  console.log(result);
+      //})
     }
+
+
   });
 
   console.log(num_rows);
-  if(num_rows > 0) {
-    console.log('user existed');
-    // Update user data if already exists
-  } else {
-
-    sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
-        family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
-
-    //connection.query(sql, function(error, result, fields) {
-    //  console.log(result);
-    //})
-  }
 
   connection.end();
 //  $.post('/userData.php', { oauth_provider:'google', userData: JSON.stringify(userData) });
