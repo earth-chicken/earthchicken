@@ -72,6 +72,7 @@ function saveUserData(userData){
       "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
   console.log('Creating table ...');
 
+  /*
   connection.query(sql, function(error,result){
     console.log('test',result);
     if(error){
@@ -79,7 +80,7 @@ function saveUserData(userData){
       //throw error;
     }
   });
-
+  */
 
   var num_rows = 0;
 
@@ -87,14 +88,16 @@ function saveUserData(userData){
   connection.query(sql, function(error, result, fields){
     console.log(result);
     num_rows = result['num_rows'];
-
+    console.log('t1 ',num_rows);
     if(error){
       console.log('寫入資料失敗！');
       throw error;
     }
   });
 
+  console.log(num_rows);
   if(num_rows > 0) {
+    console.log('user existed');
     // Update user data if already exists
   } else {
 
