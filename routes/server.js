@@ -72,7 +72,7 @@ function saveUserData(userData){
       "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
   console.log('Creating table ...');
 
-  connection.query(sql, data, function(error){
+  connection.query(sql, function(error){
     if(error){
       console.log('Table create fail!');
       //throw error;
