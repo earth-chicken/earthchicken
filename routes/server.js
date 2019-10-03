@@ -55,14 +55,12 @@ function saveUserData(userData){
   console.log("Connected to Mysql");
   connection.connect();
 
+  /*
   var sql = "DROP TABLE users";
   connection.query(sql, function(err, result, fields) {
     if (err) throw err;
-    console.log('--------------------------UPDATE----------------------------');
-    console.log('UPDATE affectedRows',result.affectedRows);
-    console.log('------------------------------------------------------------');
-
   });
+  */
 
   var sql = "CREATE TABLE users (" +
       "         id int(11) NOT NULL AUTO_INCREMENT," +
@@ -80,6 +78,7 @@ function saveUserData(userData){
       "         PRIMARY KEY (id)" +
       "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
+  /*
   connection.query(sql, function(error,result){
     console.log('test',result);
     if(error){
@@ -89,7 +88,7 @@ function saveUserData(userData){
       console.log('Creating table ...');
     }
   });
-
+  */
 
   var num_rows = 0;
 
@@ -100,34 +99,27 @@ function saveUserData(userData){
     console.log(num_rows);
 
     if(num_rows > 0) {
-      console.log('user existed');
       // Update user data if already exists
       sql = "UPDATE users SET first_name = '" + given_name + "', last_name = '" + family_name + "', email = '" +
             email + "', gender = ' ', locale = '"+ locale + "', picture = '"+ picture +
             "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
-      connection.query(sql, function(error, result, fields) {
-        console.log('--------------------------UPDATE----------------------------');
-        console.log('UPDATE affectedRows',result.affectedRows);
-        console.log('------------------------------------------------------------');
+      connection.query(sql, function(err, result, fields) {
+        if (err) throw err;
+        console.log('user '+given_name+' existed ...');
       })
     } else {
       sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
           family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
-
-      connection.query(sql, function(error, result, fields) {
-        console.log('--------------------------UPDATE----------------------------');
-        console.log('UPDATE affectedRows',result.affectedRows);
-        console.log('------------------------------------------------------------');
+      connection.query(sql, function(err, result, fields) {
+        if (err) throw err;
+        console.log('user '+given_name+' adding ...');
       })
+    } else if (num_rows > 1) {
+      console.log('database error ...');
     }
-
-
   });
 
-  console.log(num_rows);
-
   connection.end();
-//  $.post('/userData.php', { oauth_provider:'google', userData: JSON.stringify(userData) });
 }
 
 module.exports = router;
