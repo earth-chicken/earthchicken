@@ -1,10 +1,25 @@
 var express = require('express');
+
 var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // 顯示 index.ejs 且改變ejs內 % % 處變數為指定值
-  res.render('index', { title: 'Earth Chicken' });
+    console.log('at /');
+
+    // 顯示 index.ejs
+    res.render('index.ejs');
+
+});
+
+router.get('/tokensignin', function(req, res, next) {
+  console.log('at /tokensignin');
+
+  res.render('tokensignin.ejs',{
+    title : 'tokensignin'
+  })
+
+
 });
 
 module.exports = router;
+

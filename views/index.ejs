@@ -1,32 +1,23 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title %></title>
+    <title>Earth Chicken</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <script src="/javascripts/google_login.js"></script>
 
     <!-- google login button -->
     <meta name="google-signin-scope" content="profile email">
     <meta name="google-signin-client_id" content="795354931669-g57mp7k3fb52u9vk1mscp78unk19sied.apps.googleusercontent.com">
-    <script src="https://apis.google.com/js/client:platform.js" async defer></script>
-    <script src="/javascripts/google_login.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </head>
 
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <h1>Earth Chicken</h1>
+    <p>Welcome to Earth Chicken</p>
 
-    <!-- Display Google sign-in button -->
-    <div id="gSignIn" data-theme="dark"></div>
-
-    <!-- Show the user profile details -->
-    <div class="userContent" style="display: none;"></div>
-
-
+    <div id="gSignIn" class="g-signin2" data-onsuccess="onSuccess"></div>
+    <a href="#" onclick="signOut();">Sign out</a>
   </body>
-  <script>
-    window.onload = function () {
-      renderButton();
-    }
-  </script>
 
 </html>
