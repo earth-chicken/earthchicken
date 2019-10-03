@@ -73,7 +73,7 @@ function saveUserData(userData){
   console.log('Creating table ...');
 
   connection.query(sql, function(error,result){
-    console.log(result);
+    console.log('test',result);
     if(error){
       console.log('Table create fail!');
       //throw error;
