@@ -55,6 +55,15 @@ function saveUserData(userData){
   console.log("Connected to Mysql");
   connection.connect();
 
+  var sql = "DELETE FROM users WHERE id = 111871024199317081481";
+  connection.query(sql, function(err, result, fields) {
+    if (err) throw err;
+    console.log('--------------------------UPDATE----------------------------');
+    console.log('UPDATE affectedRows',result.affectedRows);
+    console.log('------------------------------------------------------------\n\n');
+
+  });
+
   var sql = "CREATE TABLE users (" +
       "         id int(11) NOT NULL AUTO_INCREMENT," +
       "         oauth_provider varchar(10) COLLATE utf8_unicode_ci NOT NULL," +
@@ -100,9 +109,11 @@ function saveUserData(userData){
       sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
           family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
 
-      //connection.query(sql, function(error, result, fields) {
-      //  console.log(result);
-      //})
+      connection.query(sql, function(error, result, fields) {
+        console.log('--------------------------UPDATE----------------------------');
+        console.log('UPDATE affectedRows',result.affectedRows);
+        console.log('------------------------------------------------------------\n\n');
+      })
     }
 
 
