@@ -45,7 +45,7 @@ function saveUserData(userData){
   const locale = userData['locale'];
 
   //開始連接
-  console.log("Connected to Mysql");
+  console.log("Connected to Mysql ...");
   connection.connect();
 
   /*
@@ -94,35 +94,36 @@ function saveUserData(userData){
   var num_rows = 0;
 
   sql = "SELECT * FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
-  connection.query(sql, function(err, result, fields){
+  connection.query(sql, function(err, result, fields) {
 //    if (err) {throw err;}
     num_rows = result.length;
     console.log(num_rows);
 
     if(num_rows == 0) {
       sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
-          family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
+            family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
       connection.query(sql, function(err, result, fields) {
 //        if (err) {throw err;}
-        console.log('user '+given_name+' adding ...');
+        console.log('User '+given_name+' adding ...');
       });
 
     } else if (num_rows > 0) {
       // Update user data if already exists
       sql = "UPDATE users SET first_name = '" + given_name + "', last_name = '" + family_name + "', email = '" +
-          email + "', gender = ' ', locale = '" + locale + "', picture = '" + picture +
-          "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
+            email + "', gender = ' ', locale = '" + locale + "', picture = '" + picture +
+            "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
       connection.query(sql, function (err, result, fields) {
 //        if (err) {throw err;}
-        console.log('user ' + given_name + ' existed ...');
+        console.log('User ' + given_name + ' existed ...');
       });
 
     } else if (num_rows > 1) {
-      console.log('database internal error ...');
+      console.log('Database internal error ...');
     }
   });
 
   connection.end();
+  console.log('Function: saveUserData finished ...')
 }
 
 module.exports = router;
