@@ -79,17 +79,17 @@ function saveUserData(userData){
       "         modified datetime NOT NULL," +
       "         PRIMARY KEY (id)" +
       "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
-  console.log('Creating table ...');
 
-  /*
   connection.query(sql, function(error,result){
     console.log('test',result);
     if(error){
       console.log('Table create fail!');
       //throw error;
+    } else {
+      console.log('Creating table ...');
     }
   });
-  */
+
 
   var num_rows = 0;
 
