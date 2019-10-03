@@ -72,7 +72,8 @@ function saveUserData(userData){
       "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
   console.log('Creating table ...');
 
-  connection.query(sql, function(error){
+  connection.query(sql, function(error,result){
+    console.log(result);
     if(error){
       console.log('Table create fail!');
       //throw error;
@@ -83,7 +84,7 @@ function saveUserData(userData){
   var num_rows = 0;
 
   sql = "SELECT * FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
-  connection.query(sql, data, function(error, result, fields){
+  connection.query(sql, function(error, result, fields){
     console.log(result);
     num_rows = result['num_rows'];
 
@@ -100,7 +101,7 @@ function saveUserData(userData){
     sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
         family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
 
-    connection.query(sql, data, function(error, result, fields) {
+    connection.query(sql, function(error, result, fields) {
       console.log(result);
     })
   }
