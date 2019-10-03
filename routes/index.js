@@ -11,11 +11,11 @@ router.get('/', function(req, res, next) {
 
 });
 
-router.post('/tokensignin', function(req, res, next) {
-  console.log('at /tokensignin');
+router.get('/about', function(req, res, next) {
+  console.log('at /about');
 
-  res.render('tokensignin.ejs',{
-    title : 'tokensignin'
+  res.render('about.ejs',{
+    title : 'about'
   })
 
 
