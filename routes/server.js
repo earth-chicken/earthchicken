@@ -95,7 +95,7 @@ function saveUserData(userData){
 
   sql = "SELECT * FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
   connection.query(sql, function(err, result, fields){
-    if (err) throw err;
+    if (err) {throw err;}
     num_rows = result.length;
     console.log(num_rows);
 
@@ -103,9 +103,9 @@ function saveUserData(userData){
       sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
           family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
       connection.query(sql, function(err, result, fields) {
-        if (err) throw err;
+        if (err) {throw err;}
         console.log('user '+given_name+' adding ...');
-      })
+      });
 
     } else if (num_rows > 0) {
       // Update user data if already exists
@@ -113,12 +113,12 @@ function saveUserData(userData){
           email + "', gender = ' ', locale = '" + locale + "', picture = '" + picture +
           "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
       connection.query(sql, function (err, result, fields) {
-        if (err) throw err;
+        if (err) {throw err;}
         console.log('user ' + given_name + ' existed ...');
-      })
+      });
 
     } else if (num_rows > 1) {
-      console.log('database error ...');
+      console.log('database internal error ...');
     }
   });
 
