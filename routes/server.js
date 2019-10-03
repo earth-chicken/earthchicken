@@ -86,8 +86,8 @@ function saveUserData(userData){
 
   sql = "SELECT * FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
   connection.query(sql, function(error, result, fields){
-    console.log(result);
-    num_rows = result['num_rows'];
+    console.log(result.length);
+    num_rows = result.length;
     console.log('t1 ',num_rows);
     if(error){
       console.log('寫入資料失敗！');
@@ -104,9 +104,9 @@ function saveUserData(userData){
     sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
         family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
 
-    connection.query(sql, function(error, result, fields) {
-      console.log(result);
-    })
+    //connection.query(sql, function(error, result, fields) {
+    //  console.log(result);
+    //})
   }
 
   connection.end();
