@@ -55,12 +55,13 @@ function saveUserData(userData){
   });
   */
 
+  /*
   var sql = "SHOW tables";
   connection.query(sql, function(err, result, fields) {
     if (err) throw err;
     console.log(result);
   });
-
+  */
 
   var sql = "CREATE TABLE users (" +
       "         id int(11) NOT NULL AUTO_INCREMENT," +
@@ -98,7 +99,7 @@ function saveUserData(userData){
     num_rows = result.length;
     console.log(num_rows);
 
-    if(num_rows = 0) {
+    if(num_rows == 0) {
       sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
           family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
       connection.query(sql, function(err, result, fields) {
