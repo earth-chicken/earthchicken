@@ -18,9 +18,12 @@ router.post('/', function(req, res, next) {
     });
     const payload = ticket.getPayload();
     db.saveUserData(payload);
+    console.log('123123')
   }
   verify().catch(console.error);
+  console.log('456456456')
 
+  res.end('It worked!');
 });
 
 
