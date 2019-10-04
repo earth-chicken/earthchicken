@@ -1,11 +1,17 @@
 var mysql = require('mysql');
+const fs = require('fs')
 
-let mysql_configs = {
+let mysql_config = JSON.parse(fs.readFileSync('service/mysql_config.json', 'utf-8'))
+
+//let mysql_config = require('./mysql_config.json');
+/*
+let mysql_config = {
     host     : 'us-cdbr-iron-east-05.cleardb.net',
     user     : 'ba8df658a414c9',
     password : 'c5eabe84',
     database : 'heroku_67e77e10602a053'
 };
+*/
 
 module.exports = {
     // Save user data to the database
@@ -18,7 +24,7 @@ module.exports = {
         const family_name = userData['family_name'];
         const locale = userData['locale'];
 
-        var connection = mysql.createConnection(mysql_configs);
+        var connection = mysql.createConnection(mysql_config);
 
         /*
         var sql = "DROP TABLE users";
@@ -102,6 +108,9 @@ module.exports = {
                 });
             }
         });
+    },
+    getGamerData: function (userData) {
+        console.log('func getGamerData')
     }
 };
 

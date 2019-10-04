@@ -23,6 +23,7 @@ router.post('/', function(req, res, next) {
   verify().catch(console.error);
   console.log('456456456')
 
+  // 接收到post之後需要回覆結束
   res.end('It worked!');
 });
 
