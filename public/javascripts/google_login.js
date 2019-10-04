@@ -4,6 +4,7 @@ function onSuccess(googleUser) {
     console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
 
     document.getElementById("gSignIn").style.display = "none";
+    document.getElementById("gSignOut").style.display = "block";
 
     var id_token = googleUser.getAuthResponse().id_token;
 
@@ -27,6 +28,9 @@ function signOut() {
     auth2.signOut().then(function () {
         console.log('User signed out.');
     });
-    document.getElementById("gSignIn").style.display = "block";
+//    document.getElementById("gSignIn").style.display = "block";
+//    document.getElementById("gSignOut").style.display = "none";
+
+    window.location.href = '/';
 
 }
