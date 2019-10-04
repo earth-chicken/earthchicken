@@ -1,13 +1,14 @@
 var express = require('express');
 var mysql = require('mysql');
 var router = express.Router();
+var execPhp = require('exec-php');
 
-var connection = mysql.createConnection({
+let mysql_configs = {
   host     : 'us-cdbr-iron-east-05.cleardb.net',
   user     : 'ba8df658a414c9',
   password : 'c5eabe84',
   database : 'heroku_67e77e10602a053'
-});
+};
 
 router.post('/', function(req, res, next) {
   console.log('at /server');
@@ -25,28 +26,47 @@ router.post('/', function(req, res, next) {
     const payload = ticket.getPayload();
     saveUserData(payload);
 
+    /*
+    execPhp('../userData.php', function(error, php, outprint){
+      // outprint is now `One'.
+
+      php.saveUser('Google', payload, function(err, result, output, printed){
+        // result is now `3'
+        console.log(result);
+        // output is now `One'.
+        // printed is now `Two'.
+      });
+    });
+    */
+
+
 //    console.log(userid,email,given_name,family_name,locale);
   }
   verify().catch(console.error);
 
 });
 
-
-
-
 // Save user data to the database
 function saveUserData(userData){
 
   const userid = userData['sub'];
   const email = userData['email'];
-  const picture = userData['const'];
+  const picture = userData['picture'];
   const given_name = userData['given_name'];
   const family_name = userData['family_name'];
   const locale = userData['locale'];
 
+  var connection = mysql.createConnection(mysql_configs);
+
   //開始連接
-  console.log("Connected to Mysql ...");
-  connection.connect();
+  connection.connect(function(err) {
+    if (err) {
+      console.log('connecting Mysql error');
+      return;
+    }
+    console.log('connecting Mysql success');
+  });
+
 
   /*
   var sql = "DROP TABLE users";
@@ -55,13 +75,12 @@ function saveUserData(userData){
   });
   */
 
-  /*
+
   var sql = "SHOW tables";
   connection.query(sql, function(err, result, fields) {
     if (err) throw err;
     console.log(result);
   });
-  */
 
   var sql = "CREATE TABLE users (" +
       "         id int(11) NOT NULL AUTO_INCREMENT," +
@@ -94,36 +113,34 @@ function saveUserData(userData){
   var num_rows = 0;
 
   sql = "SELECT * FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
+
   connection.query(sql, function(err, result, fields) {
 //    if (err) {throw err;}
+    console.log(result);
     num_rows = result.length;
-    console.log(num_rows);
-
-    if(num_rows == 0) {
-      sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
-            family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
-      connection.query(sql, function(err, result, fields) {
-//        if (err) {throw err;}
-        console.log('User '+given_name+' adding ...');
-      });
-
-    } else if (num_rows > 0) {
+    if (num_rows > 0) {
       // Update user data if already exists
       sql = "UPDATE users SET first_name = '" + given_name + "', last_name = '" + family_name + "', email = '" +
-            email + "', gender = ' ', locale = '" + locale + "', picture = '" + picture +
-            "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
+          email + "', gender = ' ', locale = '" + locale + "', picture = '" + picture +
+          "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
       connection.query(sql, function (err, result, fields) {
 //        if (err) {throw err;}
-        console.log('User ' + given_name + ' existed ...');
+        console.log('User ' + given_name + family_name + ' existed ...');
+        connection.end();
+        console.log('Function: saveUserData finished ...');
       });
-
-    } else if (num_rows > 1) {
-      console.log('Database internal error ...');
+    } else {
+      sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
+          family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
+      connection.query(sql, function(err, result, fields) {
+//        if (err) {throw err;}
+        console.log('User '+given_name + family_name +' adding ...');
+        connection.end();
+        console.log('Function: saveUserData finished ...');
+      });
     }
   });
 
-  connection.end();
-  console.log('Function: saveUserData finished ...')
 }
 
 module.exports = router;
