@@ -1,6 +1,8 @@
 {
-  "host"     : "YOUR_MYSQL_HOSTNAME",
-  "user"     : "YOUR_MYSQL_USERNAME",
-  "password" : "YOUR_MYSQL_PASSWORD",
-  "database" : "YOUR_MYSQL_DATABASE"
+  "host"     : "us-cdbr-iron-east-05.cleardb.net",
+  "user"     : "ba8df658a414c9",
+  "password" : "c5eabe84",
+  "database" : "heroku_67e77e10602a053"
 }
+
+123
