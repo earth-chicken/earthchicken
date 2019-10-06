@@ -18,13 +18,19 @@ router.post('/', function(req, res, next) {
     });
     const payload = ticket.getPayload();
     db.saveUserData(payload);
-    console.log('123123')
   }
   verify().catch(console.error);
-  console.log('456456456')
 
   // 接收到post之後需要回覆結束
   res.end('It worked!');
+  /*
+  next(function() {
+    console.log('redirction');
+//    res.redirect("/user/"+given_name+"/dashboard");
+  });
+  */
+
+
 });
 
 

@@ -12,7 +12,8 @@ function onSuccess(googleUser) {
     xhr.open('POST', '/server');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
-        console.log('Signed in as: ' + xhr.responseText);
+        console.log(xhr.responseText);
+        console.log('Auth done.')
     };
     xhr.send('idtoken=' + id_token);
 
