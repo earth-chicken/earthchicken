@@ -44,8 +44,12 @@ $ cat ~/.gitconfig
 
 4. Make a branch __add_new_function__ for your function editing (only need to do once during this function editing.)
 ```
-$ git chckout -b add_new_function
+$ git branch a_new_function
 ```  
+5. Change current working branch to __add_new_function__.
+```
+$ git chckout a_new_function
+```
 5. Add the change __./service/new_function.js__ for commit.
 ```
 $ git add ./service/new_function.js
@@ -56,7 +60,7 @@ $ git commit -m 'Some parts of the new function.'
 ```
 7. Push the new commit at branch __add_new_function__ to the Github __origin__ repository.  
 ```
-$ git push origin add_new_function
+$ git push origin a_new_function
 ```
 8. Loop Step 5-7 to finish this function editing.  
 #### Once finish the function you can merge it to __master__ branch.  
@@ -64,4 +68,16 @@ $ git push origin add_new_function
 ```
 $ git pull
 ```
-
+10. Change current working branch to __master__.
+```
+$ git checkout master
+```
+11. Merge finished branch a_new_function to branch __master__.
+```
+$ git merge a_new_function
+```
+12. Push updated branch master to Github.
+```
+$ git push origin master
+```
+#### Now you safely add a new function to the repository :)
