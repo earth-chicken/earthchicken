@@ -1,7 +1,6 @@
 var mysql = require('mysql');
 const fs = require('fs')
 
-
 let mysql_config = JSON.parse(fs.readFileSync('service/mysql_config.json', 'utf-8'))
 
 //let mysql_config = require('./mysql_config.json');
