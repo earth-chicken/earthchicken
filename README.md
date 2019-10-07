@@ -50,33 +50,33 @@ $ git branch a_new_function
 ```
 $ git chckout a_new_function
 ```
-5. Add the change __./service/new_function.js__ for commit.
+6. Add the change __./service/new_function.js__ for commit.
 ```
 $ git add ./service/new_function.js
 ```
-6. Commit the change and memo.
+7. Commit the change and memo.
 ```
 $ git commit -m 'Some parts of the new function.'
 ```
-7. Push the new commit at branch __add_new_function__ to the Github __origin__ repository.  
+8. Push the new commit at branch __add_new_function__ to the Github __origin__ repository.  
 ```
 $ git push origin a_new_function
 ```
-8. Loop Step 5-7 to finish this function editing.  
+9. Loop Step 5-8 to finish this function editing.  
 #### Once finish the function you can merge it to __master__ branch.  
-9. Pull the newest repository at Github.
-```
-$ git pull
-```
 10. Change current working branch to __master__.
 ```
 $ git checkout master
 ```
-11. Merge finished branch a_new_function to branch __master__.
+9. Pull add further change of branch __master__ at Github.
+```
+$ git pull
+```
+11. Merge finished branch __a_new_function__ to branch __master__.
 ```
 $ git merge a_new_function
 ```
-12. Push updated branch master to Github.
+12. Push updated branch __master__ to Github.
 ```
 $ git push origin master
 ```
