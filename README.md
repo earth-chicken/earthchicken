@@ -19,7 +19,7 @@ $ cd earthchicken
 ```
 $ npm install
 ```
-7. Run earthchicken server at __localhost:3000__ . 
+7. Run earthchicken server at __localhost:3000__ (default port is 3000). 
 ```
 $ npm start
 ```
@@ -42,20 +42,26 @@ $ cat ~/.gitconfig
 ```
 #### For example, I want to add a new function for this app with a script __new_function.js__ at ./service/
 
-4. Make a branch for your function editing (only need to do once during this function editing.)
+4. Make a branch __add_new_function__ for your function editing (only need to do once during this function editing.)
 ```
 $ git chckout -b add_new_function
 ```  
-5. Add the change for commit.
+5. Add the change __./service/new_function.js__ for commit.
 ```
 $ git add ./service/new_function.js
 ```
-6. Commit the change and memo
+6. Commit the change and memo.
 ```
-$ git commit -m 'some part of new function'
+$ git commit -m 'Some parts of the new function.'
 ```
-7. Push the new commit at branch __add_new_function__ to the Github __origin__ repository 
+7. Push the new commit at branch __add_new_function__ to the Github __origin__ repository.  
 ```
-$ git push 
+$ git push origin add_new_function
+```
+8. Loop Step 5-7 to finish this function editing.  
+#### Once finish the function you can merge it to __master__ branch.  
+9. Pull the newest repository at Github.
+```
+$ git pull
 ```
 
