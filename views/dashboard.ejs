@@ -3,7 +3,10 @@
 <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <meta name="google-signin-scope" content="profile email">
+    <meta name="google-signin-client_id" content="795354931669-g57mp7k3fb52u9vk1mscp78unk19sied.apps.googleusercontent.com">
     <script src="/javascripts/google_login.js"></script>
+    <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 </head>
 <body>
     <h1><%= title %></h1>
@@ -11,6 +14,6 @@
 
 
 
-    <a href="/signout" onclick="signOut();">Sign out</a>
+    <a href="/logout" onClick="signOut();">Sign out</a>
 </body>
 </html>

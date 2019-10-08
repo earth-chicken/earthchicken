@@ -1,22 +1,28 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/:username', function(req, res, next) {
-  const username = req.params.username;
 
-  res.send(username + 'at user homepage');
+router.get('/', function(req, res, next) {
+  console.log('at /users');
+
+  console.log(req.session.isLogin);
+  if(req.session.isLogin) {
+
+    uid = req.session.uid;
+    name = req.session.name;
+    console.log('uid is: ' + uid);
+
+    res.render('dashboard', { title: name} );
+
+  } else {
+    console.log('need to login');
+    res.redirect('/login');
+  }
+
 });
 
-router.get('/:username/dashboard', function(req, res, next) {
-  const username = req.params.username;
 
-  res.render('dashboard', { title: username} );
-  res.end(username + 'at user dashboard');
-  console.log(username + 'at user dashboard');
-});
-
-router.get('/:username/map', function(req, res, next) {
+router.get('/map', function(req, res, next) {
   const username = req.params.username;
 
   res.send(username + 'at user map');

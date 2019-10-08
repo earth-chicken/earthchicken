@@ -3,20 +3,9 @@ const fs = require('fs')
 
 let mysql_config = JSON.parse(fs.readFileSync('service/mysql_config.json', 'utf-8'))
 
-//let mysql_config = require('./mysql_config.json');
-/*
-let mysql_config = {
-    host     : 'us-cdbr-iron-east-05.cleardb.net',
-    user     : 'ba8df658a414c9',
-    password : 'c5eabe84',
-    database : 'heroku_67e77e10602a053'
-};
-*/
-
 module.exports = {
     // Save user data to the database
     saveUserData: function (userData) {
-        // whatever
         const userid = userData['sub'];
         const email = userData['email'];
         const picture = userData['picture'];
