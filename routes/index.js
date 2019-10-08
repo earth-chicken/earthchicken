@@ -18,6 +18,23 @@ router.get('/about', function(req, res, next) {
     title : 'about'
   })
 
+});
+
+router.get('/introduce', function(req, res, next) {
+  console.log('at /introduce');
+
+  res.render('introduce.ejs',{
+    title : 'introduce'
+  })
+
+});
+
+router.get('/game_start', function(req, res, next) {
+  console.log('at /game_start');
+
+  res.render('game_start.ejs',{
+    title : 'game_start'
+  })
 
 });
 
