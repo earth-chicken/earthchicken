@@ -1,14 +1,110 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-</head>
-<body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+  <head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title><%= title %></title>
+		
+		<!-- External CSS -->
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.css">
+		
+		<!-- JavaScript --beg-- -->
+			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
+			<script src="/javascripts/google_login.js"></script>
+			
+			<!-- google login button -->
+			<meta name="google-signin-scope" content="profile email">
+			<meta name="google-signin-client_id" content="795354931669-g57mp7k3fb52u9vk1mscp78unk19sied.apps.googleusercontent.com">
+			<script src="https://apis.google.com/js/platform.js" async defer></script>
 
+			<script type="text/javascript">
+			
+			$(document).ready(function()
+			{
+				console.log("web initial");
+			});
+			 
+			</script>
+		<!-- JavaScript --end-- -->
+  </head>
 
+  <body>
+    <!--h1>Earth Chicken</h1-->
+    <!--p>Welcome to Earth Chicken</p-->
 
-</body>
+    <div data-role="page" id="pagehome" data-theme="a" data-transition="none">      
+			<div data-role="header" data-position="fixed">
+				<h1 id="topic"  style="margin:0;margin-left:40px; margin-right:100px;">Earth Chicken</h1>
+				
+				<a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
+				<span  id="log_txt" style="position:absolute; top:13px; right:42px; font-weight:normal; font-size:80%;"></span>
+			
+			</div><!-- /header -->
+			
+			<!-- Left-Bar -->
+			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
+				<ul data-role="listview" >
+					<li data-icon="delete"><a href="#" data-rel="close" id="menu_close">Close menu</a></li>
+					<li data-icon=""><a href="#/introduce" id="menu_introduce">Introduce</a></li>
+					<li data-icon=""><a href="#/" id="menu_us">Play $C</a></li>
+					<li data-icon=""><a href="#/about" id="menu_us">About us</a></li>
+					
+					<span id="add_menu" class="ui-list"></span>
+				</ul>
+			</div><!-- /panel -->
+			
+			<div id="list_load" role="main" class="ui-content" style="display:block">
+				<ul data-role="listview" data-inset="true" style="-webkit-border-radius:0.1px;border-radius:0.1px; margin-top:0px;">
+					<li id="team_spirit"> <a href="" target="_self" > <h1 id="txt_item_spirit">Team spirits</h1><span id="item_spirit"></span></a></li>
+                    <li id="team_member"> <a href="" target="_self" > <h1 id="txt_item_member">Members</h1><span id="item_member"></span></a></li>
+					<!--li id="pass_sel"> <a href="#Password" data-rel="popup" data-position-to="window"> <h1 id="password_txt">WIFI Password</h1><span id="app_sk"></span></a></li-->
+                    
+				</ul>
+			</div>
+			
+
+			<div id="gSignOut" style="display: none;">
+				<a href="#" onclick="signOut();">Sign out</a>
+
+			</div>
+			
+			<!--popup example-->
+			<!--div data-role="popup" id="Password" data-overlay-theme="b" style="min-width:300px;">
+				<div data-role="header">
+						<a href="#pagehome" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+						<h1  style="margin:0;"></h1>
+				</div>
+
+				<div role="main" class="ui-content" >
+					<div align="center" style="margin-left:auto; margin-right:auto; ">
+						<div class="hdmicec_txt" style="margin-right:10px;">
+							<legend id="le_password">Password:</legend>
+						</div>
+						<div id="hidenssid">
+							<fieldset>
+								<input type="text" value="" name="appsk" id="appsk" >  
+							</fieldset>
+						</div>
+					</div>
+					<div id="psk_warn_txt" class="warn_txt"></div>
+				</div>
+				<p align="center" style="border-top:1px solid #CCCCCC">
+					<a href="#"     class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="set_appsk_ok" onclick="set_ap_pswd()">OK</a>
+					<a href="#page" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="set_appsk_cel">Cancel</a>
+				</p>
+			</div-->
+		</div>
+
+  </body>
+
 </html>
+
+
+
+
+
+
+
+
+

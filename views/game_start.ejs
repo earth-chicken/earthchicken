@@ -23,6 +23,11 @@
 			$(document).ready(function()
 			{
 				console.log("web initial");
+				var host_addr = window.location.hostname;
+				var port = window.location.port;
+				console.log("host = "+host_addr);
+				console.log("port = "+port);
+				
 			});
 			 
 			</script>
@@ -55,47 +60,14 @@
 			</div><!-- /panel -->
 			
 			<div id="list_load" role="main" class="ui-content" style="display:block">
-				<ul data-role="listview" data-inset="true" style="-webkit-border-radius:0.1px;border-radius:0.1px; margin-top:0px;">
-					<li id="welcome"> <a href="" target="_self" > <h1 id="txt_item_welcome">Welcome to Earth Chicken</h1><span id="item_welcome"></span></a></li>
-					<!--li id="game_start"> <a href="login.ejs" target="_self" > <h1 id="txt_game_start">Login and play $C !!! (popup and login???)</h1><span id="game_start"></span></a></li-->
-                    <li id="game_start"> <a href="game_start" target="_self" > <h1 id="txt_game_start">Login and play $C !!! (popup and login???)</h1><span id="game_start"></span></a></li>
-                    
-					<!--li id="pass_sel"> <a href="#Password" data-rel="popup" data-position-to="window"> <h1 id="password_txt">WIFI Password</h1><span id="app_sk"></span></a></li-->
-				</ul>
+				<div id="main_pic"><img src="images/map_china.jpg" alt="img__map_china"></div>
+				
+				
 			</div>
 			
-			<div id="gSignIn" class="g-signin2" data-onsuccess="onSuccess" data-theme="dark"></div>
 
-			<div id="gSignOut" style="display: none;">
-				<a href="#" onclick="signOut();">Sign out</a>
-
-			</div>
 			
-			<!--popup example-->
-			<!--div data-role="popup" id="Password" data-overlay-theme="b" style="min-width:300px;">
-				<div data-role="header">
-						<a href="#pagehome" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-						<h1  style="margin:0;"></h1>
-				</div>
 
-				<div role="main" class="ui-content" >
-					<div align="center" style="margin-left:auto; margin-right:auto; ">
-						<div class="hdmicec_txt" style="margin-right:10px;">
-							<legend id="le_password">Password:</legend>
-						</div>
-						<div id="hidenssid">
-							<fieldset>
-								<input type="text" value="" name="appsk" id="appsk" >  
-							</fieldset>
-						</div>
-					</div>
-					<div id="psk_warn_txt" class="warn_txt"></div>
-				</div>
-				<p align="center" style="border-top:1px solid #CCCCCC">
-					<a href="#"     class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="set_appsk_ok" onclick="set_ap_pswd()">OK</a>
-					<a href="#page" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="set_appsk_cel">Cancel</a>
-				</p>
-			</div-->
 		</div>
 
   </body>
