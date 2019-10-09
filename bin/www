@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-const hostname = '127.0.0.1';
+const hostname = 'localhost';
 //const hostname = '192.168.56.109';
 var port = normalizePort(process.env.PORT || '3000');
 //var port = normalizePort(process.env.PORT || '80'); TODO
