@@ -5,7 +5,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   console.log('at /users');
 
-  console.log(req.session.isLogin);
+//  console.log(req.session.isLogin);
   if(req.session.isLogin) {
 
     uid = req.session.uid;
@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
 
   } else {
     console.log('need to login');
-    res.redirect('/login');
+    res.redirect('/');
   }
 
 });

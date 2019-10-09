@@ -20,10 +20,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(session({
-  secret: 'l3wjP4ETau1qAx7L65Fo5Ve5NlFqW1ofHUYdMz4G/iaXsCM46qRUc35/ge4j7MNRACZzIUd0PUxkIIXqPDE96BhKGQyRyD+2JrVXObpkSDAbXxKb5+OasWizDS3OhpHFTJ1tEtIg3sIDUqQP7I15Fcfj8xJHU+Y1pi9K74pcHBCBfmye8VT1WwHLfUGhc0I1zORhTbm+cqsGgTZp+EH/ZA0pF4PRimZ5VwPPfc7x6Ve/fX4f8bDTyprHoRvUxgKy2tjDw0db+ZEM6vhlugdKwW6znEbC8yJyZT9tF', // 建议使用 128 个字符的随机字符串
+  secret: 'l3wjP4ETau1qAx7L65Fo5Ve5NlFqW1of' +
+          'HUYdMz4G/iaXsCM46qRUc35/ge4j7MNR' +
+          'ACZzIUd0PUxkIIXqPDE96BhKGQyRyD+2' +
+          'JrVXObpkSDAbXxKb5+OasWizDS3OhpHF', // 建议使用 128 个字符的随机字符串
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 600 * 1000 } // expire in 10 min
+  cookie: { maxAge: 900 * 1000 } // expire in 10 min
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));

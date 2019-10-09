@@ -6,6 +6,8 @@ let mysql_config = JSON.parse(fs.readFileSync('service/mysql_config.json', 'utf-
 module.exports = {
     // Save user data to the database
     saveUserData: function (userData) {
+        console.log('at saveUserData');
+
         const userid = userData['sub'];
         const email = userData['email'];
         const picture = userData['picture'];
@@ -15,6 +17,47 @@ module.exports = {
 
         var connection = mysql.createConnection(mysql_config);
 
+        var sql = "SELECT * FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
+        connection.query(sql, function(err, result, fields) {
+            if (err) throw err;
+            console.log(result);
+            let num_rows = result.length;
+            if (num_rows > 0) {
+                // Update user data if already exists
+                sql = "UPDATE users SET first_name = '" + given_name + "', last_name = '" + family_name + "', email = '" +
+                    email + "', gender = ' ', locale = '" + locale + "', picture = '" + picture +
+                    "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
+                connection.query(sql, function (err, result, fields) {
+                    if (err) throw err;
+                    console.log('User ' + given_name + family_name + ' existed ...');
+                    connection.end();
+                    console.log('Function: saveUserData finished ...');
+                });
+            } else {
+                sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
+                    family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
+                connection.query(sql, function(err, result, fields) {
+                    if (err) throw err;
+                    console.log('User '+given_name + family_name +' adding ...');
+                    connection.end();
+                    console.log('Function: saveUserData finished ...');
+                });
+            }
+        });
+//        return given_name;
+    },
+    createDb: function(){
+        console.log('at createDb');
+
+        var connection = mysql.createConnection(mysql_config);
+        var sql = "SHOW tables";
+        connection.query(sql, function(err, result, fields) {
+            if (err) throw err;
+            obj = JSON.parse(result);
+//            console.log(obj[0]);
+            connection.end();
+        });
+
         /*
         var sql = "DROP TABLE users";
         connection.query(sql, function(err, result, fields) {
@@ -22,15 +65,8 @@ module.exports = {
         });
         */
 
-        //var a = {num: 1};
 
-        var sql = "SHOW tables";
-        connection.query(sql, function(err, result, fields) {
-            if (err) throw err;
-            console.log(result);
-        });
-
-        var sql = "CREATE TABLE users (" +
+        sql = "CREATE TABLE users (" +
             "         id int(11) NOT NULL AUTO_INCREMENT," +
             "         oauth_provider varchar(10) COLLATE utf8_unicode_ci NOT NULL," +
             "         oauth_uid varchar(50) COLLATE utf8_unicode_ci NOT NULL," +
@@ -67,38 +103,10 @@ module.exports = {
         });
         */
 
-        var num_rows = 0;
 
-        sql = "SELECT * FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
 
-        connection.query(sql, function(err, result, fields) {
-            if (err) throw err;
-            console.log(result);
-            num_rows = result.length;
-            if (num_rows > 0) {
-                // Update user data if already exists
-                sql = "UPDATE users SET first_name = '" + given_name + "', last_name = '" + family_name + "', email = '" +
-                    email + "', gender = ' ', locale = '" + locale + "', picture = '" + picture +
-                    "', link = ' ', modified = NOW() WHERE oauth_provider = 'google' AND oauth_uid = '" + userid + "'";
-                connection.query(sql, function (err, result, fields) {
-                    if (err) throw err;
-                    console.log('User ' + given_name + family_name + ' existed ...');
-                    connection.end();
-                    console.log('Function: saveUserData finished ...');
-                });
-            } else {
-                sql = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '"+ given_name +"', '"+
-                    family_name +"', '"+ email +"', ' ', '" + locale + "', '"+picture+"', ' ', NOW(), NOW())";
-                connection.query(sql, function(err, result, fields) {
-                    if (err) throw err;
-                    console.log('User '+given_name + family_name +' adding ...');
-                    connection.end();
-                    console.log('Function: saveUserData finished ...');
-                });
-            }
-        });
-//        return given_name;
     },
+
     getGamerData: function (userData) {
         console.log('func getGamerData')
     }

@@ -5,6 +5,10 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
     console.log('at /');
+    if(req.session.isLogin) {
+        const uid = req.session.uid;
+        console.log('uid is: ' + uid);
+    }
     // 顯示 index.ejs
     res.render('index.ejs');
 });
@@ -14,7 +18,7 @@ router.get('/login', function (req, res,next) {
 
     // is login already
     if(req.session.isLogin) {
-        uid = req.session.uid;
+        const uid = req.session.uid;
         console.log('uid is: ' + uid);
         console.log('redirect to /users');
         res.redirect('/users');
