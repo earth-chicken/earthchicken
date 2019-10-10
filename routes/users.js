@@ -12,7 +12,8 @@ router.get('/', function(req, res, next) {
     name = req.session.name;
     console.log('uid is: ' + uid);
 
-    res.render('dashboard', { title: name} );
+//    res.render('dashboard', { title: name} );
+    res.render('game_start');
 
   } else {
     console.log('need to login');
