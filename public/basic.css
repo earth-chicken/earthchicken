@@ -1,0 +1,31 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.my_color {
+	color: red;
+	
+}
+
+.button_inline{
+  font-family: Arial, Helvetica;
+  font-size: 16px;
+  padding: 10px;
+  background: #fff;
+  color: #000;
+  display: inline;
+  border: 0;
+  text-decoration: none;
+	display:inline
+}
+
+
+
+
+
+

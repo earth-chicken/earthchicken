@@ -6,6 +6,7 @@
 		
 		<!-- External CSS -->
 		<link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='basic.css' />
 		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.css">
 		
 		<style type="text/css">
@@ -24,7 +25,8 @@
 		<!-- JavaScript --beg-- -->
 			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
-			<script src="game_start.js" async defer></script>
+			<script src="common.js" async defer></script>
+      <script src="event_user.js" async defer></script>
 			
 			<!-- google login button -->
 			<meta name="google-signin-scope" content="profile email">
@@ -43,47 +45,81 @@
 				console.log("port = "+port);
 				
 			});
-			 
+      
 			</script>
 		<!-- JavaScript --end-- -->
   </head>
 
   <body>
-    <!--h1>Earth Chicken</h1-->
-    <!--p>Welcome to Earth Chicken</p-->
-
-    <div data-role="page" id="pagehome" data-theme="a" data-transition="none">      
-			<div data-role="header" data-position="fixed">
-				<h1 id="topic"  style="margin:0;margin-left:40px; margin-right:100px;">Earth Chicken</h1>
-				
-				<a href="#nav-panel" data-icon="bars" data-iconpos="notext">Menu</a>
-				<span  id="log_txt" style="position:absolute; top:13px; right:42px; font-weight:normal; font-size:80%;"></span>
-			
-			</div><!-- /header -->
+    <div data-role="page" id="pagehome" data-theme="a" data-transition="none">
+      <!-- Header -->
+      <div data-role="header">
+        <div data-role="controlgroup">
+        <a href="#nav_panel" data-role="button" data-inline="true" data-icon="bars" style="float: left">Start</a>
+        <a href="#/introduce" data-role="button" data-inline="true" data-icon="eye" style="float: left">Introduce</a>
+        <center><h1 id="topic" style="display:inline;" >Earth Chicken</h1>
+        <a href="#/about" data-role="button" data-inline="true" data-icon="carat-d" style="float: right">About</a>
+        <!--a href="#/" data-role="button" data-inline="true" data-icon="mail">Mail</a-->
+        <a href="#/" data-role="button" data-inline="true" data-icon="home" style="float: right">Home</a>
+        </div>
+      </div>
 			
 			<!-- Left-Bar -->
-			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
+			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav_panel">
 				<ul data-role="listview" >
 					<li data-icon="delete"><a href="#" data-rel="close" id="dash_close">Close</a></li>
-					<li data-icon="" id="dash_assets" onClick="click_assets()"><a>Assets</a></li>
-						<div id="dash_assets__land" style="display:none"><a>Land</a></div>
-						<div id="dash_assets__money" style="display:none"><a>Money</a></div>
-						<div id="dash_assets__dollarC" style="display:none"><a>Dollar C</a></div>
-					<li data-icon="" id="others"><a>Others</a></li>
+					<!--li data-icon="" id="dash_assets" onClick="click_assets()" ><a>Assets</a></li-->
+          <li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#" data-rel="close">Assets</a></li>
+					<li data-icon="carat-r" id="others"><a>Others</a></li>
+          <li data-icon="carat-r" id="evt_test"><a href="#bar_event">Events Test</a></li>
 					<span id="add_menu" class="ui-list"></span>
 				</ul>
-			</div><!-- /panel -->
+			</div>
 			
+      <!-- main_page -->
 			<div id="list_load" role="main" class="ui-content" style="display:block">
 				<div id="main_pic"><img src="images/map_china.jpg" alt="img__map_china" class='img_full'></div>
-				
-				
 			</div>
 
 
-		<a href="/logout" onClick="signOut();">Sign out</a>
+      
 
-			
+      
+
+      
+      <!-- Bar_event -->
+      <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_event" data-position="right">
+        <ul data-role="listview" >
+          <li><div data-role="button" onClick="evt_buy_land();" id="evt_buy_land"><a>Buy Land</a></div></li>
+          <li><div data-role="button" onClick="evt_plant();" id="evt_plant"><a>ºØ´Ó</a></div>       </li>
+          <li><div data-role="button" onClick="evt_irrigate();" id="evt_irrigate"><a>Äéµ@</a></div>    </li>
+          <li><div data-role="button" onClick="evt_fertilize();" id="evt_fertilize"><a>¬IªÎ</a></div>   </li>
+          <li><div data-role="button" onClick="evt_debug();" id="evt_debug"><a>°£ÂÎ</a></div>       </li>
+          <li><div data-role="button" onClick="evt_greenhouse();" id="evt_greenhouse"><a>·Å«Ç</a></div>  </li>
+          <li><div data-role="button" onClick="evt_harvest();" id="evt_harvest"><a>¦¬³ÎÅÜ½æ</a></div> </li>
+          
+        </ul>
+      </div>
+
+      <a href="/logout" onClick="signOut();">Sign out</a>
+
+      <div data-role="footer">
+        <!-- Bar_assets -->
+        <div data-role="controlgroup" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_land" style="display:none">
+          <table border="1">
+            <tr>
+              <td>Location</td>
+              <td>Valid</td>
+              <td>Plant</td>
+              <td>W %</td>
+              <td>F %</td>
+              <td>G %</td>
+              <td>H %</td>
+            </tr>
+          </table>
+          </ul>
+        </div>
+      </div> 
 
 		</div>
 
