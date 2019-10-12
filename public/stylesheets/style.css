@@ -6,3 +6,26 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+.btn1{
+  border:none;
+  height:4.0em;
+  width:4.0em;
+  background-color:#008000;
+  color:white;
+  font-size:1.2em;
+  margin-top:0.5em;
+  /* border-radius:1em; */
+}
+
+.btn2 {
+  border: none;
+  height:4.0em;
+  width:4.0em;
+  background-color: #FFA500;
+  color: white;
+  font-size: 1.2em;
+  margin-top: 0.5em;
+  /* border-radius: 1em; */
+}

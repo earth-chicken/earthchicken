@@ -80,9 +80,29 @@
 			<div id="list_load" role="main" class="ui-content" style="display:block">
 				<div id="main_pic"><img src="images/map_china.jpg" alt="img__map_china" class='img_full'></div>
 			</div>
+			<!-- dashboard -->
+		<div>
+			<h3>Welcome to Earth Chicken, <%= name %>>
+				<a href="javascript:void(0);" onclick="signOut();">Sign out</a>
+			</h3>
 
+			<p><b>Google ID: </b>resp.id</p>
+			<p><b>Name: </b>resp.name</p>
 
       
+			<p id = "currency"><b>Currency: </b> gamerInfo['currency'] </p>
+			<p id = "carboin"><b>Carboin: </b> gamerInfo['carboin'] </p>
+
+			<div class="btn-group" style="margin-top:1em;" align="center">
+				<button id = "add_100d" type = "button" class = "btn1">add_100d</button>
+				<button id = "add_100c" type = "button" class = "btn1">add_100c</button>
+				<button id = "convert_100d_to_1c" type = "button" class = "btn1">100d_to_1c</button>
+				<button id = "zero" type = "button" class = "btn1"> zero</button>
+			</div>
+
+		</div>
+
+			<a href="/logout" onClick="signOut();">Sign out</a>
 
       
 
