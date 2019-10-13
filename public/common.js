@@ -9,13 +9,6 @@ function item_showOrHide(item_id){
 
 };
 
-function click_assets(){
-  //console.log("click_assets");
-
-  item_showOrHide("bar_land");
-
-};
-
 
 
 
