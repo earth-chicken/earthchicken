@@ -154,6 +154,16 @@ function get_user_assets(){
     {lon:"W.120", lat:"N.30", temp:28, valid:1, plant_tp:1, warning_evt:3, WWW: 30, PPP: 30, GGG:30, X_rate:30, XXX:250},
   ];
 
+    url = '/service/gameAction';
+    data = {event:'get_user_assets'};
+
+    $.post(url,data,function(res){
+        console.log(res);
+        json = jQuery.parseJSON(res);
+        console.log(json);
+    });
+
+
   var length = Object.keys(json).length;
 	console.log("length = " + length);
 	

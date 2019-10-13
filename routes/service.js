@@ -90,7 +90,7 @@ router.post('/gameAction', function (req,res, next) {
     db.getUserStatus(uid, function (rows) {
       res.send(rows);
     });
-  } else if (event =='get_user_lands') {
+  } else if (event =='get_user_assets') {
     db.getUserLands(uid, function (rows) {
       res.send(rows);
     });
