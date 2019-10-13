@@ -27,7 +27,8 @@
 			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
 			<script src="common.js" async defer></script>
       <script src="event_user.js" async defer></script>
-			
+			<script src="/javascripts/d3.js" async defer></script>
+      
 			<!-- google login button -->
 			<meta name="google-signin-scope" content="profile email">
 			<meta name="google-signin-client_id" content="795354931669-g57mp7k3fb52u9vk1mscp78unk19sied.apps.googleusercontent.com">
@@ -65,7 +66,7 @@
       </div>
 			
 			<!-- Left-Bar -->
-			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav_panel">
+			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:200px" id="nav_panel">
 				<ul data-role="listview" >
 					<li data-icon="delete"><a href="#" data-rel="close" id="dash_close">Close</a></li>
 					<!--li data-icon="" id="dash_assets" onClick="click_assets()" ><a>Assets</a></li-->
@@ -80,18 +81,15 @@
 			<div id="list_load" role="main" class="ui-content" style="display:block">
 				<div id="main_pic"><img src="images/map_china.jpg" alt="img__map_china" class='img_full'></div>
 			</div>
-			<!-- dashboard -->
-		<div>
-			<h3>Welcome to Earth Chicken, <%= name %>>
-				<a href="javascript:void(0);" onclick="signOut();">Sign out</a>
-			</h3>
-
-			<p><b>Google ID: </b>resp.id</p>
-			<p><b>Name: </b>resp.name</p>
-
       
-			<p id = "currency"><b>Currency: </b> gamerInfo['currency'] </p>
-			<p id = "carboin"><b>Carboin: </b> gamerInfo['carboin'] </p>
+			<!-- dashboard -->
+      <div>
+        <h3>Welcome to Earth Chicken, <%= name %>>
+          <a href="javascript:void(0);" onclick="signOut();">Sign out</a>
+        </h3>
+
+        <p><b>Google ID: </b>resp.id</p>
+        <p><b>Name: </b>resp.name</p>
 
 			<div class="btn-group" style="margin-top:1em;" align="center">
 				<button id = "add_100d" type = "button" class = "btn1" onCLick="evt_buy_land();">buy land</button>
@@ -100,49 +98,54 @@
 				<button id = "zero" type = "button" class = "btn1"> zero</button>
 			</div>
 
-		</div>
+        <div class="btn-group" style="margin-top:1em;" align="center">
+          <button id = "add_100d" type = "button" class = "btn1">add_100d</button>
+          <button id = "add_100c" type = "button" class = "btn1">add_100c</button>
+          <button id = "convert_100d_to_1c" type = "button" class = "btn1">100d_to_1c</button>
+          <button id = "zero" type = "button" class = "btn1">?zero</button>
+        </div>
+      </div>
 
 			<a href="/logout" onClick="signOut();">Sign out</a>
-
-      
-
       
       <!-- Bar_event -->
       <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_event" data-position="right">
         <ul data-role="listview" >
-          <li><div data-role="button" onClick="evt_buy_land();" id="evt_buy_land"><a>Buy Land</a></div></li>
-          <li><div data-role="button" onClick="evt_plant();" id="evt_plant"><a>種植</a></div>       </li>
-          <li><div data-role="button" onClick="evt_irrigate();" id="evt_irrigate"><a>灌溉</a></div>    </li>
-          <li><div data-role="button" onClick="evt_fertilize();" id="evt_fertilize"><a>施肥</a></div>   </li>
-          <li><div data-role="button" onClick="evt_debug();" id="evt_debug"><a>除蟲</a></div>       </li>
-          <li><div data-role="button" onClick="evt_greenhouse();" id="evt_greenhouse"><a>溫室</a></div>  </li>
-          <li><div data-role="button" onClick="evt_harvest();" id="evt_harvest"><a>收割變賣</a></div> </li>
-          
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_buy_land"><a>Buy Land</a></div></li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_plant"><a>蝔格?</a></div>       </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_irrigate"><a>??</a></div>    </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_fertilize"><a>?質</a></div>   </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_debug"><a>?方</a></div>       </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_greenhouse"><a>皞怠恕</a></div>  </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_harvest"><a>?嗅霈都</a></div> </li>          
         </ul>
       </div>
 
-      <a href="/logout" onClick="signOut();">Sign out</a>
-
-      <div data-role="footer">
+      <!-- bottom assets board -->
+      <div data-role="footer" data-position="fixed" data-fullscreen="false">
         <!-- Bar_assets -->
-        <div data-role="controlgroup" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_land" style="display:none">
-          <table border="1">
-            <tr>
-              <td>Location</td>
-              <td>Valid</td>
-              <td>Plant</td>
-              <td>W %</td>
-              <td>F %</td>
-              <td>G %</td>
-              <td>H %</td>
-            </tr>
-          </table>
-          </ul>
+        <div id="showinfo" onclick="click_assets()" align="center" style="height:30px; width:50%; border: 0px solid #26D6FE; margin:0 auto;">
+          <div id="info_title" class="info_txt" data-icon="carat-u" style="line-height:29px;">Assets</div>
+        </div>
+        <div data-role="info_txt" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_land" style="display:none">
+					<table id="tb_user_assets" border="1" style="line-height:25px;">
+						<tr>
+							<td>Location</td>
+							<td>Valid</td>
+							<td>Plant</td>
+							<td>Warning</td>
+							<td>Temp</td>
+							<td>W%</td>
+							<td>P%</td>
+							<td>G%</td>
+							<td>X%</td>
+							<td>X</td>
+						</tr>
+					</table>
         </div>
       </div> 
 
 		</div>
-
   </body>
 
 </html>
