@@ -149,6 +149,7 @@ function getUserLands(uid,callback) {
     let sql_get_user_table = "SELECT * FROM lands_" + uid;
     let connection = mysql.createConnection(mysql_config);
     connection.query(sql_get_user_table, function (err,rows,fields) {
+        if (err) throw err;
         let landData = JSON.stringify(rows);
         landData = JSON.parse(landData);
         connection.end();
@@ -174,25 +175,43 @@ function addLand(param,callback) {
     });
 }
 
-function castMoney(param,callback) {
+function castMoney(uid,cast,callback) {
+
+    getMoney(uid, (row)=> {
+        let old_money = row.currency;
+        let new_currency = old_money - cast;
+        if (new_currency >= 0) {
+            setMoney(uid, new_currency, () => {
+                console.log('currency updated ...')
+                callback(0, new_currency);
+            });
+        } else {
+            console.log(uid, 'currency is not enough, request rejected ...')
+            callback(1, old_money);
+        }
+    });
+
+}
+
+function setMoney(uid,new_currency,callback) {
+    let sql_set_money = "UPDATE users SET currency = " + (new_currency) + " WHERE id = " + (uid) + ";";
+
     let connection = mysql.createConnection(mysql_config);
-
-    let uid = param[0];
-    let money = param[1];
-
-    let sql_get_money = "SELECT currency from users WHERE id =" + (uid)+';';
-    connection.query(sql_get_money, (err,rows) => {
+    connection.query(sql_set_money, (err, rows) => {
         if (err) throw  err;
+        callback();
+    });
+}
 
+function getMoney(uid,callback) {
+    let sql_get_money = "SELECT currency from users WHERE id =" + (uid) + ';';
+
+    let connection = mysql.createConnection(mysql_config);
+    connection.query(sql_get_money, (err, rows) => {
+        if (err) throw  err;
         var data = JSON.parse(JSON.stringify(rows))[0];
-        let new_currency = data.currency - money;
-
-        let sql_cast_money = "UPDATE users SET currency = " +(new_currency) + " WHERE id = "+(uid)+";";
-        connection.query(sql_cast_money, (err,rows) => {
-            if (err) throw  err;
-            connection.end();
-            callback({currency:new_currency});
-        });
+        let money = data.currency;
+        callback({currency: money});
     });
 }
 

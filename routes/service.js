@@ -76,13 +76,12 @@ router.post('/gameAction', function (req,res, next) {
     db.addLand(param, function (rows1) {
       console.log('land added');
       console.log(rows1);
-      let param = [uid, cast];
-      db.castMoney(param, function (rows2) {
-        console.log(rows2);
-        res.send([
-          rows2,
-          {carboin: '0'},
-          {err: '0'}]
+      db.castMoney(uid,cast, function (err,money) {
+        console.log(money);
+        res.send(
+          {currency: money,
+          carboin: '0',
+          err: err}
         )
       })
     });
