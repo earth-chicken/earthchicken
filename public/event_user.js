@@ -28,93 +28,221 @@ const g_user_assets_title = [
 	"X"
 ];
 
+const URL_SERVICE = '/service/gameAction';
 var g_user_assets=[];
+var g_cur_location = "";
 
 
 
 function post_msg_2server(){
   console.log(arguments.callee.name);
-  var ret_data="";
   
-  return ret_data;
+  return;
 }
 
-function evt_buy_land(res){
-  console.log(arguments.callee.name);
-  console.log('evt_buy_land: ',res);
 
+function get_cur_location(){
+	
+	return g_cur_location;
 }
 
-function evt_plant(res){
-  console.log(arguments.callee.name);
-    console.log('evt_plant: ',res);
+function set_cur_location(new_location){
+	
+	g_cur_location = new_location;
+	return;
+}
 
+function evt_buyLand(){
+  console.log(arguments.callee.name);
+	
+	var cur_loc = get_cur_location();
+	//use cur_loc to fill data --- lon, lat
+	var data = {event:user_evt_buyLand,
+							lon:'120',
+							lat:'23'};
+
+	$.post(URL_SERVICE, data, function(res){
+		console.log(res);
+		if(res.length<=0)
+		{	console.log("post return nothing"); return;}
+		
+		//parse res and update web
+		//res = jQuery.parseJSON(res);
+		
+	});
+	
+	return;
+}
+
+function evt_plant(){
+  console.log(arguments.callee.name);
+	
+	var cur_loc = get_cur_location();
+	//use cur_loc to fill data --- lon, lat
+	var data = {event:user_evt_plant,
+							lon:'120',
+							lat:'23'};
+
+	$.post(URL_SERVICE, data, function(res){
+		console.log(res);
+		if(res.length<=0)
+		{	console.log("post return nothing"); return;}
+		
+		//parse res and update web
+		//res = jQuery.parseJSON(res);
+		
+	});
+	
+	return;
 }
 
 function evt_irrigate(){
   console.log(arguments.callee.name);
-  
+	
+	var cur_loc = get_cur_location();
+	//use cur_loc to fill data --- lon, lat
+	var data = {event:user_evt_irrigate,
+							lon:'120',
+							lat:'23'};
+
+	$.post(URL_SERVICE, data, function(res){
+		console.log(res);
+		if(res.length<=0)
+		{	console.log("post return nothing"); return;}
+		
+		//parse res and update web
+		//res = jQuery.parseJSON(res);
+		
+	});
+	
+	return;
 }
 
 function evt_fertilize(){
   console.log(arguments.callee.name);
-  
+	
+	var cur_loc = get_cur_location();
+	//use cur_loc to fill data --- lon, lat
+	var data = {event:user_evt_fertilize,
+							lon:'120',
+							lat:'23'};
+
+	$.post(URL_SERVICE, data, function(res){
+		console.log(res);
+		if(res.length<=0)
+		{	console.log("post return nothing"); return;}
+		
+		//parse res and update web
+		//res = jQuery.parseJSON(res);
+		
+	});
+	
+	return;
 }
 
 function evt_debug(){
   console.log(arguments.callee.name);
-  
+
+	var cur_loc = get_cur_location();
+	//use cur_loc to fill data --- lon, lat
+	var data = {event:user_evt_debug,
+							lon:'120',
+							lat:'23'};
+
+	$.post(URL_SERVICE, data, function(res){
+		console.log(res);
+		if(res.length<=0)
+		{	console.log("post return nothing"); return;}
+		
+		//parse res and update web
+		//res = jQuery.parseJSON(res);
+		
+	});
+	
+	return;
 }
 
 function evt_greenhouse(){
   console.log(arguments.callee.name);
-  
+
+	var cur_loc = get_cur_location();
+	//use cur_loc to fill data --- lon, lat
+	var data = {event:user_evt_greenhouse,
+							lon:'120',
+							lat:'23'};
+
+	$.post(URL_SERVICE, data, function(res){
+		console.log(res);
+		if(res.length<=0)
+		{	console.log("post return nothing"); return;}
+		
+		//parse res and update web
+		//res = jQuery.parseJSON(res);
+		
+	});
+	
+  return;
 }
 
-function evt_harvest(res){
+function evt_harvest(){
   console.log(arguments.callee.name);
-    console.log('evt_harvest: ',res);
 
+	var cur_loc = get_cur_location();
+	//use cur_loc to fill data --- lon, lat
+	var data = {event:user_evt_harvest,
+							lon:'120',
+							lat:'23',
+							/*p_type:'1'*/};
+
+	$.post(URL_SERVICE, data, function(res){
+		console.log(res);
+		if(res.length<=0)
+		{	console.log("post return nothing"); return;}
+		
+		//parse res and update web
+		//res = jQuery.parseJSON(res);
+		
+	});
+	
+	return;
+}
+
+function evt_enterLocation(){
+	console.log(arguments.callee.name);
+	
+	var new_location="";
+	
+	//jump to playing page
+	set_cur_location(new_location);
+	return;
 }
 
 function user_evt(obj_id){
-
-    url = '/service/gameAction';
-    data = {event:obj_id,
-        lon:'120',
-        lat:'23',
-        p_type:'1'};
-
-    $.post(url,data,function(res){
-        console.log(res);
-//        res = jQuery.parseJSON(res);
-
-        switch (obj_id) {
-            case "evt_buy_land":
-                evt_buy_land(res);
-                break;
-            case "evt_plant":
-                evt_plant(res);
-                break;
-            case "evt_irrigate":
-                evt_irrigate();
-                break;
-            case "evt_fertilize":
-                evt_fertilize();
-                break;
-            case "evt_debug":
-                evt_debug();
-                break;
-            case "evt_greenhouse":
-                evt_greenhouse();
-                break;
-            case "evt_harvest":
-                evt_harvest(res);
-                break;
-        }
-
-    });
-
+	console.log(arguments.callee.name);
+	
+	switch (obj_id) {
+		case "evt_buy_land":
+			evt_buyLand();
+			break;
+		case "evt_plant":
+			evt_plant();
+			break;
+		case "evt_irrigate":
+			evt_irrigate();
+			break;
+		case "evt_fertilize":
+			evt_fertilize();
+			break;
+		case "evt_debug":
+			evt_debug();
+			break;
+		case "evt_greenhouse":
+			evt_greenhouse();
+			break;
+		case "evt_harvest":
+			evt_harvest();
+			break;
+	}
 };
 
 
@@ -147,7 +275,7 @@ function json_2array(json, json_len){
 	return user_assets;
 }
 
-function get_user_assets(){
+function get_user_assets_all(){
   console.log(arguments.callee.name);
   var user_assets;
   var json = [
@@ -160,14 +288,15 @@ function get_user_assets(){
     {lon:"W.120", lat:"N.30", temp:28, valid:1, plant_tp:1, warning_evt:3, WWW: 30, PPP: 30, GGG:30, X_rate:30, XXX:250},
   ];
 
-    url = '/service/gameAction';
-    data = {event:'get_user_assets'};
 
-    $.post(url,data,function(res){
-        console.log(res);
-        json = jQuery.parseJSON(res);
-        console.log(json);
-    });
+	//data = {event:'get_user_assets_all'};
+	//
+	//$.post(URL_SERVICE, data, function(res){
+	//		console.log(res);
+	//		json = jQuery.parseJSON(res);
+	//		console.log(json);
+	//});
+	
 
 
   var length = Object.keys(json).length;
@@ -333,8 +462,18 @@ function fill_usrAssets_table(target_id, tr_cnt){
 function click_assets(){
   console.log(arguments.callee.name);
 
-  item_showOrHide("bar_land");
-  var length = get_user_assets();
+  if("hide"	== item_showOrHide("bar_land"))
+	{
+		$("#showinfo_ico").removeClass("info_ico_u");
+		$("#showinfo_ico").addClass("info_ico_d");
+	}
+	else
+	{
+		$("#showinfo_ico").removeClass("info_ico_d");
+		$("#showinfo_ico").addClass("info_ico_u");
+	}
+	
+  var length = get_user_assets_all();
   
 	fill_usrAssets_table("tb_user_assets", length);
   

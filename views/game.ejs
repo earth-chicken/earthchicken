@@ -112,21 +112,21 @@
       <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_event" data-position="right">
         <ul data-role="listview" >
           <li><div data-role="button" onClick="user_evt(this.id);" id="evt_buy_land"><a>Buy Land</a></div></li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_plant"><a>蝔格?</a></div>       </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_irrigate"><a>??</a></div>    </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_fertilize"><a>?質</a></div>   </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_debug"><a>?方</a></div>       </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_greenhouse"><a>皞怠恕</a></div>  </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_harvest"><a>?嗅霈都</a></div> </li>          
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_plant"><a>plant</a></div>       </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_irrigate"><a>irrigate</a></div>    </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_fertilize"><a>fertilize</a></div>   </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_debug"><a>debug</a></div>       </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_greenhouse"><a>greenhouse</a></div>  </li>
+          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_harvest"><a>harvest</a></div> </li>          
         </ul>
       </div>
 
       <!-- bottom assets board -->
-      <div data-role="footer" data-position="fixed" data-fullscreen="false">
-        <!-- Bar_assets -->
-        <div id="showinfo" onclick="click_assets()" align="center" style="height:30px; width:50%; border: 0px solid #26D6FE; margin:0 auto;">
-          <div id="info_title" class="info_txt" data-icon="carat-u" style="line-height:29px;">Assets</div>
-        </div>
+			<div data-role="footer" data-position="fixed" data-fullscreen="false">
+				<!-- Bar_assets -->
+				<div id="showinfo" onclick="click_assets()" align="center" style="height:30px; width:50%; border: 0px solid #26D6FE; margin:0 auto;">
+					<span id="showinfo_ico" class="info_ico_u"><span id="info_string" class="info_txt" style="line-height:29px;">Assets</span></span>
+				</div>
         <div data-role="info_txt" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_land" style="display:none">
 					<table id="tb_user_assets" border="1" style="line-height:25px;">
 						<tr>
