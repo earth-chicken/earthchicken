@@ -50,41 +50,56 @@ router.post('/gameAction', function (req,res, next) {
 
   let date = start + Math.floor(dt/12.)*100 + Math.ceil(dt/12);
 //  date = date.toString();
-  console.log(date);
+//  console.log(date);
 
-  let climate = 1;
+
 
 //  let rows = getNowTempMoist(lon,lat,date);
   rows = {temp:25,moist:100};
-  let temp = rows.temp;
-  let moist = rows.moist;
-  let pro = 100;
-  let fer = 0;
 
-  let cast = 1000;
-
+  let lon = 120;
+  let lat = 23;
   let data = JSON.parse(JSON.stringify(req.body));
   let event = data.event;
 
-  console.log(typeof event,typeof 'buy_land');
-  if (event == 'buy_land') {
+  let p_type = data.p_type;
+
+  switch (event) {
+    case "evt_buy_land":
+      db.evt_buy_land(uid,lon,lat, function (err,money) {
+        res.send(
+            [{currency: money,
+              carboin: '0',
+              err: err}]
+        )
+      });
+      break;
+    case "evt_plant":
+      db.evt_plant(uid,lon,lat,p_type, function (err,money) {
+        res.send(
+            {currency: money,
+              carboin: '0',
+              err: err}
+        )
+      });
+      break;
+    case "evt_harvest":
+      db.evt_harvest(uid,lon,lat, function (err,money,earn) {
+        res.send(
+            {currency: money,
+              earn: earn,
+              carboin: '0',
+              err: err}
+        )
+      });
+  }
+
+
+
+  if (event == 'evt_buy_land') {
     const lon = req.body.lon;
     const lat = req.body.lat;
 
-    console.log(lon,lat);
-    let param = [uid, lon, lat, climate, temp, moist, pro, fer];
-    db.addLand(param, function (rows1) {
-      console.log('land added');
-      console.log(rows1);
-      db.castMoney(uid,cast, function (err,money) {
-        console.log(money);
-        res.send(
-          {currency: money,
-          carboin: '0',
-          err: err}
-        )
-      })
-    });
   } else if (event =='get_user_status') {
     db.getUserStatus(uid, function (rows) {
       res.send(rows);
@@ -98,6 +113,7 @@ router.post('/gameAction', function (req,res, next) {
   }
 
 });
+
 
 module.exports = router;
 // database io

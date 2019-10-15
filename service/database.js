@@ -155,9 +155,160 @@ function getUserLands(uid,callback) {
         connection.end();
         callback(landData);
     });
+}
+
+function evt_harvest(uid,lon,lat,callback) {
+
+    checkLand(uid,lon,lat, (status)=> {
+        if (status==null) throw 'database land self-inconsistent.';
+       if (status.valid == 1 && status.completeness >= 100) {
+           const p_type = status.type;
+
+           // get price of plant
+           const price = 100;
+
+           let earn = status.product * price;
+           getMoney(uid, (row)=> {
+               let old_money = row.currency;
+               let new_currency = old_money + earn;
+               setMoney(uid, new_currency, () => {
+                   console.log('Currency updated ...');
+
+                   cleanLand(uid,lon,lat,function (err) {
+                       console.log('Land cleaned ...');
+                       callback(err, new_currency,earn);
+                   });
+               });
+           });
+       } else {
+           console.log('The product cannot be harvest yet ...')
+           callback(1,null);
+       }
+    });
+}
+
+function checkLand(uid,lon,lat,callback) {
+
+    let sql_check_land = "select valid, type, completeness, product from lands_"+(uid)+
+        " WHERE lon = " + (lon) + " AND lat = " + (lat) + ";";
+    let connection = mysql.createConnection(mysql_config);
+    connection.query(sql_check_land, (err,rows) => {
+        if (err) throw  err;
+        if (rows.length >= 1) {
+            let data = JSON.parse(JSON.stringify(rows))[0];
+            console.log('land status: ',data);
+            callback(data)
+        } else {
+            callback(null);
+        }
+    });
+
+}
+
+
+function cleanLand(uid,lon,lat,callback) {
+    let sql_clean_land = "update lands_" + (uid) + " " +
+        "set valid = 0 " +
+        " WHERE lon = " + (lon) + " AND lat = " + (lat) + ";";
+
+    let connection = mysql.createConnection(mysql_config);
+    connection.query(sql_clean_land, (err,rows) => {
+        if (err) throw  err;
+        callback(err);
+    });
+}
+
+
+
+function evt_plant(uid,lon,lat,p_type,callback) {
+
+    // add subroutine for check plant price
+    let cast = 10;
+    let prod_rate = 1;
+
+    console.log(lon,lat,p_type);
+
+    let sql_check_land_valid = "select valid from lands_"+(uid)+
+        " WHERE lon = " + (lon) + " AND lat = " + (lat) + ";";
+
+    let connection = mysql.createConnection(mysql_config);
+    connection.query(sql_check_land_valid, (err,rows) => {
+        if (err) throw  err;
+        var data = JSON.parse(JSON.stringify(rows))[0];
+        let valid = data.valid;
+        console.log(valid);
+        if (valid == 0) {
+            console.log('land '+(lon)+' '+(lat)+' valid')
+
+            castMoney(uid,cast, function (err,money) {
+                if (err) {
+                    connection.end();
+                    callback(err,money);
+                } else {
+                    let sql_set_plant = "UPDATE lands_" + (uid) +
+                        " SET valid = 1, type = " + (p_type) + ", plant_time = NOW() , " +
+                        "completeness = 0, prod_rate = " + (prod_rate) + ", product = 0 , modified = NOW() " +
+                        " WHERE lon = " + (lon) + " AND lat = " + (lat) + ";";
+                    console.log(sql_set_plant);
+                    connection.query(sql_set_plant, (err, rows) => {
+                        if (err) throw  err;
+                        console.log('plant successful ...');
+                        connection.end();
+                        callback(err, money);
+                    });
+                }
+            });
+
+        } else if (valid == 1){
+            console.log('There are plant on the land. request rejected ...')
+            connection.end();
+            callback(1,)
+        }else if (valid == -1){
+            console.log('The land is dead. request rejected ...')
+            connection.end();
+            callback(1,)
+        }
+
+    });
 
 
 }
+
+
+function evt_buy_land(uid,lon,lat,callback) {
+    let temp = rows.temp;
+    let moist = rows.moist;
+    let pro = 100;
+    let fer = 0;
+    let climate = 1;
+
+    // add subroutine for check land price
+    let cast = 1000;
+//    console.log(lon,lat);
+
+    checkLand(uid,lon,lat, function (status) {
+        if (status == null) {
+            let param = [uid, lon, lat, climate, temp, moist, pro, fer];
+            castMoney(uid,cast, function (err,money) {
+                console.log(money);
+                if (err) {
+                    callback(err,money);
+                } else {
+                    addLand(param, function (err) {
+                        if (err) throw 'system error when add land ...'
+                        console.log('land added');
+                        callback(err,money);
+                    });
+                }
+            });
+        } else {
+            console.log('you have owned this land. request rejected ...')
+            callback(1,null);
+        }
+    });
+
+}
+
 
 function addLand(param,callback) {
     let connection = mysql.createConnection(mysql_config);
@@ -171,7 +322,7 @@ function addLand(param,callback) {
         if (err) throw  err;
         console.log('add land');
         connection.end();
-        callback(rows);
+        callback(null);
     });
 }
 
@@ -183,7 +334,7 @@ function castMoney(uid,cast,callback) {
         if (new_currency >= 0) {
             setMoney(uid, new_currency, () => {
                 console.log('currency updated ...')
-                callback(0, new_currency);
+                callback(null, new_currency);
             });
         } else {
             console.log(uid, 'currency is not enough, request rejected ...')
@@ -223,6 +374,9 @@ module.exports = {
     saveUserData: saveUserData,
     getUserStatus: getUserStatus,
     getUserLands: getUserLands,
+    evt_buy_land: evt_buy_land,
+    evt_plant: evt_plant,
+    evt_harvest: evt_harvest,
     addLand: addLand,
     castMoney: castMoney
 };

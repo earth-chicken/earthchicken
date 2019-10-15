@@ -39,76 +39,82 @@ function post_msg_2server(){
   return ret_data;
 }
 
-function evt_buy_land(){
+function evt_buy_land(res){
   console.log(arguments.callee.name);
+  console.log('evt_buy_land: ',res);
 
-  url = '/service/gameAction';
-  data = {event:'buy_land',
-          lon:'120',
-          lat:'23'};
+}
 
-  $.post(url,data,function(res){
-    console.log(res);
-    gamerStatus = jQuery.parseJSON(res);
-  });
-  
-};
-
-function evt_plant(){
+function evt_plant(res){
   console.log(arguments.callee.name);
-  
-};
+    console.log('evt_plant: ',res);
+
+}
 
 function evt_irrigate(){
   console.log(arguments.callee.name);
   
-};
+}
 
 function evt_fertilize(){
   console.log(arguments.callee.name);
   
-};
+}
 
 function evt_debug(){
   console.log(arguments.callee.name);
   
-};
+}
 
 function evt_greenhouse(){
   console.log(arguments.callee.name);
   
-};
+}
 
-function evt_harvest(){
+function evt_harvest(res){
   console.log(arguments.callee.name);
-  
-};
+    console.log('evt_harvest: ',res);
+
+}
 
 function user_evt(obj_id){
-  
-  switch (obj_id) {
-    case "evt_buy_land":
-      evt_buy_land();
-      break;
-    case "evt_plant":
-      evt_plant();
-      break;
-    case "evt_irrigate":
-      evt_irrigate();
-      break;
-    case "evt_fertilize":
-      evt_fertilize();
-      break;
-    case "evt_debug":
-      evt_debug();
-      break;
-    case "evt_greenhouse":
-      evt_greenhouse();
-      break;
-    case "evt_harvest":
-      evt_harvest();
-      break;
-  }
+
+    url = '/service/gameAction';
+    data = {event:obj_id,
+        lon:'120',
+        lat:'23',
+        p_type:'1'};
+
+    $.post(url,data,function(res){
+        console.log(res);
+//        res = jQuery.parseJSON(res);
+
+        switch (obj_id) {
+            case "evt_buy_land":
+                evt_buy_land(res);
+                break;
+            case "evt_plant":
+                evt_plant(res);
+                break;
+            case "evt_irrigate":
+                evt_irrigate();
+                break;
+            case "evt_fertilize":
+                evt_fertilize();
+                break;
+            case "evt_debug":
+                evt_debug();
+                break;
+            case "evt_greenhouse":
+                evt_greenhouse();
+                break;
+            case "evt_harvest":
+                evt_harvest(res);
+                break;
+        }
+
+    });
+
 };
 
 
