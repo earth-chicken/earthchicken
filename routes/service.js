@@ -7,25 +7,21 @@ var router = express.Router();
 router.post('/login', function(req, res, next) {
   console.log('at /service/login');
   var token = req.body.token;
-  db.checkDatabase(function (result) {
-    console.log(result);
+  https.get('https://oauth2.googleapis.com/tokeninfo?id_token=' + token, (resp) => {
+    resp.on('data', (data) => {
+      data = JSON.parse(data);
 
-    https.get('https://oauth2.googleapis.com/tokeninfo?id_token=' + token, (resp) => {
-      resp.on('data', (data) => {
-        data = JSON.parse(data);
+      db.saveUserData(data,function (uid) {
+        console.log('uid: ',uid);
+        name = data.name;
+        req.session.uid = uid;
+        req.session.name = name;
+        req.session.isLogin  = 1;
+        console.log('Save uid & name to session');
 
-        db.saveUserData(data,function (uid) {
-          console.log('uid: ',uid);
-          name = data.name;
-          req.session.uid = uid;
-          req.session.name = name;
-          req.session.isLogin  = 1;
-          console.log('Save uid & name to session');
-
-          res.redirect('/game'); // at index.js
-        });
-
+        res.redirect('/game'); // at index.js
       });
+
     });
   });
 });

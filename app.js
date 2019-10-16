@@ -51,8 +51,13 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+var db = require('./service/database');
 var sys = require('./service/system');
 
-sys.nature();
+db.checkDatabase(function (result) {
+  console.log(result);
+  sys.nature();
+});
+
 
 module.exports = app;

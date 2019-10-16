@@ -1,7 +1,14 @@
 var mysql = require('mysql');
 const fs = require('fs');
 
-let mysql_config = JSON.parse(fs.readFileSync('certs/mysql_config.rasp.json', 'utf-8'));
+let mysql_config;
+try {
+    mysql_config = JSON.parse(fs.readFileSync('certs/mysql_config.true.json', 'utf-8'));
+}
+catch (e) {
+    mysql_config = JSON.parse(fs.readFileSync('certs/mysql_config.rasp.json', 'utf-8'));
+}
+
 
 let sql_create_users_table = fs.readFileSync('service/sql_create_users_table.sql', 'utf-8');
 
@@ -41,13 +48,13 @@ function checkDatabase(callback) {
         if (err) throw err;
         if (rows.length > 0) {
             connection.end();
-            callback('existed');
+            callback('users table existed');
         } else {
             console.log('now need to create users table');
             connection.query(sql_create_users_table, function (err, rows) {
                 if (err) throw err;
                 connection.end();
-                callback('new created');
+                callback('users table new created');
             });
         }
     });
@@ -197,8 +204,10 @@ function checkLand(uid,lon,lat,callback) {
         if (rows.length >= 1) {
             let data = JSON.parse(JSON.stringify(rows))[0];
             console.log('land status: ',data);
+            connection.end();
             callback(data)
         } else {
+            connection.end();
             callback(null);
         }
     });
@@ -214,6 +223,7 @@ function cleanLand(uid,lon,lat,callback) {
     let connection = mysql.createConnection(mysql_config);
     connection.query(sql_clean_land, (err,rows) => {
         if (err) throw  err;
+        connection.end();
         callback(err);
     });
 }
@@ -350,6 +360,7 @@ function setMoney(uid,new_currency,callback) {
     let connection = mysql.createConnection(mysql_config);
     connection.query(sql_set_money, (err, rows) => {
         if (err) throw  err;
+        connection.end();
         callback();
     });
 }
@@ -362,6 +373,7 @@ function getMoney(uid,callback) {
         if (err) throw  err;
         var data = JSON.parse(JSON.stringify(rows))[0];
         let money = data.currency;
+        connection.end();
         callback({currency: money});
     });
 }
@@ -377,7 +389,5 @@ module.exports = {
     evt_buy_land: evt_buy_land,
     evt_plant: evt_plant,
     evt_harvest: evt_harvest,
-    addLand: addLand,
-    castMoney: castMoney
 };
 
