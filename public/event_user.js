@@ -81,7 +81,8 @@ function evt_plant(){
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_plant",
 							lon:'120',
-							lat:'23'};
+							lat:'23',
+							p_type:'1'};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);

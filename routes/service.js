@@ -65,7 +65,7 @@ router.post('/gameAction', function (req,res, next) {
   let p_type = data.p_type;
 
   switch (event) {
-    case "evt_buy_land":
+    case "user_evt_buyLand":
       db.evt_buy_land(uid,lon,lat, function (err,money) {
         res.send(
             [{currency: money,
@@ -74,7 +74,7 @@ router.post('/gameAction', function (req,res, next) {
         )
       });
       break;
-    case "evt_plant":
+    case "user_evt_plant":
       db.evt_plant(uid,lon,lat,p_type, function (err,money) {
         res.send(
             {currency: money,
@@ -83,7 +83,7 @@ router.post('/gameAction', function (req,res, next) {
         )
       });
       break;
-    case "evt_harvest":
+    case "user_evt_harvest":
       db.evt_harvest(uid,lon,lat, function (err,money,earn) {
         res.send(
             {currency: money,
