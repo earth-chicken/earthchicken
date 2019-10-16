@@ -53,9 +53,6 @@ app.use(function(err, req, res, next) {
 
 var sys = require('./service/system');
 
-setInterval( ()=>{sys.temperature();},15000);
-setInterval( ()=>{sys.moisture();},15000);
-setInterval( ()=>{sys.growth();},15000);
-
+sys.nature();
 
 module.exports = app;

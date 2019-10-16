@@ -8,15 +8,37 @@ mysql_config.multipleStatements = true;
 //mysql_config.debug = true;
 
 
-function temperature(){
+
+function growth(lands){
+
+}
+
+function temperature(lands){
 
 
 }
 
 
-function moisture(){
-//    console.log(Date.now().getDate());
+function moisture(lands){
+    /*
+        return spawn('python', [
+        "-u",
+        path.join(__dirname, 'moisture.py'),
+        "--foo", "some value for foo",
+    ]);
+     */
+}
 
+
+function environment(lands) {
+
+    temperature(lands);
+    moisture(lands);
+
+}
+
+
+function get_active_land(callback) {
     const now = new Date(Date.now());
     now.setMinutes(now.getMinutes()-15);
 
@@ -28,7 +50,6 @@ function moisture(){
     const sec = now.getSeconds();
 
     let connection = mysql.createConnection(mysql_config);
-
     // need to be changed to game start time
     let sql_check_user_activity = "SELECT id, modified from users where modified >= TIME(\"" +
         +(yr)+"-"+(mo)+"-"+(day)+" "+(hr)+":"+(min)+":"+(sec)+"\")";
@@ -45,7 +66,7 @@ function moisture(){
         data.forEach(function (entry) {
             const uid = entry.id;
             uids.push(uid);
-            sql_get_land_loc += "SELECT lon, lat, plant_time  from lands_" + (uid) + " WHERE valid = 1;\n";
+            sql_get_land_loc += "SELECT id,lon, lat, plant_time  from lands_" + (uid) + " WHERE valid = 1;\n";
             n = n + 1;
             arr.push(n);
         });
@@ -57,17 +78,11 @@ function moisture(){
                 if (rows.length > 0) {
                     let user_lands = JSON.parse(JSON.stringify(rows));
                     let ind = 0;
-//                    console.log(user_lands);
-                    // if only one people, add
-//                    console.log(isJson(user_lands[0]));
                     let bo = false;
                     try {
                         bo = typeof user_lands[0].lon == 'number'
                     }
-                    catch (e) {
-
-                    }
-
+                    catch (e) {}
                     if (user_lands.length == 1  || bo ) user_lands = [user_lands];
                     let all_lands = [];
                     user_lands.forEach(function (lands) {
@@ -81,7 +96,7 @@ function moisture(){
 
                             // here is wrong --> todo
                             const d_sec = (now - d)/1000.;
-                            //                    if (d_sec < 900) {
+                            //if (d_sec < 900) {
                             // timing from 201401 - 201812
                             // 15 sec = 1 month
                             const d_month = Math.floor( d_sec/15);
@@ -89,38 +104,38 @@ function moisture(){
                             let mo = 1 + d_month%12;
                             land.plant_time = (yr)+leftPad(mo,2);
                             land.uid = uids[ind];
+                            land.user_start = data[ind].modified;
                             console.log(land);
-                            land_info.push(land)
+                            all_lands.push(land)
                         });
                         ind = ind + 1;
-                        all_lands.push(land_info);
+//                        all_lands.push(land_info);
                     });
                     console.log(all_lands);
-//                var a = uids
-
-
+                    callback(null,all_lands);
+                } else {
+                    callback(1);
                 }
             });
+        } else {
+            callback(1);
         }
-
     });
-    /*
-        return spawn('python', [
-        "-u",
-        path.join(__dirname, 'moisture.py'),
-        "--foo", "some value for foo",
-    ]);
-     */
 }
 
-function growth(){
-
+function nature() {
+    setInterval( ()=>{
+        get_active_land(function (err,lands) {
+            if (err == null) {
+                environment(lands);
+                growth(lands);
+            }
+        });
+        },2000);
 }
 
 module.exports = {
-    temperature: temperature,
-    moisture: moisture,
-    growth: growth,
+    nature: nature,
 };
 
 function leftPad(number, targetLength) {
