@@ -299,7 +299,6 @@ function get_user_assets_all(){
 	//});
 	
 
-
   var length = Object.keys(json).length;
 	console.log("length = " + length);
 	
@@ -462,16 +461,23 @@ function fill_usrAssets_table(target_id, tr_cnt){
 
 function click_assets(){
   console.log(arguments.callee.name);
-
+	var obj = document.getElementById("showinfo")
+	
   if("hide"	== item_showOrHide("bar_land"))
 	{
-		$("#showinfo_ico").removeClass("info_ico_u");
-		$("#showinfo_ico").addClass("info_ico_d");
+		console.log("hide");
+		obj.classList.remove("ui-icon-carat-d");
+		obj.classList.add("ui-icon-carat-u");
+		obj.classList.remove("ui-btn-icon-top");
+		obj.classList.add("ui-btn-icon-left");
 	}
 	else
 	{
-		$("#showinfo_ico").removeClass("info_ico_d");
-		$("#showinfo_ico").addClass("info_ico_u");
+		console.log("show");
+		obj.classList.remove("ui-icon-carat-u");
+		obj.classList.add("ui-icon-carat-d");
+		//obj.classList.remove("ui-btn-icon-left");
+		obj.classList.add("ui-btn-icon-top");
 	}
 	
   var length = get_user_assets_all();
