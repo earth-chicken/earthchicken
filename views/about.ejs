@@ -6,10 +6,13 @@
 		
 		<!-- External CSS -->
 		<link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href='basic.css' />
+		<link rel='stylesheet' href='basic.css' />
+    <link rel='stylesheet' href='/stylesheets/jquery.mobile-1.4.5.css' />
 		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.css">
 		
 		<!-- JavaScript --beg-- -->
+      <script src="/javascripts/jquery-1.8.3.min.js"></script>
+      <script src="/javascripts/jquery.mobile-1.4.5.js"></script>
 			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
 			<script src="/javascripts/google_login.js"></script>
@@ -50,12 +53,13 @@
 			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="nav-panel">
 				<ul data-role="listview" >
 					<li data-icon="delete"><a href="#" data-rel="close" id="menu_close">Close menu</a></li>
-					<li data-icon=""><a href="#" id="menu_logIn">Log In</a></li>
+          <li data-icon=""><div id="gSignIn" class="g-signin2" data-onsuccess="onSuccess" data-theme="dark"></div></li>
 					
 					<span id="add_menu" class="ui-list"></span>
 				</ul>
-			</div><!-- /panel -->
+			</div>
 			
+			<!-- /panel -->
 			<div id="list_load" role="main" class="ui-content" style="display:block">
 				<ul data-role="listview" data-inset="true" style="-webkit-border-radius:0.1px;border-radius:0.1px; margin-top:0px;">
 					<li id="team_spirit"> <a href="" target="_self" > <h1 id="txt_item_spirit">Team spirits</h1><span id="item_spirit"></span></a></li>
