@@ -334,6 +334,7 @@ function checkLand(uid,gid,lon,lat,callback) {
         " WHERE gid = "+(gid)+" AND lon = " + (lon) + " AND lat = " + (lat) + ";";
     let connection = mysql.createConnection(mysql_config);
     connection.query(sql_check_land, (err,rows) => {
+        console.log(rows);
         if (err) throw  err;
         if (rows.length >= 1) {
             let data = JSON.parse(JSON.stringify(rows))[0];
@@ -425,32 +426,34 @@ function evt_plant(uid,gid,lon,lat,p_type,callback) {
     let prod_rate = 1;
 
     console.log(lon,lat,p_type);
-
+    console.log(uid,gid,lon,lat);
     checkLand(uid,gid,lon,lat, function (err, status) {
         // check ownership
-        if (status.valid == 0) {
-            console.log('land '+(lon)+' '+(lat)+' valid');
-
-            // spend currency
-            castMoney(uid,cast, function (err,money) {
-                if (err) {
-                    // currency is not enough
-                    callback(err,money);
-                } else {
-                    // add plant on land
-                    addPlant(uid,gid,lon,lat,p_type,prod_rate, function (err) {
-                        if (err) throw 'planting error';
-                        callback(null,money);
-                    });
-                }
-            });
-
-        } else if (status.valid == 1){
-            console.log('There are plant on the land. request rejected ...')
-            callback(1)
-        }else if (status.valid == -1){
-            console.log('The land is dead. request rejected ...')
-            callback(1)
+        if (err) {
+            console.log('You do not own this land. request rejected ...')
+        } else {
+            if (status.valid == 0) {
+                console.log('land '+(lon)+' '+(lat)+' valid');
+                // spend currency
+                castMoney(uid,cast, function (err,money) {
+                    if (err) {
+                        // currency is not enough
+                        callback(err,money);
+                    } else {
+                        // add plant on land
+                        addPlant(uid,gid,lon,lat,p_type,prod_rate, function (err) {
+                            if (err) throw 'planting error';
+                            callback(null,money);
+                        });
+                    }
+                });
+            } else if (status.valid == 1){
+                console.log('There are plant on the land. request rejected ...')
+                callback(1)
+            }else if (status.valid == -1){
+                console.log('The land is dead. request rejected ...')
+                callback(1)
+            }
         }
     });
 }

@@ -74,4 +74,19 @@ router.get('/game', function(req, res, next) {
     }
 });
 
+router.get('/finish', function(req, res, next) {
+    console.log('at /finish');
+
+    if(req.session.isLogin) {
+        const uid = req.session.uid;
+        let username = req.session.name;
+
+        res.render('game.ejs');
+    } else {
+        console.log('need to login');
+        res.redirect('/');
+    }
+});
+
+
 module.exports = router;
