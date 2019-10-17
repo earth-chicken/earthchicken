@@ -148,7 +148,7 @@ function nature() {
                 growth(lands);
             }
         });
-        },2000);
+        },15000);
 }
 
 module.exports = {

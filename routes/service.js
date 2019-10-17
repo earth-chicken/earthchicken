@@ -26,6 +26,13 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+router.post('/gameStart', function (req,res, next) {
+  console.log('at /service/gameStart');
+  const uid = req.session.uid;
+
+
+});
+
 
 // receive game action message from front end
 router.post('/gameAction', function (req,res, next) {
@@ -34,8 +41,6 @@ router.post('/gameAction', function (req,res, next) {
   let err = 0;
 //  let onset = req.session.onset;
 //  const event = req.body.event;
-//  const lon = req.body.param.lon;
-//  const lat = req.body.param.lat;
 //  const climate = req.body.param.climate;
 
   onset = Date.now();
@@ -53,10 +58,10 @@ router.post('/gameAction', function (req,res, next) {
 //  let rows = getNowTempMoist(lon,lat,date);
   rows = {temp:25,moist:100};
 
-  let lon = 120;
-  let lat = 23;
   let data = JSON.parse(JSON.stringify(req.body));
   let event = data.event;
+  const lon = req.body.lon;
+  const lat = req.body.lat;
 
   let p_type = data.p_type;
 
@@ -64,9 +69,9 @@ router.post('/gameAction', function (req,res, next) {
     case "user_evt_buyLand":
       db.evt_buy_land(uid,lon,lat, function (err,money) {
         res.send(
-            [{currency: money,
+            {currency: money,
               carboin: '0',
-              err: err}]
+              err: err}
         )
       });
       break;
@@ -88,15 +93,47 @@ router.post('/gameAction', function (req,res, next) {
               err: err}
         )
       });
+      break;
+    case "user_evt_irrigate":
+      db.evt_add_on(uid,lon,lat,"user_evt_irrigate", function (err,money,earn) {
+        res.send(
+            {currency: money,
+              carboin: '0',
+              err: err}
+        )
+      });
+      break;
+    case "user_evt_fertilize":
+      db.evt_add_on(uid,lon,lat,"user_evt_fertilize", function (err,money,earn) {
+        res.send(
+            {currency: money,
+              carboin: '0',
+              err: err}
+        )
+      });
+      break;
+    case "user_evt_debug":
+      db.evt_add_on(uid,lon,lat,"user_evt_debug", function (err,money,earn) {
+        res.send(
+            {currency: money,
+              carboin: '0',
+              err: err}
+        )
+      });
+      break;
+    case "user_evt_greenhouse":
+      db.evt_add_on(uid,lon,lat,"user_evt_greenhouse", function (err,money,earn) {
+        res.send(
+            {currency: money,
+              carboin: '0',
+              err: err}
+        )
+      });
   }
 
 
 
-  if (event == 'evt_buy_land') {
-    const lon = req.body.lon;
-    const lat = req.body.lat;
-
-  } else if (event =='get_user_status') {
+  if (event =='get_user_status') {
     db.getUserStatus(uid, function (rows) {
       res.send(rows);
     });
@@ -104,8 +141,6 @@ router.post('/gameAction', function (req,res, next) {
     db.getUserLands(uid, function (rows) {
       res.send(rows);
     });
-  } else if (event == 'irrigate') {
-
   }
 
 });

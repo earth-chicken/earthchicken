@@ -171,17 +171,21 @@ function evt_harvest(uid,lon,lat,callback) {
 
     checkLand(uid,lon,lat, (err,status)=> {
         if (err) throw 'database land self-inconsistent.';
-        if (status.valid == 1 && status.completeness >= 100) {
+//        if (status.valid == 1 && status.completeness >= 100) {
+        if (status.valid == 1) {
            const p_type = status.type;
 
-           // get price of plant
+           // get price of p_type
            const price = 100;
 
-           let earn = status.product * price;
-           getMoney(uid, (row)=> {
-               let old_money = row.currency;
+           let earn = 100; // status.product * price;
+            console.log('checkcheck');
+           getMoney(uid, (currency)=> {
+               let old_money = currency;
                let new_currency = old_money + earn;
+               console.log('new_currency',new_currency);
                setMoney(uid, new_currency, () => {
+                   console.log('checkcheck3');
                    console.log('Currency updated ...');
 
                    cleanLand(uid,lon,lat,function (err) {
@@ -191,7 +195,7 @@ function evt_harvest(uid,lon,lat,callback) {
                });
            });
        } else {
-           console.log('The product cannot be harvest yet ...')
+           console.log('no plant to be harvested ...')
            callback(1,null);
        }
     });
@@ -284,7 +288,6 @@ function evt_plant(uid,lon,lat,p_type,callback) {
     });
 }
 
-
 function evt_buy_land(uid,lon,lat,callback) {
     let temp = rows.temp;
     let moist = rows.moist;
@@ -341,11 +344,11 @@ function castMoney(uid,cast,callback) {
         let new_currency = old_money - cast;
         if (new_currency >= 0) {
             setMoney(uid, new_currency, () => {
-                console.log('currency updated ...')
+                console.log('currency: ',new_currency,' updated ...')
                 callback(null, new_currency);
             });
         } else {
-            console.log(uid, 'currency is not enough, request rejected ...')
+            console.log(uid, 'currency: ',old_money ,' is not enough, request rejected ...')
             callback(1, old_money);
         }
     });
@@ -376,39 +379,63 @@ function getMoney(uid,callback) {
     });
 }
 
-function addMoisture(uid,lon,lat,callback) {
-
-    let sql_add_moisture = "UPDATE lands_" + (uid) +
-        " SET irrigate = 1 " +
+function checkAddOn(uid,lon,lat,action,callback) {
+    let connection = mysql.createConnection(mysql_config);
+    let sql_check_plant = "select valid, " + action + " from lands_"+(uid)+
         " WHERE lon = " + (lon) + " AND lat = " + (lat) + ";";
 
+    connection.query(sql_check_plant, (err,rows) => {
+        if(err) throw err;
+        let data = JSON.parse(JSON.stringify(rows))[0];
+        console.log('add-on status: ',data);
+        callback(null,data);
+    });
+
+}
+
+function useAddOn(uid,lon,lat,action,callback) {
     let connection = mysql.createConnection(mysql_config);
+    let sql_add_moisture = "UPDATE lands_" + (uid) +
+        " SET "+action+" = 1 " +
+        " WHERE lon = " + (lon) + " AND lat = " + (lat) + ";";
     connection.query(sql_add_moisture, (err, rows) => {
-
-
+        if(err) throw err;
+        connection.end();
+        callback(null);
     });
 }
 
-function evt_irrigate(uid,lon,lat,callback) {
+function evt_add_on(uid,lon,lat,evt,callback) {
+    let action = evt.split(/[_]/);
+    action = action[2];
+    let cast = {irrigate:10,
+        fertilize:100,
+        debug:200,
+        greenhouse:500,
+    };
 
-    addMoisture(uid,lon,lat,function () {
+    console.log('doing '+action,' and need to cast ',cast[action]);
 
+    checkAddOn(uid,lon,lat,action, function (err,result) {
+        console.log(result);
+        if (result[action]==0 && result['valid']==1) {
+            castMoney(uid,cast[action], function (err, money) {
+                if (err) {
+                    callback(err, money);
+                } else {
+                    useAddOn(uid, lon, lat, action, function (err) {
+                        console.log('add-on'+action+' used successfully ...');
+                        callback(null, money);
+                    })
+                }
+            });
+        } else {
+            console.log('you already added add-on'+action+' at '+(uid)+' '+(lon)+' '+(lat)+' ...');
+            callback(1);
+        }
     });
 
 }
-
-function evt_fertilize(uid,lon,lat,callback) {
-
-}
-
-function evt_debug(uid,lon,lat,callback) {
-
-}
-
-function evt_greenhouse(uid,lon,lat,callback) {
-
-}
-
 
 module.exports = {
     checkDatabase: checkDatabase,
@@ -418,9 +445,6 @@ module.exports = {
     evt_buy_land: evt_buy_land,
     evt_plant: evt_plant,
     evt_harvest: evt_harvest,
-    evt_irrigate: evt_irrigate,
-    evt_fertilize: evt_fertilize,
-    evt_debug: evt_debug,
-    evt_greenhouse: evt_greenhouse,
+    evt_add_on: evt_add_on,
 };
 
