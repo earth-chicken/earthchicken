@@ -16,6 +16,7 @@ CREATE TABLE users (
              max_rank INT NOT NULL,
              achieved datetime NOT NULL,
              created datetime NOT NULL,
+             onset datetime NOT NULL,
              modified datetime NOT NULL,
              PRIMARY KEY (id)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
