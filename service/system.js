@@ -106,7 +106,7 @@ function get_active_land(callback) {
                                 let mo = 1 + d_month%12;
                                 land.plant_time = (yr)+leftPad(mo,2);
                                 land.uid = uids[ind];
-                                land.user_start = data[ind].modified;
+                                land.user_start = data[ind].onset;
 //                                console.log(land);
                                 all_lands.push(land)
                             });
