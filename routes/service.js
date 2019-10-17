@@ -26,14 +26,6 @@ router.post('/login', function(req, res, next) {
   });
 });
 
-router.post('/gameStart', function (req,res, next) {
-  console.log('at /service/gameStart');
-  const uid = req.session.uid;
-
-
-});
-
-
 // receive game action message from front end
 router.post('/gameAction', function (req,res, next) {
   console.log('at /service/gameAction');
@@ -44,7 +36,6 @@ router.post('/gameAction', function (req,res, next) {
 //  const climate = req.body.param.climate;
 
   onset = Date.now();
-//  setTimeout(5000);
 
   const dt = Math.floor((Date.now() - onset)/5000.); // in month
   const start = 201401;
@@ -52,8 +43,6 @@ router.post('/gameAction', function (req,res, next) {
   let date = start + Math.floor(dt/12.)*100 + Math.ceil(dt/12);
 //  date = date.toString();
 //  console.log(date);
-
-
 
 //  let rows = getNowTempMoist(lon,lat,date);
   rows = {temp:25,moist:100};
@@ -68,81 +57,78 @@ router.post('/gameAction', function (req,res, next) {
   switch (event) {
     case "user_evt_buyLand":
       db.evt_buy_land(uid,lon,lat, function (err,money) {
-        res.send(
-            {currency: money,
-              carboin: '0',
-              err: err}
-        )
+        res.send({
+          currency: money,
+          carboin: '0',
+          err: err
+        });
       });
       break;
     case "user_evt_plant":
       db.evt_plant(uid,lon,lat,p_type, function (err,money) {
-        res.send(
-            {currency: money,
-              carboin: '0',
-              err: err}
-        )
+        res.send({
+          currency: money,
+          carboin: '0',
+          err: err
+        });
       });
       break;
     case "user_evt_harvest":
       db.evt_harvest(uid,lon,lat, function (err,money,earn) {
-        res.send(
-            {currency: money,
-              earn: earn,
-              carboin: '0',
-              err: err}
-        )
+        res.send({
+          currency: money,
+          earn: earn,
+          carboin: '0',
+          err: err
+        });
       });
       break;
     case "user_evt_irrigate":
-      db.evt_add_on(uid,lon,lat,"user_evt_irrigate", function (err,money,earn) {
-        res.send(
-            {currency: money,
-              carboin: '0',
-              err: err}
-        )
+      db.evt_add_on(uid,lon,lat,event, function (err,money,earn) {
+        res.send({
+          currency: money,
+          carboin: '0',
+          err: err
+        });
       });
       break;
     case "user_evt_fertilize":
-      db.evt_add_on(uid,lon,lat,"user_evt_fertilize", function (err,money,earn) {
-        res.send(
-            {currency: money,
-              carboin: '0',
-              err: err}
-        )
+      db.evt_add_on(uid,lon,lat,event, function (err,money,earn) {
+        res.send({
+          currency: money,
+          carboin: '0',
+          err: err
+        });
       });
       break;
     case "user_evt_debug":
-      db.evt_add_on(uid,lon,lat,"user_evt_debug", function (err,money,earn) {
-        res.send(
-            {currency: money,
-              carboin: '0',
-              err: err}
-        )
+      db.evt_add_on(uid,lon,lat,event, function (err,money,earn) {
+        res.send({
+          currency: money,
+          carboin: '0',
+          err: err
+        });
       });
       break;
     case "user_evt_greenhouse":
-      db.evt_add_on(uid,lon,lat,"user_evt_greenhouse", function (err,money,earn) {
-        res.send(
-            {currency: money,
-              carboin: '0',
-              err: err}
-        )
+      db.evt_add_on(uid,lon,lat,event, function (err,money,earn) {
+        res.send({
+          currency: money,
+          carboin: '0',
+          err: err
+        });
+      });
+      break;
+    case "get_user_status":
+      db.getUserStatus(uid, function (rows) {
+        res.send(rows);
+      });
+      break;
+    case "get_user_assets":
+      db.getUserLands(uid, function (rows) {
+        res.send(rows);
       });
   }
-
-
-
-  if (event =='get_user_status') {
-    db.getUserStatus(uid, function (rows) {
-      res.send(rows);
-    });
-  } else if (event =='get_user_assets') {
-    db.getUserLands(uid, function (rows) {
-      res.send(rows);
-    });
-  }
-
 });
 
 
