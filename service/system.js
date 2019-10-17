@@ -1,7 +1,8 @@
 var mysql = require('mysql');
 const fs = require('fs');
-const path = require('path')
-const {spawn} = require('child_process')
+const path = require('path');
+const {spawn} = require('child_process');
+var db = require('../service/database');
 
 let mysql_config;
 try {
@@ -47,21 +48,11 @@ function environment(lands) {
 
 
 function get_active_land(callback) {
-    const now = new Date(Date.now());
-    now.setMinutes(now.getMinutes()-15);
-    const yr = now.getFullYear();
-    const mo = now.getMonth()+1;
-    const day = now.getDate();
-    const hr = now.getHours();
-    const min = now.getMinutes();
-    const sec = now.getSeconds();
-
     let connection = mysql.createConnection(mysql_config);
     // need to be changed to game start time todo
-    let sql_check_user_activity = "SELECT id, modified from users where modified >= STR_TO_DATE('" +
-        +(yr)+"-"+(mo)+"-"+(day)+" "+(hr)+":"+(min)+":"+(sec)+"', '%Y-%m-%d %H:%i:%s')";
+    let sql_check_user_activity = "SELECT id, gid, onset from users where " +
+                                  "TIME_TO_SEC(timediff(now(),onset)) < 900 ;";
     console.log(sql_check_user_activity);
-
     connection.query(sql_check_user_activity, function (err, rows) {
         if (err) throw err;
         if (rows.length > 0) {
@@ -74,8 +65,10 @@ function get_active_land(callback) {
             let uids = [];
             data.forEach(function (entry) {
                 const uid = entry.id;
+                const gid = entry.gid;
                 uids.push(uid);
-                sql_get_land_loc += "SELECT id,lon, lat, plant_time  from lands_" + (uid) + " WHERE valid = 1;\n";
+                sql_get_land_loc += "SELECT id, lon, lat, plant_time  from lands_" + (uid) +
+                    " WHERE gid = "+(gid)+" AND valid IN (0,1);\n";
                 n = n + 1;
                 arr.push(n);
             });
@@ -148,7 +141,7 @@ function nature() {
                 growth(lands);
             }
         });
-        },15000);
+        },5000);
 }
 
 module.exports = {

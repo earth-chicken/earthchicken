@@ -51,6 +51,19 @@ function set_cur_location(new_location){
 	g_cur_location = new_location;
 	return;
 }
+function evt_gameStart() {
+	console.log(arguments.callee.name);
+	var data = {event: "user_evt_gameStart"};
+
+	$.post(URL_SERVICE, data, function (res) {
+		console.log(res);
+		if (res.length <= 0) {
+			console.log("post return nothing");
+			return;
+		}
+
+	});
+}
 
 function evt_buyLand(){
   console.log(arguments.callee.name);
@@ -222,6 +235,9 @@ function user_evt(obj_id){
 	console.log(arguments.callee.name);
 	
 	switch (obj_id) {
+		case "evt_game_start":
+			evt_gameStart();
+			break;
 		case "evt_buy_land":
 			evt_buyLand();
 			break;
