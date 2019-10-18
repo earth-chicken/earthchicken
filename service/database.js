@@ -1,5 +1,18 @@
 var mysql = require('mysql');
 const fs = require('fs');
+var csv = require('csv-array');
+
+let earthchicken_sp;
+let ec_sp_head = [];
+csv.parseCSV('data/earthchicken_sp.csv', function(data){
+    earthchicken_sp = data;
+    data.forEach(function (d) {
+        
+    })
+
+
+});
+
 
 let mysql_config;
 try {
@@ -343,7 +356,7 @@ function checkLand(uid,gid,lon,lat,callback) {
         " WHERE gid = "+(gid)+" AND lon = " + (lon) + " AND lat = " + (lat) + ";";
     let connection = mysql.createConnection(mysql_config);
     connection.query(sql_check_land, (err,rows) => {
-        console.log(rows);
+//        console.log(rows);
         if (err) throw  err;
         if (rows.length >= 1) {
             let data = JSON.parse(JSON.stringify(rows))[0];
@@ -357,6 +370,33 @@ function checkLand(uid,gid,lon,lat,callback) {
     });
 
 }
+
+function carboinChange(uid,chg,callback) {
+    let sql_carboin_change = "UPDATE users SET carboin = carboin + " + (chg) +
+        " WHERE id = " + (uid) + ";";
+    sql_carboin_change += "SELECT carboin FROM users WHERE id = "+(uid)+ ";";
+    let connection = mysql.createConnection(mysql_config);
+    connection.query(sql_carboin_change,[], (err, rows) => {
+        if (err) throw  err;
+        let data = JSON.parse(JSON.stringify(rows))[1][0];
+        console.log(data);
+        callback(null, data.carboin)
+    });
+}
+
+
+function getCarboinCast(plant,event) {
+
+    console.log(earthchicken_sp);
+
+//    let csv_file =  fs.readFileSync('data/earthchicken_sp.csv', 'utf-8');
+//    console.log(csv_file);
+
+//    console.log(data);
+
+
+}
+
 
 function evt_add_on(uid,gid,lon,lat,evt,callback) {
     let action = evt.split(/[_]/);
@@ -404,23 +444,32 @@ function evt_harvest(uid,gid,lon,lat,callback) {
         if (status.valid == 1) {
             const p_type = status.type;
 
-            // get price of p_type
+            // todo get price of p_type
             const price = 100;
+            const transfer_cast = -100;
+            getCarboinCast();
 
-            let earn = 100; // status.product * price;
-            getMoney(uid, (currency)=> {
-                let old_money = currency;
-                let new_currency = old_money + earn;
-                console.log('new_currency ',new_currency);
-                setMoney(uid, new_currency, () => {
-                    console.log('Currency updated ...');
+            let earn = status.product * price;
+            let carboin_chg = status.product * transfer_cast;
 
-                    cleanLand(uid,gid,lon,lat,function (err) {
-                        console.log('Land cleaned ...');
-                        callback(err, new_currency,earn);
+            carboinChange(uid, carboin_chg,  (err,carboin) => {
+                console.log('new carboin ',carboin);
+                getMoney(uid, (currency) => {
+                    let old_money = currency;
+                    let new_currency = old_money + earn;
+                    console.log('new_currency ',new_currency);
+                    setMoney(uid, new_currency, () => {
+                        console.log('Currency updated ...');
+
+                        cleanLand(uid,gid,lon,lat,function (err) {
+                            console.log('Land cleaned ...');
+                            callback(err, new_currency,earn, carboin, carboin_chg);
+                        });
                     });
                 });
+
             });
+
         } else {
             console.log('no plant to be harvested ...')
             callback(1,null);
@@ -433,6 +482,8 @@ function evt_plant(uid,gid,lon,lat,p_type,callback) {
     // todo add subroutine for check plant price and rate
     let cast = 10;
     let prod_rate = 1;
+    getCarboinCast();
+
 
     console.log(lon,lat,p_type);
     console.log(uid,gid,lon,lat);
@@ -521,7 +572,7 @@ function setLandData(changes,callback) {
         sql_set_value += "UPDATE lands_" +(chg[0])+
             " SET delta_temp = delta_temp + "+(chg[2])+" ," +
             "delta_moist = delta_moist + "+(chg[3])+ " ," +
-            "delta_pro = delta_pro + "+(chg[4])+" WHERE id = " +(chg[1])+ ";";
+            "product = product + "+(chg[4])+" WHERE id = " +(chg[1])+ ";";
     });
     console.log(sql_set_value);
    let connection = mysql.createConnection(mysql_config);
@@ -547,3 +598,21 @@ module.exports = {
     setLandData: setLandData,
 };
 
+function processData(allText) {
+    var allTextLines = allText.split(/\r\n|\n/);
+    var headers = allTextLines[0].split(',');
+    var lines = [];
+
+    for (var i=1; i<allTextLines.length; i++) {
+        var data = allTextLines[i].split(',');
+        if (data.length == headers.length) {
+
+            var tarr = [];
+            for (var j=0; j<headers.length; j++) {
+                tarr.push(headers[j]+":"+data[j]);
+            }
+            lines.push(tarr);
+        }
+    }
+    // alert(lines);
+}

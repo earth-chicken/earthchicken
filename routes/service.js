@@ -27,6 +27,30 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+router.post('/login_guest', function(req, res, next) {
+  console.log('at /service/login_guest');
+  let uid;
+  if (req.session.isLogin == 0) {
+    uid = req.session.uid_guest
+  } else {
+    uid = null;
+  }
+  let data = {uid: uid,username: req.body.username};
+
+  db.saveUserData( data, function (err, uid,) {
+    console.log('uid: ', uid);
+    req.session.uid = uid;
+    req.session.uid_guest = uid;
+    req.session.name = data.username;
+    req.session.isLogin = 1;
+    console.log('Save uid & name to session');
+
+    res.redirect('/game'); // at index.js
+  });
+});
+
+
+
 // receive game action message from front end
 router.post('/gameAction', function (req,res, next) {
   console.log('at /service/gameAction');
@@ -88,11 +112,12 @@ router.post('/gameAction', function (req,res, next) {
       });
       break;
     case "user_evt_harvest":
-      db.evt_harvest(uid,gid,lon,lat, function (err,currency,earn) {
+      db.evt_harvest(uid,gid,lon,lat, function (err,currency,earn,carboin,cb_chg) {
         res.send({
           currency: currency,
           earn: earn,
-          carboin: '0',
+          carboin: carboin,
+          cb_chg: cb_chg,
           err: err
         });
       });
@@ -143,6 +168,17 @@ router.post('/gameAction', function (req,res, next) {
         res.send(rows);
       });
   }
+});
+
+
+router.post('/get_poly', function(req, res, next) {
+  console.log('at /service/get_poly');
+
+  let lon = req.body.lon;
+  let lat = req.body.lat;
+
+  console.log(lon,lat)
+
 });
 
 

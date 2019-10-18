@@ -221,7 +221,7 @@ function get_active_land(opt,callback) {
     console.log(sql_check_user_activity);
     connection.query(sql_check_user_activity, function (err, rows) {
         if (err) {
-            throw err;
+//            throw err;
 //            console.log('facing db error, fetch again ...')
 //            get_active_land(opt,function (err,lands) {
 //                all_lands = lands;
@@ -307,7 +307,7 @@ function nature() {
                 environment(lands);
             }
         });
-        },5000);
+        },15000);
 
     setTimeout(()=>{
         setInterval( ()=>{
@@ -316,7 +316,7 @@ function nature() {
                     growth(lands);
                 }
             });
-        },5000);
+        },15000);
 
     },1000);
 }
