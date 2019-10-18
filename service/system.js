@@ -7,7 +7,7 @@ var exec = require('child_process').exec;
 
 let mysql_config;
 try {
-    mysql_config = JSON.parse(fs.readFileSync('certs/mysql_config.true.json', 'utf-8'));
+    mysql_config = JSON.parse(fs.readFiileSync('certs/mysql_config.true.json', 'utf-8'));
 }
 catch (e) {
     console.log('Server MySQL config not found, use Raspberry Pi MySQL instead ...');
@@ -20,13 +20,136 @@ mysql_config.multipleStatements = true;
 
 
 
-function growth(lands){
+function growth(lands){	
+    console.log('<=======',lands,'=====>');
+    console.log('LENGHT:',lands.length);
 
+    let templand = lands[0];
+    console.log(typeof templand.uid,templand.uid,templand.id);
+
+    
+    //1) read user/land/plant data
+    let connection = mysql.createConnection(mysql_config);
+    
+//    let sql_get_user_data="SELECT username, carboin FROM users WHERE id =" +(templand.uid)+ ";";
+//    let user;
+//    connection.query(sql_get_user_data,function(err, rows, fields) {
+//       if (err) throw err;
+//	user = JSON.parse(JSON.stringify(rows[0]));
+//	connection.end();
+//        console.log('userData:',user);	
+//    });
+
+//    let sql_get_userland_data ="SELECT * FROM lands_" +(templand.uid)+ " WHERE id = " +(templand.id)+ ";";
+//    let land;
+//    connection.query(sql_get_userland_data,function(err, rows, fields) {
+//        if (err) throw err; 
+//	land = JSON.parse(JSON.stringify(rows[0]));
+//	connection.end();
+//	console.log('landData:',land);
+//    });
+
+    //read plant data
+    var plant ={
+	    h : 200,
+	    cyc : 4,
+	    T1 : 5,
+	    T2 : 20,
+	    Ntep : 0.3,
+	    wet1 : 5,
+	    wet2 : 90,
+	    oc1 : 3,
+	    oc2 : -2,
+    	    Ncarboin: 200,
+            Nwater: 3,};
+    var land ={
+        temperature:18,
+	    moisture:80,
+	    productivity:100,
+	    fertilization:0,
+    };
+    var user ={
+    	carboin:0,};
+
+    //2) calculate X, and reset carbon cash
+    console.log('calculate X');
+    let Ntep = OptTep(land.temperature,plant.T1,plant.T2,plant.Ntep) ;
+    let N  = OptGF(land.productivity,land.fertilization,plant.oc1,plant.oc2,plant.Nwater);
+    if (land.moisture >= plant.wet1 && land.moisture <= plant.wet2) {
+	    console.log('Ph:',plant.h,'Pcyc:',plant.cyc,'Netp:',Ntep,'Ngf:',N.gf);
+	    var X = Ntep * N.gf * plant.h / plant.cyc;
+	    console.log('with water: product rate', X);
+    } else {
+	    var X = 0;
+	    console.log('without water: product rate',X);
+    }
+    console.log('product rate:',X);
+
+    //3) feedback
+    console.log('feedback');
+    let deltaC = user.carboin + plant.Ncarboin * X;
+    let tempshift = 0;	
+    let deltaPro = plant.productivity + N.oc * X;
+    let deltsMoi = user.delta_moist - N.wet* X
+    let deltaTemp = tempshift;
+
+    //4) putin data
+//    db.setCarboin(land.uid,deltaC, function(err){
+//       if (err) throw 'reset carboin err';});
+//    db.setLandData(land.uid,land.id,"delta_temp",deltaTemp, function(err) {
+//       if (err) throw 'err';});
+//    db.setLandData(land.uid,land.id,"delta_moist",deltaMio, function(err) {
+//       if (err) throw 'err';});
+//    db.setLandData(land.uid,land.id,"productivity",deltaPro, function(err) {
+//       if (err) throw 'err';});
+}
+
+
+function OptTep(Tep,Pt1,Pt2,Ntep){
+   if (Tep < Pt2) {
+        var N = (Tep-Pt1) * (1-Ntep) / (Pt2-Pt1) + Ntep;
+	if (N <= Ntep) {var N = Ntep;}
+   } else { 
+	console.log(Tep,Pt1,Pt2,Ntep);
+	var N = (Tep-2*Pt2+Pt1) * (1-Ntep) / (Pt1-Pt2) + Ntep;
+	if (N <= Ntep) {var N =Ntep;}   
+   }
+   return N;
+}
+
+function OptGF(Lpro,Lfer,oc1,oc2,Nwater){
+   console.log(Lpro,Lfer,oc1,oc2,Nwater);
+   if (Lfer == 0){
+	var N ={
+	    gf : Lpro /80,
+	    oc : oc1, 
+	    wet : 0,}
+   } else {
+	var N ={
+	    gf : 1.5,
+	    oc : oc2,
+	    wet : Nwater,}
+   };
+   console.log(N);
+   return N;
+}
+
+function temperature(lands){
+}
+
+
+function moisture(lands){
+    /*
+        return spawn('python', [
+        "-u",
+        path.join(__dirname, 'moisture.py'),
+        "--foo", "some value for foo",
+    ]);
+     */
 }
 
 function environment(lands) {
-    console.log(lands);
-
+    //console.log(lands);
     // balance the calculation loading
     let sets = [[],[],[],[]];
     lands.forEach(function (land) {
@@ -41,7 +164,6 @@ function environment(lands) {
         sets[mod].push(data)
     });
 //    console.log(sets);
-
 
     sets.forEach(function (spots) {
         let tmp = [];
@@ -171,7 +293,7 @@ function nature() {
                 environment(lands);
             }
         });
-        },5000);
+        },2000);
 
     setInterval( ()=>{
         get_active_land('gwt',function (err,lands) {
@@ -180,7 +302,6 @@ function nature() {
             }
         });
     },5000);
-
 }
 
 module.exports = {
