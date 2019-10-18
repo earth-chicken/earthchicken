@@ -26,7 +26,8 @@ let sql_create_user_land = " (" +
     "         productivity TINYINT NOT NULL," + // 9 0-100 (-128 - 127)
     "         fertilization TINYINT NOT NULL," +// 10 0, 20, 40 (-128 - 127)
     "         delta_temp TINYINT NOT NULL," +   // 11 -20 - 40 (d_temp*10)
-    "         delta_moist TINYINT NOT NULL," +  // 12 (d_moist*10)
+    "         delta_moist FLOAT NOT NULL," +  // 12 (d_moist*10)
+    "         delta_pro FLOAT NOT NULL," +  // 12 (d_moist*10)
     "         warning_evt TINYINT NOT NULL," +   // 13 event warning
     "         event TINYINT NOT NULL," +         // 14 event
     // product
@@ -326,7 +327,7 @@ function addLand(uid, gid, lon, lat, climate, temp, moist, pro, fer,callback) {
     let connection = mysql.createConnection(mysql_config);
     let sql_add_land = "INSERT INTO lands_"+(uid)+" VALUES (" +
         "NULL       , "+(lon)+", "+(lat)+", "+(climate)+", 0, 0, 0, "+(moist)+", "+(pro)+", "+(fer)+", 0, " +
-        "0, 0, 0, 0, '2001-01-01', 0, 0, 0, 0, 0, 0, 0, NOW(), '2001-01-01', NOW(), "+(gid)+");";
+        "0, 0, 0, 0, 0, '2001-01-01', 0, 0, 0, 0, 0, 0, 0, NOW(), '2001-01-01', NOW(), "+(gid)+");";
     console.log(sql_add_land);
     connection.query(sql_add_land, (err,rows) => {
         if (err) throw  err;
@@ -499,24 +500,36 @@ function evt_buy_land(uid,gid,lon,lat,callback) {
 
 }
 
-function setCarboin(uid,new_carboin,callback) {
-	let sql_set_carboin = "UPDATE users SET carboin =" +(new_carboin)+ " WHERE id = " +(uid)+ ";";
+function setCarboin(changes,callback) {
+
+    let sql_set_carboin = "";
+    changes.forEach(function (chg) {
+        sql_set_carboin += "UPDATE users SET carboin = carboin + " +(chg[1])+ " WHERE id = " +(chg[0])+ ";";
+    });
+    console.log(sql_set_carboin);
 	let connection = mysql.createConnection(mysql_config);
-	connection.query(sql_set_carboin, (err, rows) => {
+	connection.query(sql_set_carboin,[], (err, rows) => {
 	    if (err) throw err;
 	    connection.end();
 	    callback(null);
 	});
 }
 
-function setLandData(uid,id,name,new_value,callbak) {
-       let sql_set_value = "UPDATE lands_" +(uid)+ " SET " +(name)+" =" +(new_value)+ " WHERE id = " +(id)+ ";";
-       let connection = mysql.createConnection(mysql_config);
-       connection.query(sql_set_value, (err, rows) => {
-           if (err) throw err;
-	   connection.end();
-	   callback(null);
-       });
+function setLandData(changes,callback) {
+    let sql_set_value = "";
+    changes.forEach(function (chg) {
+        sql_set_value += "UPDATE lands_" +(chg[0])+
+            " SET delta_temp = delta_temp + "+(chg[2])+" ," +
+            "delta_moist = delta_moist + "+(chg[3])+ " ," +
+            "delta_pro = delta_pro + "+(chg[4])+" WHERE id = " +(chg[1])+ ";";
+    });
+    console.log(sql_set_value);
+   let connection = mysql.createConnection(mysql_config);
+   connection.query(sql_set_value,[], (err, rows) => {
+       if (err) throw err;
+       connection.end();
+       callback(null);
+   });
 }
 
 
@@ -530,5 +543,7 @@ module.exports = {
     evt_plant: evt_plant,
     evt_harvest: evt_harvest,
     evt_add_on: evt_add_on,
+    setCarboin: setCarboin,
+    setLandData: setLandData,
 };
 
