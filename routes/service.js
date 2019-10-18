@@ -50,8 +50,8 @@ router.post('/gameAction', function (req,res, next) {
 
   let data = JSON.parse(JSON.stringify(req.body));
   let event = data.event;
-  const lon = parseFloat(req.body.lon) * 10;
-  const lat = parseFloat(req.body.lat) * 10;
+  const lon = parseFloat(req.body.lon) * 1000;
+  const lat = parseFloat(req.body.lat) * 1000;
 
 //  console.log(lon,lat);
 

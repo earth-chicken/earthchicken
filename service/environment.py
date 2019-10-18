@@ -58,11 +58,9 @@ def main():
       set_lon = []
       set_lat = []
 
-
-
       for set in spots:
-        set_lon.append(set['lon']/10.)
-        set_lat.append(set['lat']/10.)
+        set_lon.append(set['lon']/1000.)
+        set_lat.append(set['lat']/1000.)
 
       indx = np.interp(set_lon, lons, lon_ind).astype(int)
       indy = np.interp(set_lat, lats, lat_ind).astype(int)

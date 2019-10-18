@@ -16,8 +16,8 @@ let sql_create_users_table = fs.readFileSync('service/sql_create_users_table.sql
 let sql_create_user_land = " (" +
     "         id int(11) NOT NULL AUTO_INCREMENT," + // 1
     // land
-    "         lon SMALLINT NOT NULL," +         // 2 -1800 - 1800 (lon*10)
-    "         lat SMALLINT NOT NULL," +         // 3 -1800 - 1800 (lat*10)
+    "         lon MEDIUMINT NOT NULL," +         // 2 -180000 - 180000 (lon*1000)
+    "         lat MEDIUMINT NOT NULL," +         // 3 -60000 - 60000 (lat*1000)
     "         climate TINYINT NOT NULL," +      // 4 0 - 127
     "         valid TINYINT NOT NULL," +        // 5 0 or 1
     "         temperature FLOAT NOT NULL," +    // 6
