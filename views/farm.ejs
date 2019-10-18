@@ -16,7 +16,19 @@
 					height: 100%;
 					object-fit: contain;
 			}
+      
+      .flex{
+        display:flex;
+        align-items:center
+      }
+      
+      .teacherpic{ 
+        box-sizing:border-box;
+        
+        background-repeat:no-repeat;
+        padding:150px;
 
+      }
 		</style>
 		
 		<!-- JavaScript --beg-- -->
@@ -27,6 +39,7 @@
 			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
 			<script src="common.js" async defer></script>
+      <script src="farm.js" async defer></script>
       <script src="event_user.js" async defer></script>
 			<script src="/javascripts/d3.js" async defer></script>
       
@@ -53,7 +66,7 @@
   </head>
 
   <body>
-    <div data-role="page" id="pagehome" data-theme="a" data-transition="none">
+    <div data-role="page" id="farm" data-theme="a" data-transition="none">
       <!-- Header -->
       <div data-role="header">
         <div data-role="controlgroup">
@@ -64,46 +77,92 @@
         </div>
       </div>
 			
-			<!-- Right-Bar -->
-			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:35%" id="nav_panel" data-position="right">
-				<h1>Hello</h1>
-				<h2>my sweat</h2>
+			<!-- Hiding variable element-->
+      <div style="display:none">
+      <input type="text" id="event_tp" name="" value="-1">
+      <input type="text" id="plant_tp" name="" value="-1">
+      <input type="text" id="fer_tp" name="" value="-1">
+      </div>
+      
+      
+      
+      <!-- Right-Bar 1-->
+			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:40%" id="plant_tp_panel" data-position="right">
+				<ul data-role="listview">
+          <h2 style="margin:10;">Plant</h2>
+					<li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_1">plant_tp1</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_2">plant_tp2</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_3">plant_tp3</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_4">plant_tp4</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_5">plant_tp5</a></li>
+          <span id="add_menu" class="ui-list"></span>
+				</ul>
 			</div>
+      
+			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:40%" id="fer_tp_panel" data-position="right">
+				<ul data-role="listview" >
+          <h2 style="margin:10;">Fer...</h2>
+					<li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_1">fer_tp1</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_2">fer_tp2</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_3">fer_tp3</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_4">fer_tp4</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_5">fer_tp5</a></li>
+          <span id="add_menu" class="ui-list"></span>
+				</ul>
+			</div>
+      
 
-			
-			
-			<div id="list_load" class="ui-content img_20" style="display:block" data-theme="b">
-				<img id="main_pic" src="images/unknown-513.png" alt="img__map_china" class=''>
+      
+      <!-- Right-Bar 2-->
+			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:35%" id="descr_panel" data-position="right">
+        <div><img id="main_pic" src="images/unknown-513.png" alt="img__map_china" class=''></div>
+        <p align="center" style="position:relative; border-top:1px solid #CCCCCC">
+        <h2 style="margin:10;" id="descr_panel_title">type</h2>
+        <p>descriptions ...</p>
+        <p align="center" style="position:relative; border-top:1px solid #CCCCCC">
+          <a href="#pagehome" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" onClick="confirm_form()" id="form">Confirm</a>
+          <a href="#pagehome" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="buy_land_cancel">Cancel</a>
+        </p>
 			</div>
+      
+      
+			
+      <div class="flex">
+        <div class="teacherpic"><img id="main_pic" src="images/unknown-513.png" alt="img__map_china" class=''></div>
+        <div>
+          <h2>Location</h2>
+            <p>descriptions ...</p>
+          <h2>Temporature</h2>
+            <p>descriptions ...</p>
+          <h2>Dry</h2>
+            <p>descriptions ...</p>
+        </div>
+      </div>
 
-			<div data-role="popup" id="myPopup2" class="ui-content" data-theme="b">
-				<p>我显示在 id="demo" 的元素上。</p>
-			</div>
+      <div class="flex">
+        <div>
+          <h2>Location</h2>
+            <p>descriptions ...</p>
+          <h2>Temporature</h2>
+            <p>descriptions ...</p>
+          <h2>Name: <%= name %> </h2>
+            <p>Back to Dash Board ...</p>
+        </div>
+        <div class="teacherpic"><img id="main_pic" src="images/unknown-513.png" alt="img__map_china"></div>
+      </div>
+
+
 
       <!-- bottom assets board -->
 			<div data-role="footer" data-position="fixed" data-fullscreen="false" data-theme="a">
-				<!-- Bar_assets -->
-				<div id="select_bar" data-role="controlgroup" style="display:none">
-
-				</div>
-				<div data-role="button" onclick="" align="center" data-type="horizontal">
-					<a style="line-height:12px;"><span id="showinfo" class="info_txt" data-inline="true">events</span></a>
-				</div>
         <div id="event_set" data-role="controlgroup" data-type="horizontal">
-					<!--img id="" src="images/unknown-513.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;"-->
-					<a id="showinfo" class="info_txt ui-icon-carat-u ui-btn-icon-center" data-inline="true" style="display:none"></a>
-					<!--button onClick="user_evt(this.id)" style="" id="evt_buy_land"><a>Buy Land</a></button-->
-					<!--a href="#myPopup2" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" data-position-to="#showinfo">PPP</a-->
-					<a href="#nav_panel" data-role="button" data-inline="true" data-icon="bars" style="float:left">Start</a>
-          <button onClick="click_plant();"     style="" id="evt_plant"><a>plant</a></button>
-          <button onClick="user_evt(this.id)"  style="" id="evt_irrigate"><a>irrigate</a></button>
-          <button onClick="click_fertilize();" style="" id="evt_fertilize"><a>fertilize</a></button>
-          <button onClick="user_evt(this.id)"  style="" id="evt_debug"><a>debug</a></button>
-          <button onClick="user_evt(this.id)"  style="" id="evt_greenhouse"><a>greenhouse</a></button>
-          <button onClick="user_evt(this.id)"  style="" id="evt_harvest"><a>harvest</a></button> 
+					<img class='img_15' onClick="user_evt(this.id)" id="evt_irrigate" src="images/Act_1irr.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;">
+          <img class='img_15' onClick="user_evt(this.id)" id="evt_fertilize" src="images/Act_2fer.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;">
+          <!--img class='img_15' onClick="user_evt(this.id)" id="" src="images/Act_3byland.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;"-->
+          <img class='img_15' onClick="user_evt(this.id)" id="evt_harvest" src="images/Act_4harv.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;">
+          <img class='img_15' onClick="user_evt(this.id)" id="evt_plant" src="images/Act_5plant.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;">
 				</div>
       </div>
-
 
 		</div>
   </body>
