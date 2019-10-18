@@ -66,9 +66,9 @@ function growth(lands){
             Nwater: 3,};
 
         var land ={
-            temperature:l.temperature,
-            moisture:l.moisture,
-            productivity:l.productivity,
+            temperature:l.temperature + l.delta_temp,
+            moisture:l.moisture + l.delta_moist,
+            productivity:l.productivity + l.delta_pro,
             fertilization:l.fertilize,
         };
         var user ={
@@ -238,8 +238,8 @@ function get_active_land(opt,callback) {
                         sql_get_land_loc += "SELECT id, lon, lat from lands_" + (entry.id) +
                             " WHERE gid = "+(entry.gid)+" AND valid IN (0,1);\n";
                     } else if (opt == 'gwt') {
-                        sql_get_land_loc += "SELECT id, lon, lat, moisture, temperature, productivity, fertilize from lands_" + (entry.id) +
-                            " WHERE gid = "+(entry.gid)+" AND valid IN (0,1);\n";
+                        sql_get_land_loc += "SELECT id, lon, lat, moisture, temperature, productivity, fertilize, delta_temp, delta_moist, delta_pro from lands_" + (entry.id) +
+                            " WHERE gid = "+(entry.gid)+" AND valid = 1;\n";
                     }
 
                     n = n + 1;
@@ -273,6 +273,7 @@ function get_active_land(opt,callback) {
                                     land.gid = data[ind].gid;
                                     land.user_onset = data[ind].onset;
                                     land.dt = dt;
+
 //                                    land.lon = (land.lon)/10.;
 //                                    land.lat = (land.lat)/10.;
                                     all_lands.push(land)
