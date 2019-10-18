@@ -40,8 +40,9 @@ let sql_create_user_land = " (" +
     "         debug TINYINT NOT NULL," +      // 21 0 - 1
     "         greenhouse TINYINT NOT NULL," +      // 22 0 - 1
     "         created datetime NOT NULL," +     // 23
-    "         modified datetime NOT NULL," +    // 24
-    "         gid INT NOT NULL," +    // 25
+    "         updated datetime NOT NULL," +     // 24
+    "         modified datetime NOT NULL," +    // 25
+    "         gid INT NOT NULL," +    // 26
     "         PRIMARY KEY (id)" +
     "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
@@ -318,7 +319,7 @@ function addLand(uid, gid, lon, lat, climate, temp, moist, pro, fer,callback) {
     let sql_add_land = "INSERT INTO lands_"+(uid)+" VALUES (" +
         "NULL       , "+(lon)+", "+(lat)+", "+(climate)+", 0, " +
         (temp)+", "+(moist)+", "+(pro)+", "+(fer)+", 0, " +
-        "0, 0, 0, 0, '2001-01-01', 0, 0, 0, 0, 0, 0, 0, NOW(), NOW(), "+(gid)+");";
+        "0, 0, 0, 0, '2001-01-01', 0, 0, 0, 0, 0, 0, 0, NOW(), '2001-01-01', NOW(), "+(gid)+");";
     console.log(sql_add_land);
     connection.query(sql_add_land, (err,rows) => {
         if (err) throw  err;

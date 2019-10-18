@@ -77,18 +77,24 @@ function environment(lands) {
 }
 
 
-function get_active_land(callback) {
+function get_active_land(opt,callback) {
     let all_lands = [];
 
     let connection = mysql.createConnection(mysql_config);
-    let sql_check_user_activity = "SELECT id, gid, onset, TIME_TO_SEC(timediff(now(),onset)) from users where " +
-                                  "TIME_TO_SEC(timediff(now(),onset)) < 900 ;";
+    let sql_check_user_activity;
+    if (opt == 'env') {
+        sql_check_user_activity = "SELECT id, gid, onset, TIME_TO_SEC(timediff(now(),onset)) from users where " +
+            "TIME_TO_SEC(timediff(now(),onset)) < 900 ;";
+    } else if (opt == 'gwt') {
+        sql_check_user_activity = "SELECT id, gid, onset, TIME_TO_SEC(timediff(now(),onset)) from users where " +
+            "TIME_TO_SEC(timediff(now(),onset)) < 900 ;";
+    }
     console.log(sql_check_user_activity);
     connection.query(sql_check_user_activity, function (err, rows) {
         if (err) {
 //            throw err;
             console.log('facing db error, fetch again ...')
-            get_active_land(function (err,lands) {
+            get_active_land(opt,function (err,lands) {
                 all_lands = lands;
             });
         } else {
@@ -160,13 +166,21 @@ function get_active_land(callback) {
 
 function nature() {
     setInterval( ()=>{
-        get_active_land(function (err,lands) {
+        get_active_land('env',function (err,lands) {
             if (err == null) {
                 environment(lands);
-                growth(lands);
             }
         });
         },5000);
+
+    setInterval( ()=>{
+        get_active_land('gwt',function (err,lands) {
+            if (err == null) {
+                growth(lands);
+            }
+        });
+    },5000);
+
 }
 
 module.exports = {
