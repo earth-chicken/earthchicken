@@ -46,8 +46,8 @@ def main():
       rain = data.variables['Rainf_f_tavg'][0,:,:]
       moist = data.variables['SoilMoi0_10cm_inst'][0,:,:]
 
-      for l in moist:
-        print (l)
+#      for l in moist:
+#        print (l)
 
 
       nx = len(lons)
