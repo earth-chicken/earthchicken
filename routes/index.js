@@ -57,6 +57,15 @@ router.get('/introduce', function(req, res, next) {
 
 });
 
+router.get('/farm', function(req, res, next) {
+  console.log('at /farm');
+
+  res.render('farm.ejs',{
+    title : 'farm'
+  })
+
+});
+
 router.get('/game', function(req, res, next) {
     console.log('at /game');
 

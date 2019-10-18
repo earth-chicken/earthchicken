@@ -5,6 +5,11 @@
 		<title>Earth Chicken</title>
 		
 		<!-- External CSS -->
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='basic.css' />
+    <link rel='stylesheet' href='/stylesheets/jquery.mobile-1.4.5.css' />
+		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.css">
+		
 		<style type="text/css">
 			.img_full {
 					width: 100%;
@@ -12,21 +17,27 @@
 					object-fit: contain;
 			}
 
-			.portrait {
-					height: 100%;
-					width: 100%;
+			.div_left {
+				float:left;
+				background-color:Blue;
+				width:50%;
+				height:100%;
+			}
+			
+			.div_right {
+				float:right;
+				background-color:Green;
+				width:50%;
+				height:100%;
+				<!--height:180px;-->
 			}
 		</style>
 		
-		<link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href='basic.css' />
-    <link rel='stylesheet' href='/stylesheets/jquery.mobile-1.4.5.css' />
-		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.css">
-
-		
 		<!-- JavaScript --beg-- -->
+			<script src="/javascripts/jquery-3.3.1.js"></script>
+			<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
       <script src="/javascripts/jquery-1.8.3.min.js"></script>
-      <script src="/javascripts/jquery.mobile-1.4.5.js"></script>
+			<!--script src="/javascripts/jquery.mobile-1.4.5.js"></script-->
 			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
 			<script src="common.js" async defer></script>
@@ -60,94 +71,63 @@
       <!-- Header -->
       <div data-role="header">
         <div data-role="controlgroup">
-        <a href="#nav_panel" data-role="button" data-inline="true" data-icon="bars" style="float: left">Start</a>
-        <a href="#/introduce" data-role="button" data-inline="true" data-icon="eye" style="float: left">Introduce</a>
-        <center><h1 id="topic" style="display:inline;" >Earth Chicken</h1>
-        <a href="#/about" data-role="button" data-inline="true" data-icon="carat-d" style="float: right">About</a>
+        <center><img src="images/chicken.jpg" alt="img__map_china" class='img_logo' style="display:inline;">
+				<label id="topic" class='title' style="display:inline; line-height:30px; font-weight:bolder;" >Earth Chicken</label>
         <!--a href="#/" data-role="button" data-inline="true" data-icon="mail">Mail</a-->
-        <a href="#/" data-role="button" data-inline="true" data-icon="home" style="float: right">Home</a>
+        <a href="#/" data-role="button" data-inline="true" data-icon="home" style="float:right">Home</a>
         </div>
       </div>
 			
-			<!-- Left-Bar -->
+			<!-- Right-Bar -->
 			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:200px" id="nav_panel">
 				<ul data-role="listview" >
-					<li data-icon="delete"><a href="#" data-rel="close" id="dash_close">Close</a></li>
+					<li data-icon="delete"><a href="#" id="dash_close">Close</a></li>
 					<!--li data-icon="" id="dash_assets" onClick="click_assets()" ><a>Assets</a></li-->
-          <li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#" data-rel="close">Assets</a></li>
+          <li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#">Assets</a></li>
 					<li data-icon="carat-r" id="others"><a>Others</a></li>
           <li data-icon="carat-r" id="evt_test"><a href="#bar_event">Events Test</a></li>
+					<li data-icon="carat-r" id="sign_out"><a onclick="signOut();">Sign out</a></li>
 					<span id="add_menu" class="ui-list"></span>
 				</ul>
 			</div>
 			
-      <!-- main_page -->
-			<div id="list_load" role="main" class="ui-content" style="display:block">
-				<div id="main_pic"><img src="images/map_china.jpg" alt="img__map_china" class='img_full'></div>
-			</div>
-      
-			<!-- dashboard -->
-      <div>
-        <h3>Welcome to Earth Chicken, <%= name %>>
-          <a href="javascript:void(0);" onclick="signOut();">Sign out</a>
-        </h3>
-
-        <p><b>Google ID: </b>resp.id</p>
-        <p><b>Name: </b>resp.name</p>
-
-			<div class="btn-group" style="margin-top:1em;" align="center">
-				<button id = "add_100d" type = "button" class = "btn1" onCLick="user_evt('evt_buy_land');">Buy land</button>
-				<button id = "add_100c" type = "button" class = "btn1" onCLick="user_evt('evt_plant');">Plant</button>
-				<button id = "100to_1c" type = "button" class = "btn1" onCLick="user_evt('evt_harvest');">Harvest</button>
-				<button id = "zero" type = "button" class = "btn1"> zero</button>
+			
+			<!--div id="list_load" class="ui-content div_left" style="display:block" data-theme="b">
+				<img id="main_pic" src="images/chicken.jpg" alt="img__map_china" class=''>
 			</div>
 
-        <div class="btn-group" style="margin-top:1em;" align="center">
-          <button id = "add_100d" type = "button" class = "btn1">add_100d</button>
-          <button id = "add_100c" type = "button" class = "btn1">add_100c</button>
-          <button id = "convert_100d_to_1c" type = "button" class = "btn1">100d_to_1c</button>
-          <button id = "zero" type = "button" class = "btn1">?zero</button>
-        </div>
-      </div>
+			<div id="list_load2" class="ui-content div_right" style="display:block" data-theme="b">
+					<h1>XXXXX</h1>
+					<a>tell me what you are</a>
+			</div-->
 
-			<a href="/logout" onClick="signOut();">Sign out</a>
-      
-      <!-- Bar_event -->
-      <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_event" data-position="right">
-        <ul data-role="listview" >
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_buy_land"><a>Buy Land</a></div></li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_plant"><a>plant</a></div>       </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_irrigate"><a>irrigate</a></div>    </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_fertilize"><a>fertilize</a></div>   </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_debug"><a>debug</a></div>       </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_greenhouse"><a>greenhouse</a></div>  </li>
-          <li><div data-role="button" onClick="user_evt(this.id);" id="evt_harvest"><a>harvest</a></div> </li>          
-        </ul>
-      </div>
+			<div data-role="popup" id="myPopup2" class="ui-content" data-theme="b">
+				<p>我显示在 id="demo" 的元素上。</p>
+			</div>
 
       <!-- bottom assets board -->
-			<div data-role="footer" data-position="fixed" data-fullscreen="false">
+			<div data-role="footer" data-position="fixed" data-fullscreen="false" data-theme="a">
 				<!-- Bar_assets -->
-				<div id="showinfo" onclick="click_assets()" align="center" style="height:30px; width:50%; border: 0px solid #26D6FE; margin:0 auto;">
-					<span id="showinfo_ico" class="info_ico_u"><span id="info_string" class="info_txt" style="line-height:29px;">Assets</span></span>
+				<div id="select_bar" data-role="controlgroup" style="display:none">
+
 				</div>
-        <div data-role="info_txt" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_land" style="display:none">
-					<table id="tb_user_assets" border="1" style="line-height:25px;">
-						<tr>
-							<td>Location</td>
-							<td>Valid</td>
-							<td>Plant</td>
-							<td>Warning</td>
-							<td>Temp</td>
-							<td>W%</td>
-							<td>P%</td>
-							<td>G%</td>
-							<td>X%</td>
-							<td>X</td>
-						</tr>
-					</table>
-        </div>
-      </div> 
+				<div data-role="button" onclick="" align="center" data-type="horizontal">
+					<a style="line-height:12px;"><span id="showinfo" class="info_txt" data-inline="true">events</span></a>
+				</div>
+        <div id="event_set" data-role="controlgroup" data-type="horizontal">
+					<!--img id="" src="images/unknown-513.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;"-->
+					<a id="showinfo" class="info_txt ui-icon-carat-u ui-btn-icon-center" data-inline="true" style="display:none"></a>
+					<!--button onClick="user_evt(this.id)" style="" id="evt_buy_land"><a>Buy Land</a></button-->
+					<a href="#myPopup2" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" data-position-to="#showinfo">PPP</a>
+          <button onClick="click_plant();"     style="" id="evt_plant"><a>plant</a></button>
+          <button onClick="user_evt(this.id)"  style="" id="evt_irrigate"><a>irrigate</a></button>
+          <button onClick="click_fertilize();" style="" id="evt_fertilize"><a>fertilize</a></button>
+          <button onClick="user_evt(this.id)"  style="" id="evt_debug"><a>debug</a></button>
+          <button onClick="user_evt(this.id)"  style="" id="evt_greenhouse"><a>greenhouse</a></button>
+          <button onClick="user_evt(this.id)"  style="" id="evt_harvest"><a>harvest</a></button> 
+				</div>
+      </div>
+
 
 		</div>
   </body>
