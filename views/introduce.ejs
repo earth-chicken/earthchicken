@@ -10,12 +10,14 @@
     <link rel='stylesheet' href='/stylesheets/jquery.mobile-1.4.5.css' />
 		<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.css">
 		
+		
 		<!-- JavaScript --beg-- -->
       <script src="/javascripts/jquery-1.8.3.min.js"></script>
-      <script src="/javascripts/jquery.mobile-1.4.5.js"></script>
+      <!--script src="/javascripts/jquery.mobile-1.4.5.js"></script-->
 			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
 			<script src="/javascripts/google_login.js"></script>
+			<script src="common.js" async defer></script>
 			
 			<!-- google login button -->
 			<meta name="google-signin-scope" content="profile email">
@@ -28,7 +30,7 @@
 			{
 				console.log("web initial");
 			});
-			 
+			
 			</script>
 		<!-- JavaScript --end-- -->
   </head>
@@ -60,49 +62,47 @@
 			</div>
 			
 			<!-- /panel -->
-			<div id="list_load" role="main" class="ui-content" style="display:block">
+			<!--div id="list_load" role="main" class="ui-content" style="display:block">
 				<ul data-role="listview" data-inset="true" style="-webkit-border-radius:0.1px;border-radius:0.1px; margin-top:0px;">
 					<li id="introduce_topic"> <a href="" target="_self" > <h1 id="txt_item_spirit">Topic Introduce</h1><span id="item_introduce_topic"></span></a></li>
           <li id="introduce_data"> <a href="" target="_self" > <h1 id="txt_item_spirit">Data Introduce</h1><span id="item_introduce_data"></span></a></li>
           <li id="introduce_game"> <a href="" target="_self" > <h1 id="txt_item_member">Game Introduce</h1><span id="item_introduce_game"></span></a></li>
 					<!--li id="pass_sel"> <a href="#Password" data-rel="popup" data-position-to="window"> <h1 id="password_txt">WIFI Password</h1><span id="app_sk"></span></a></li-->
           
-				</ul>
-			</div>
-			
-
-			<div id="gSignOut" style="display: none;">
-				<a href="#" onclick="signOut();">Sign out</a>
-
-			</div>
-			
-			<!--popup example-->
-			<!--div data-role="popup" id="Password" data-overlay-theme="b" style="min-width:300px;">
-				<div data-role="header">
-						<a href="#pagehome" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-						<h1  style="margin:0;"></h1>
-				</div>
-
-				<div role="main" class="ui-content" >
-					<div align="center" style="margin-left:auto; margin-right:auto; ">
-						<div class="hdmicec_txt" style="margin-right:10px;">
-							<legend id="le_password">Password:</legend>
-						</div>
-						<div id="hidenssid">
-							<fieldset>
-								<input type="text" value="" name="appsk" id="appsk" >  
-							</fieldset>
-						</div>
-					</div>
-					<div id="psk_warn_txt" class="warn_txt"></div>
-				</div>
-				<p align="center" style="border-top:1px solid #CCCCCC">
-					<a href="#"     class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="set_appsk_ok" onclick="set_ap_pswd()">OK</a>
-					<a href="#page" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="set_appsk_cel">Cancel</a>
-				</p>
+				<!--/ul>
 			</div-->
-		</div>
+			<div role="main" class="ui-content" style="display:block">
+				<button type="button" id="set1" data-icon="carat-d" class="collapsible" onClick="collap(this.id)">Topic Introduce</button>
+					<div class="content" style="display:none">
+					<h3>title</h3>
+					<p>detail</p>
+					</div>
+				<button type="button" id="set2" data-icon="carat-d" class="collapsible" onClick="collap(this.id)">Data Introduce</button>
+					<div class="content" style="display:none">
+						<h3>title</h3>
+						<p>detail</p>
+					</div>
+				<button type="button" id="set3" data-icon="carat-d" class="collapsible" onClick="collap(this.id)">Game Introduce</button>
+					<div class="content" style="display:none">
+						<h3>title</h3>
+						<p>detail</p>
+					</div>
+			</div>
 
+
+			<div data-role="footer" data-position="fixed" data-fullscreen="false" data-theme="b">
+				<div data-role="button" onclick="" align="center" data-type="horizontal">
+					<a style="line-height:12px;"><span id="showinfo" class="info_txt" data-inline="true">pictures</span></a>
+				</div>
+				
+        <div data-type="horizontal">
+					<button id="pic_last" data-icon="carat-l" data-inline="true" onClick="play(this.id)"></button>
+					<img src="images/chicken.jpg" alt="Avatar" data-inline="true" class="img_center_50" style="display:inline;">
+					<button id="pic_next" data-icon="carat-r" data-inline="true" onClick="play(this.id)"></button>
+        </div>
+      </div>
+			
+		</div>
   </body>
 
 </html>

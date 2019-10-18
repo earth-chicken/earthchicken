@@ -1,3 +1,22 @@
+
+
+
+function collap(item_id){
+	console.log(arguments.callee.name + item_id);
+
+	var _item = document.getElementById(item_id);
+	var content = _item.nextElementSibling;
+	if (content.style.display == "none") {
+		content.style.display = "block";
+		_item.classList.remove("ui-icon-carat-d");
+		_item.classList.add("ui-icon-carat-u");
+	} else {
+		content.style.display = "none";
+		_item.classList.remove("ui-icon-carat-u");
+		_item.classList.add("ui-icon-carat-d");		
+	}
+}
+
 function item_showOrHide(item_id){
 	console.log(arguments.callee.name);
   var _item = document.getElementById(item_id);

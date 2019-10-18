@@ -61,8 +61,8 @@
       <!-- Header -->
       <div data-role="header">
         <div data-role="controlgroup">
-        <a href="#nav_panel" data-role="button" data-inline="true" data-icon="bars" style="float: left">Start</a>
-        <a href="#/introduce" data-role="button" data-inline="true" data-icon="eye" style="float: left">Introduce</a>
+        <a href="#nav_panel" data-role="button" data-inline="true" data-icon="bars" style="float:left">Start</a>
+        <a href="#/introduce" data-role="button" data-inline="true" data-icon="eye" style="float:left">Introduce</a>
         <center><img src="images/chicken.jpg" alt="chicken" class='img_logo' style="display:inline;">
 				<label id="topic" class='title' style="display:inline; line-height:30px; font-weight:bolder;" >Earth Chicken</label>
         <!--a href="#/" data-role="button" data-inline="true" data-icon="mail">Mail</a-->
@@ -80,11 +80,43 @@
 					<li data-icon="carat-r" id="others"><a>Others</a></li>
           <li data-icon="carat-r" id="evt_test"><a href="#bar_event">Events Test</a></li>
 					<li data-icon="carat-r" id="sign_out"><a onclick="signOut();">Sign out</a></li>
+					<li data-icon="carat-r" id="sign_out">
+						<a href="#Password" data-rel="popup"  data-position-to="window">Select Map</a>
+					</li>
 					<span id="add_menu" class="ui-list"></span>
 				</ul>
 			</div>
 			
-      <!-- main_page -->
+
+			<div data-role="popup" id="Password" data-overlay-theme="b" style="min-width:300px;">
+				<div data-role="header">
+					<a href="#pagehome" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+					<h1 style="margin:0;"></h1>
+				</div>
+
+				<div role="main" class="ui-content" >
+					<div align="center" style="margin-left:auto; margin-right:auto; ">
+						<div class="hdmicec_txt" style="margin-left:auto;">
+							<label id="map_location">Location</label>
+						</div>
+						<div id="hidenssid">
+							<fieldset>
+								<a>location description ...</a>
+							</fieldset>
+						</div>
+					</div>
+
+					
+					<div id="psk_warn_txt" class="warn_txt"></div> 
+				</div>
+				<p align="center" style="border-top:1px solid #CCCCCC">
+					<a href="#pagehome" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="buy_land">Buy</a>
+					<a href="#pagehome" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="buy_land_cancel">Cancel</a>
+				</p>
+			</div>
+			
+			
+			<!-- main_page -->
 			<div id="list_load" role="main" class="ui-content" style="display:block">
 				<div id="pagecontainer"><img id="main_pic" src="images/map_china.jpg" alt="img__map_china" class='img_full'></div>
 			</div>
