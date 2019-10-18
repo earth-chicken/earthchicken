@@ -52,4 +52,19 @@ function add_img_2target(src, target_id){
 	
 }
 
+function load_body_2target(url, target_id, hide_id){
+	console.log(arguments.callee.name);
+  var obj = document.getElementById(target_id);
+  
+  item_showOrHide(hide_id);
+
+	//obj.load(url);
+
+	$('#'+target_id).load(url, 
+		function(){console.log("call html");}
+	);
+
+}
+
+
 

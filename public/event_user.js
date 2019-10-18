@@ -42,12 +42,6 @@ var g_cur_location = "";
 
 
 
-function post_msg_2server(){
-  console.log(arguments.callee.name);
-  
-  return;
-}
-
 
 function get_cur_location(){
 	
@@ -59,6 +53,7 @@ function set_cur_location(new_location){
 	g_cur_location = new_location;
 	return;
 }
+
 function evt_gameStart() {
 	console.log(arguments.callee.name);
 	var data = {event: "user_evt_gameStart"};
@@ -95,139 +90,6 @@ function evt_buyLand(){
 	return;
 }
 
-function evt_plant(){
-  console.log(arguments.callee.name);
-	
-	var cur_loc = get_cur_location();
-	//use cur_loc to fill data --- lon, lat
-	var data = {event:"user_evt_plant",
-							lon:'120.8',
-							lat:'23.3',
-							p_type:'1'};
-
-	$.post(URL_SERVICE, data, function(res){
-		console.log(res);
-		if(res.length<=0)
-		{	console.log("post return nothing"); return;}
-		
-		//parse res and update web
-		//res = jQuery.parseJSON(res);
-		
-	});
-	
-	return;
-}
-
-function evt_irrigate(){
-  console.log(arguments.callee.name);
-	
-	var cur_loc = get_cur_location();
-	//use cur_loc to fill data --- lon, lat
-	var data = {event:"user_evt_irrigate",
-							lon:'120.8',
-							lat:'23.3'};
-
-	$.post(URL_SERVICE, data, function(res){
-		console.log(res);
-		if(res.length<=0)
-		{	console.log("post return nothing"); return;}
-		
-		//parse res and update web
-		//res = jQuery.parseJSON(res);
-		
-	});
-	
-	return;
-}
-
-function evt_fertilize(){
-  console.log(arguments.callee.name);
-	
-	var cur_loc = get_cur_location();
-	//use cur_loc to fill data --- lon, lat
-	var data = {event:"user_evt_fertilize",
-							lon:'120.8',
-							lat:'23.3'};
-
-	$.post(URL_SERVICE, data, function(res){
-		console.log(res);
-		if(res.length<=0)
-		{	console.log("post return nothing"); return;}
-		
-		//parse res and update web
-		//res = jQuery.parseJSON(res);
-		
-	});
-	
-	return;
-}
-
-function evt_debug(){
-  console.log(arguments.callee.name);
-
-	var cur_loc = get_cur_location();
-	//use cur_loc to fill data --- lon, lat
-	var data = {event:"user_evt_debug",
-							lon:'120.8',
-							lat:'23.3'};
-
-	$.post(URL_SERVICE, data, function(res){
-		console.log(res);
-		if(res.length<=0)
-		{	console.log("post return nothing"); return;}
-		
-		//parse res and update web
-		//res = jQuery.parseJSON(res);
-		
-	});
-	
-	return;
-}
-
-function evt_greenhouse(){
-  console.log(arguments.callee.name);
-
-	var cur_loc = get_cur_location();
-	//use cur_loc to fill data --- lon, lat
-	var data = {event:"user_evt_greenhouse",
-							lon:'120.8',
-							lat:'23.3'};
-
-	$.post(URL_SERVICE, data, function(res){
-		console.log(res);
-		if(res.length<=0)
-		{	console.log("post return nothing"); return;}
-		
-		//parse res and update web
-		//res = jQuery.parseJSON(res);
-		
-	});
-	
-  return;
-}
-
-function evt_harvest(){
-  console.log(arguments.callee.name);
-
-	var cur_loc = get_cur_location();
-	//use cur_loc to fill data --- lon, lat
-	var data = {event:"user_evt_harvest",
-							lon:'120.8',
-							lat:'23.3',
-							/*p_type:'1'*/};
-
-	$.post(URL_SERVICE, data, function(res){
-		console.log(res);
-		if(res.length<=0)
-		{	console.log("post return nothing"); return;}
-		
-		//parse res and update web
-		//res = jQuery.parseJSON(res);
-		
-	});
-	
-	return;
-}
 
 function evt_enterLocation(){
 	console.log(arguments.callee.name);
@@ -239,36 +101,7 @@ function evt_enterLocation(){
 	return;
 }
 
-function user_evt(obj_id){
-	console.log(arguments.callee.name);
-	
-	switch (obj_id) {
-		case "evt_game_start":
-			evt_gameStart();
-			break;
-		case "evt_buy_land":
-			evt_buyLand();
-			break;
-		case "evt_plant":
-			evt_plant();
-			break;
-		case "evt_irrigate":
-			evt_irrigate();
-			break;
-		case "evt_fertilize":
-			evt_fertilize();
-			break;
-		case "evt_debug":
-			evt_debug();
-			break;
-		case "evt_greenhouse":
-			evt_greenhouse();
-			break;
-		case "evt_harvest":
-			evt_harvest();
-			break;
-	}
-};
+
 
 
 function add_imgArray_2target(ary, target_id){
@@ -542,19 +375,26 @@ function click_assets(){
   return;
 };
 
-function call_map2(){
-	console.log(arguments.callee.name);
-	var url = 'javascripts/test3.ejs';
-	$('#pagecontainer2').load(url);
+function game_start(){
+  console.log(arguments.callee.name);
 
+  //post server start game
+
+  $('#pop_start').popup("close");
+}
+
+function buy_land(){
+  console.log(arguments.callee.name);
+  
+  call_map();
 }
 
 function call_map(){
   console.log(arguments.callee.name);
 	
-	item_showOrHide("main_pic");
+	//item_showOrHide("main_pic");
 
-	var url = 'javascripts/test1.ejs';
+	//var url = 'javascripts/test1.ejs';
 
 	//$.ajax({
 	//	type: 'GET',
@@ -569,11 +409,11 @@ function call_map(){
 	//	}
 	//});
 
-	$('#pagecontainer').load(url, 
-		function(){console.log("call html");}
-	);
+	//$('#pagecontainer').load(url, 
+	//	function(){console.log("call html");}
+	//);
 	
-	
+	load_body_2target('javascripts/test1.ejs', 'pagecontainer', 'main_pic');
 	
 	return;
 }
