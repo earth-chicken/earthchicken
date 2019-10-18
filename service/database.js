@@ -491,6 +491,27 @@ function evt_buy_land(uid,gid,lon,lat,callback) {
 
 }
 
+function setCarboin(uid,new_carboin,callback) {
+	let sql_set_carboin = "UPDATE users SET carboin =" +(new_carboin)+ " WHERE id = " +(uid)+ ";";
+	let connection = mysql.createConnection(mysql_config);
+	connection.query(sql_set_carboin, (err, rows) => {
+	    if (err) throw err;
+	    connection.end();
+	    callback(null);
+	});
+}
+
+function setLandData(uid,id,name,new_value,callbak) {
+       let sql_set_value = "UPDATE lands_" +(uid)+ " SET " +(name)+" =" +(new_value)+ " WHERE id = " +(id)+ ";";
+       let connection = mysql.createConnection(mysql_config);
+       connection.query(sql_set_value, (err, rows) => {
+           if (err) throw err;
+	   connection.end();
+	   callback(null);
+       });
+}
+
+
 module.exports = {
     checkDatabase: checkDatabase,
     saveUserData: saveUserData,
