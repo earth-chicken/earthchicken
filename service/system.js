@@ -92,11 +92,11 @@ function get_active_land(opt,callback) {
     console.log(sql_check_user_activity);
     connection.query(sql_check_user_activity, function (err, rows) {
         if (err) {
-//            throw err;
-            console.log('facing db error, fetch again ...')
-            get_active_land(opt,function (err,lands) {
-                all_lands = lands;
-            });
+            throw err;
+//            console.log('facing db error, fetch again ...')
+//            get_active_land(opt,function (err,lands) {
+//                all_lands = lands;
+//            });
         } else {
             if (rows.length > 0) {
                 const data = JSON.parse(JSON.stringify(rows));

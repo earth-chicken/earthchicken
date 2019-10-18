@@ -20,29 +20,30 @@ let sql_create_user_land = " (" +
     "         lat SMALLINT NOT NULL," +         // 3 -1800 - 1800 (lat*10)
     "         climate TINYINT NOT NULL," +      // 4 0 - 127
     "         valid TINYINT NOT NULL," +        // 5 0 or 1
-    "         temperature SMALLINT NOT NULL," + // 6
-    "         moisture TINYINT NOT NULL," +     // 7 0-100 (-128 - 127)
-    "         productivity TINYINT NOT NULL," + // 8 0-100 (-128 - 127)
-    "         fertilization TINYINT NOT NULL," +// 9 0, 20, 40 (-128 - 127)
-    "         delta_temp TINYINT NOT NULL," +   // 10 -20 - 40 (d_temp*10)
-    "         delta_moist TINYINT NOT NULL," +  // 11 (d_moist*10)
-    "         warning_evt TINYINT NOT NULL," +   // 12 event warning
-    "         event TINYINT NOT NULL," +         // 13 event
+    "         temperature FLOAT NOT NULL," +    // 6
+    "         rainfall FLOAT NOT NULL," +       // 7
+    "         moisture FLOAT NOT NULL," +       // 8 0-100 (-128 - 127)
+    "         productivity TINYINT NOT NULL," + // 9 0-100 (-128 - 127)
+    "         fertilization TINYINT NOT NULL," +// 10 0, 20, 40 (-128 - 127)
+    "         delta_temp TINYINT NOT NULL," +   // 11 -20 - 40 (d_temp*10)
+    "         delta_moist TINYINT NOT NULL," +  // 12 (d_moist*10)
+    "         warning_evt TINYINT NOT NULL," +   // 13 event warning
+    "         event TINYINT NOT NULL," +         // 14 event
     // product
-    "         type TINYINT NOT NULL," +         // 14 plant type#  0-
-    "         plant_time datetime NOT NULL," +  // 15 0-100 (-128 - 127)
-    "         completeness TINYINT NOT NULL," + // 16 0-100 (-128 - 127)
+    "         type TINYINT NOT NULL," +         // 15 plant type#  0-
+    "         plant_time datetime NOT NULL," +  // 16 0-100 (-128 - 127)
+    "         completeness TINYINT NOT NULL," + // 17 0-100 (-128 - 127)
     //    "         healthiness TINYINT NOT NULL," + // 0-100 (-128 - 127)
-    "         prod_rate FLOAT NOT NULL," +      // 17
-    "         product TINYINT NOT NULL," +      // 18 0-100
-    "         irrigate TINYINT NOT NULL," +      // 19 0 - 1
-    "         fertilize TINYINT NOT NULL," +      // 20 0 - 1
-    "         debug TINYINT NOT NULL," +      // 21 0 - 1
-    "         greenhouse TINYINT NOT NULL," +      // 22 0 - 1
-    "         created datetime NOT NULL," +     // 23
-    "         updated datetime NOT NULL," +     // 24
-    "         modified datetime NOT NULL," +    // 25
-    "         gid INT NOT NULL," +    // 26
+    "         prod_rate FLOAT NOT NULL," +      // 18
+    "         product TINYINT NOT NULL," +      // 19 0-100
+    "         irrigate TINYINT NOT NULL," +      // 20 0 - 1
+    "         fertilize TINYINT NOT NULL," +      // 21 0 - 1
+    "         debug TINYINT NOT NULL," +      // 22 0 - 1
+    "         greenhouse TINYINT NOT NULL," +      // 23 0 - 1
+    "         created datetime NOT NULL," +     // 24
+    "         updated datetime NOT NULL," +     // 25
+    "         modified datetime NOT NULL," +    // 26
+    "         gid INT NOT NULL," +    // 27
     "         PRIMARY KEY (id)" +
     "        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
@@ -239,7 +240,14 @@ function setMoney(uid,new_currency,callback) {
 
     let connection = mysql.createConnection(mysql_config);
     connection.query(sql_set_money, (err, rows) => {
-        if (err) throw  err;
+        if (err) {
+            console.log('facing error. do again');
+            setMoney(uid, new_currency, () => {
+                console.log('currency: ',new_currency,' updated ...');
+                callback(null, new_currency);
+            });
+        }
+        //throw  err;
         connection.end();
         callback(null);
     });
@@ -317,8 +325,7 @@ function cleanLand(uid,gid,lon,lat,callback) {
 function addLand(uid, gid, lon, lat, climate, temp, moist, pro, fer,callback) {
     let connection = mysql.createConnection(mysql_config);
     let sql_add_land = "INSERT INTO lands_"+(uid)+" VALUES (" +
-        "NULL       , "+(lon)+", "+(lat)+", "+(climate)+", 0, " +
-        (temp)+", "+(moist)+", "+(pro)+", "+(fer)+", 0, " +
+        "NULL       , "+(lon)+", "+(lat)+", "+(climate)+", 0, 0, 0, "+(moist)+", "+(pro)+", "+(fer)+", 0, " +
         "0, 0, 0, 0, '2001-01-01', 0, 0, 0, 0, 0, 0, 0, NOW(), '2001-01-01', NOW(), "+(gid)+");";
     console.log(sql_add_land);
     connection.query(sql_add_land, (err,rows) => {

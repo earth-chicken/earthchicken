@@ -46,7 +46,7 @@ def main():
       rain = data.variables['Rainf_f_tavg'][0,:,:]
       moist = data.variables['SoilMoi0_10cm_inst'][0,:,:]
 
-      for l in lons:
+      for l in moist:
         print (l)
 
 
@@ -68,14 +68,15 @@ def main():
       indy = np.interp(set_lat, lats, lat_ind).astype(int)
 
       # times ten for storage
-      temp = ((temp[indy,indx]- 273.15) * 10).astype(int)
+      tt = temp[indy,indx]- 273.15
+      rr = rain[indy,indx]
 
-      for set, t in zip(spots,temp):
+      for set, t in zip(spots,tt):
         uid = set['uid']
         gid = set['gid']
         lon = set['lon']
         lat = set['lat']
-        sql_cmd = '''UPDATE lands_%(uid)s SET temperature = %(t)d , updated = NOW() WHERE gid = %(gid)d AND lon = %(lon)d AND lat = %(lat)d ;
+        sql_cmd = '''UPDATE lands_%(uid)s SET temperature = %(t)f , updated = NOW() WHERE gid = %(gid)d AND lon = %(lon)d AND lat = %(lat)d ;
         ''' % locals()
         print (sql_cmd)
         cursor.execute(sql_cmd)
