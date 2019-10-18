@@ -24,8 +24,10 @@
 		</style>
 		
 		<!-- JavaScript --beg-- -->
+			<script src="/javascripts/jquery-3.3.1.js"></script>
+			<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
       <script src="/javascripts/jquery-1.8.3.min.js"></script>
-      <script src="/javascripts/jquery.mobile-1.4.5.js"></script>
+			<!--script src="/javascripts/jquery.mobile-1.4.5.js"></script-->
 			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
 			<script src="common.js" async defer></script>
@@ -61,19 +63,20 @@
         <div data-role="controlgroup">
         <a href="#nav_panel" data-role="button" data-inline="true" data-icon="bars" style="float: left">Start</a>
         <a href="#/introduce" data-role="button" data-inline="true" data-icon="eye" style="float: left">Introduce</a>
-        <center><h1 id="topic" style="display:inline;" >Earth Chicken</h1>
-        <a href="#/about" data-role="button" data-inline="true" data-icon="carat-d" style="float: right">About</a>
+        <center><img src="images/chicken.jpg" alt="chicken" class='img_logo' style="display:inline;">
+				<label id="topic" class='title' style="display:inline; line-height:30px; font-weight:bolder;" >Earth Chicken</label>
         <!--a href="#/" data-role="button" data-inline="true" data-icon="mail">Mail</a-->
-        <a href="#/" data-role="button" data-inline="true" data-icon="home" style="float: right">Home</a>
+        <a href="#/" data-role="button" data-inline="true" data-icon="home" style="float:right">Home</a>
+        <a href="#/about" data-role="button" data-inline="true" data-icon="carat-d" style="float:right">About</a>
         </div>
       </div>
 			
 			<!-- Left-Bar -->
 			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:200px" id="nav_panel">
 				<ul data-role="listview" >
-					<li data-icon="delete"><a href="#" data-rel="close" id="dash_close">Close</a></li>
+					<li data-icon="delete"><a href="#" id="dash_close">Close</a></li>
 					<!--li data-icon="" id="dash_assets" onClick="click_assets()" ><a>Assets</a></li-->
-          <li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#" data-rel="close">Assets</a></li>
+          <li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#">Assets</a></li>
 					<li data-icon="carat-r" id="others"><a>Others</a></li>
           <li data-icon="carat-r" id="evt_test"><a href="#bar_event">Events Test</a></li>
 					<li data-icon="carat-r" id="sign_out"><a onclick="signOut();">Sign out</a></li>
@@ -83,9 +86,9 @@
 			
       <!-- main_page -->
 			<div id="list_load" role="main" class="ui-content" style="display:block">
-				<div id="main_pic"><img src="images/map_china.jpg" alt="img__map_china" class='img_full'></div>
+				<div id="pagecontainer"><img id="main_pic" src="images/map_china.jpg" alt="img__map_china" class='img_full'></div>
 			</div>
-      
+			
 			<!-- dashboard -->
       <div>
         <h3>Welcome to Earth Chicken, <%= name %>>
@@ -96,6 +99,8 @@
         <p><b>Name: </b>resp.name</p>
 
 			<div class="btn-group" style="margin-top:1em;" align="center">
+				<a href="#/farm">Call farm</a>
+				<button id = "call_map" type = "button" class = "btn1" onCLick="call_map();">Call map</button>
 				<button id = "add_100d" type = "button" class = "btn1" onCLick="user_evt('evt_game_start');">Game Start</button>
 				<button id = "add_100c" type = "button" class = "btn1" onCLick="user_evt('evt_plant');">Plant</button>
 				<button id = "100to_1c" type = "button" class = "btn1" onCLick="user_evt('evt_harvest');">Harvest</button>

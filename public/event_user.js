@@ -6,6 +6,14 @@ const g_plant_tp = [
   "soybean"
 ];
 
+const g_fertilize_tp = [
+	"f_01",
+	"f_02",
+	"f_03",
+	"f_04",
+
+];
+
 const g_warning_evt = [
 	"typhone",
 	"fire",
@@ -263,6 +271,30 @@ function user_evt(obj_id){
 };
 
 
+function add_imgArray_2target(ary, target_id){
+	
+	for(var i=0;i<ary.length;i++)
+	{
+		add_img_2target("images/unknown-513.png", target_id);
+	}
+}
+
+function click_plant(){
+	console.log(arguments.callee.name);
+	//item_showOrHide("event_set");
+	var _item = document.getElementById("select_bar");
+	_item.style.display = "block";
+	
+	add_imgArray_2target(g_plant_tp, "select_bar");
+}
+
+function click_fertilize(){
+	console.log(arguments.callee.name);
+
+	add_imgArray_2target(g_fertilize_tp, "select_bar");
+	
+}
+
 
 function json_2array(json, json_len){
 
@@ -477,7 +509,7 @@ function fill_usrAssets_table(target_id, tr_cnt){
 
 function click_assets(){
   console.log(arguments.callee.name);
-	var obj = document.getElementById("showinfo")
+	var obj = document.getElementById("showinfo");
 	
   if("hide"	== item_showOrHide("bar_land"))
 	{
@@ -510,3 +542,31 @@ function click_assets(){
   return;
 };
 
+function call_map(){
+  console.log(arguments.callee.name);
+	
+	item_showOrHide("main_pic");
+
+	var url = 'javascripts/test1.ejs';
+
+	//$.ajax({
+	//	type: 'GET',
+	//	headers:{    
+	//		'Accept': 'application/json',
+	//		'Content-Type': 'application/json',
+	//		'Access-Control-Allow-Origin': '*' 
+	//	},
+	//	dataType: 'json',
+	//	success: function (data) {
+	//			alert(JSON.stringify(data));
+	//	}
+	//});
+
+	$('#pagecontainer').load(url, 
+		function(){console.log("call html");}
+	);
+	
+	
+	
+	return;
+}

@@ -24,8 +24,22 @@ a {
 	display:inline
 }
 
+.img_20 {
+	width: 20%;
+	height: 20%;
+	vertical-align:middle;
+	object-fit: contain;
+}
 
+.img_logo {
+	width: 3%;
+	height: 3%;
+	vertical-align:middle;
+	object-fit: contain;
+}
 
-
+.title {
+	font: 44px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
 
 
