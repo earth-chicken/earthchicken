@@ -17,20 +17,6 @@
 					object-fit: contain;
 			}
 
-			.div_left {
-				float:left;
-				background-color:Blue;
-				width:50%;
-				height:100%;
-			}
-			
-			.div_right {
-				float:right;
-				background-color:Green;
-				width:50%;
-				height:100%;
-				<!--height:180px;-->
-			}
 		</style>
 		
 		<!-- JavaScript --beg-- -->
@@ -79,27 +65,16 @@
       </div>
 			
 			<!-- Right-Bar -->
-			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:200px" id="nav_panel">
-				<ul data-role="listview" >
-					<li data-icon="delete"><a href="#" id="dash_close">Close</a></li>
-					<!--li data-icon="" id="dash_assets" onClick="click_assets()" ><a>Assets</a></li-->
-          <li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#">Assets</a></li>
-					<li data-icon="carat-r" id="others"><a>Others</a></li>
-          <li data-icon="carat-r" id="evt_test"><a href="#bar_event">Events Test</a></li>
-					<li data-icon="carat-r" id="sign_out"><a onclick="signOut();">Sign out</a></li>
-					<span id="add_menu" class="ui-list"></span>
-				</ul>
-			</div>
-			
-			
-			<!--div id="list_load" class="ui-content div_left" style="display:block" data-theme="b">
-				<img id="main_pic" src="images/chicken.jpg" alt="img__map_china" class=''>
+			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:35%" id="nav_panel" data-position="right">
+				<h1>Hello</h1>
+				<h2>my sweat</h2>
 			</div>
 
-			<div id="list_load2" class="ui-content div_right" style="display:block" data-theme="b">
-					<h1>XXXXX</h1>
-					<a>tell me what you are</a>
-			</div-->
+			
+			
+			<div id="list_load" class="ui-content img_20" style="display:block" data-theme="b">
+				<img id="main_pic" src="images/unknown-513.png" alt="img__map_china" class=''>
+			</div>
 
 			<div data-role="popup" id="myPopup2" class="ui-content" data-theme="b">
 				<p>我显示在 id="demo" 的元素上。</p>
@@ -118,7 +93,8 @@
 					<!--img id="" src="images/unknown-513.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;"-->
 					<a id="showinfo" class="info_txt ui-icon-carat-u ui-btn-icon-center" data-inline="true" style="display:none"></a>
 					<!--button onClick="user_evt(this.id)" style="" id="evt_buy_land"><a>Buy Land</a></button-->
-					<a href="#myPopup2" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" data-position-to="#showinfo">PPP</a>
+					<!--a href="#myPopup2" data-rel="popup" class="ui-btn ui-btn-inline ui-corner-all" data-position-to="#showinfo">PPP</a-->
+					<a href="#nav_panel" data-role="button" data-inline="true" data-icon="bars" style="float:left">Start</a>
           <button onClick="click_plant();"     style="" id="evt_plant"><a>plant</a></button>
           <button onClick="user_evt(this.id)"  style="" id="evt_irrigate"><a>irrigate</a></button>
           <button onClick="click_fertilize();" style="" id="evt_fertilize"><a>fertilize</a></button>

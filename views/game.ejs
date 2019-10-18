@@ -133,6 +133,7 @@
 			<div class="btn-group" style="margin-top:1em;" align="center">
 				<a href="#/farm">Call farm</a>
 				<button id = "call_map" type = "button" class = "btn1" onCLick="call_map();">Call map</button>
+				<button id = "call_map2" type = "button" class = "btn1" onCLick="call_map2();">Call map</button>
 				<button id = "add_100d" type = "button" class = "btn1" onCLick="user_evt('evt_game_start');">Game Start</button>
 				<button id = "add_100c" type = "button" class = "btn1" onCLick="user_evt('evt_plant');">Plant</button>
 				<button id = "100to_1c" type = "button" class = "btn1" onCLick="user_evt('evt_harvest');">Harvest</button>
@@ -161,8 +162,11 @@
         </ul>
       </div>
 
+			
       <!-- bottom assets board -->
 			<div data-role="footer" data-position="fixed" data-fullscreen="false">
+				<div id="pagecontainer2"></div>
+				<div id="111">
 				<!-- Bar_assets -->
 				<div data-role="button" onclick="click_assets()" align="center" data-type="horizontal">
 					<a style="line-height:29px;"><span id="showinfo" class="info_txt ui-icon-carat-u ui-btn-icon-left" data-inline="true">Assets</span></a>
@@ -184,7 +188,7 @@
 					</table>
         </div>
       </div> 
-
+			</div> 
 		</div>
   </body>
 

@@ -542,6 +542,13 @@ function click_assets(){
   return;
 };
 
+function call_map2(){
+	console.log(arguments.callee.name);
+	var url = 'javascripts/test3.ejs';
+	$('#pagecontainer2').load(url);
+
+}
+
 function call_map(){
   console.log(arguments.callee.name);
 	
