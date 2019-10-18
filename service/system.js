@@ -10,6 +10,7 @@ try {
     mysql_config = JSON.parse(fs.readFileSync('certs/mysql_config.true.json', 'utf-8'));
 }
 catch (e) {
+    console.log('Server MySQL config not found, use Raspberry Pi MySQL instead ...');
     mysql_config = JSON.parse(fs.readFileSync('certs/mysql_config.rasp.json', 'utf-8'));
 }
 
@@ -23,42 +24,55 @@ function growth(lands){
 
 }
 
-function temperature(lands){
-
-
-}
-
-
-function moisture(lands){
-    /*
-        return spawn('python', [
-        "-u",
-        path.join(__dirname, 'moisture.py'),
-        "--foo", "some value for foo",
-    ]);
-     */
-}
-
-
 function environment(lands) {
     console.log(lands);
 
-    let spots = [];
+    // balance the calculation loading
+    let sets = [[],[],[],[]];
     lands.forEach(function (land) {
-        spots.push({lon:land.lon,lat:land.lat,t:land.weather_time})
+        const mod = parseInt(land.weather_time.substring(0,4))%4;
+        const data = {
+            t: land.weather_time,
+            lon: land.lon,
+            lat: land.lat,
+            uid: land.uid,
+            gid: land.gid
+        };
+        sets[mod].push(data)
     });
-    spots = JSON.stringify(spots);
+//    console.log(sets);
 
-    const cmd = 'python service/moisture.py \''+ spots+'\'';
-    console.log(cmd);
-    execute(cmd,function (err,result) {
-        console.log(err);
-        console.log(result);
+
+    sets.forEach(function (spots) {
+        let tmp = [];
+        spots.forEach(function (spot) {
+            tmp.push(spot.weather_time);
+        });
+        var time = tmp.filter(function (element, index, arr) {
+            return arr.indexOf(element) === index;
+        });
+        let dict = [];
+        time.forEach(function (t) {
+            dict.push([]);
+        });
+        spots.forEach(function (spot) {
+            let ind = time.indexOf(spot.weather_time);
+            dict[ind].push(spot);
+        });
+//        console.log(dict);
+
+        if (dict.length > 0) {
+
+        dict = JSON.stringify(dict);
+        const cmd = 'python service/environment.py \'' + dict + '\'';
+        console.log(cmd);
+        execute(cmd, function (err, result) {
+//            if (err) throw err;
+            console.log(err);
+            console.log(result);
+            });
+        }
     });
-
-    temperature(lands);
-
-    moisture(lands);
 
 }
 
@@ -84,13 +98,9 @@ function get_active_land(callback) {
                 let sql_get_land_loc = "";
                 let arr = [];
                 let n = 0;
-                let uids = [];
                 data.forEach(function (entry) {
-                    const uid = entry.id;
-                    const gid = entry.gid;
-                    uids.push(uid);
-                    sql_get_land_loc += "SELECT id, lon, lat from lands_" + (uid) +
-                        " WHERE gid = "+(gid)+" AND valid IN (0,1);\n";
+                    sql_get_land_loc += "SELECT id, lon, lat from lands_" + (entry.id) +
+                        " WHERE gid = "+(entry.gid)+" AND valid IN (0,1);\n";
                     n = n + 1;
                     arr.push(n);
                 });
@@ -118,9 +128,12 @@ function get_active_land(callback) {
                                     let yr = 2014 + Math.floor(d_month / 12);
                                     let mo = 1 + d_month % 12;
                                     land.weather_time = (yr) + leftPad(mo, 2);
-                                    land.uid = uids[ind];
+                                    land.uid = data[ind].id;
+                                    land.gid = data[ind].gid;
                                     land.user_onset = data[ind].onset;
                                     land.dt = dt;
+//                                    land.lon = (land.lon)/10.;
+//                                    land.lat = (land.lat)/10.;
                                     all_lands.push(land)
                                 });
                                 ind = ind + 1;

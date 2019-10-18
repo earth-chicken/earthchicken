@@ -71,8 +71,8 @@ function evt_buyLand(){
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_buyLand",
-							lon:'120',
-							lat:'23'};
+							lon:'120.8',
+							lat:'23.3'};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
@@ -93,8 +93,8 @@ function evt_plant(){
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_plant",
-							lon:'120',
-							lat:'23',
+							lon:'120.8',
+							lat:'23.3',
 							p_type:'1'};
 
 	$.post(URL_SERVICE, data, function(res){
@@ -116,8 +116,8 @@ function evt_irrigate(){
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_irrigate",
-							lon:'120',
-							lat:'23'};
+							lon:'120.8',
+							lat:'23.3'};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
@@ -138,8 +138,8 @@ function evt_fertilize(){
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_fertilize",
-							lon:'120',
-							lat:'23'};
+							lon:'120.8',
+							lat:'23.3'};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
@@ -160,8 +160,8 @@ function evt_debug(){
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_debug",
-							lon:'120',
-							lat:'23'};
+							lon:'120.8',
+							lat:'23.3'};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
@@ -182,8 +182,8 @@ function evt_greenhouse(){
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_greenhouse",
-							lon:'120',
-							lat:'23'};
+							lon:'120.8',
+							lat:'23.3'};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
@@ -204,8 +204,8 @@ function evt_harvest(){
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_harvest",
-							lon:'120',
-							lat:'23',
+							lon:'120.8',
+							lat:'23.3',
 							/*p_type:'1'*/};
 
 	$.post(URL_SERVICE, data, function(res){

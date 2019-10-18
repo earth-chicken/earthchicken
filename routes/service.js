@@ -46,13 +46,14 @@ router.post('/gameAction', function (req,res, next) {
 //  date = date.toString();
 //  console.log(date);
 
-//  let rows = getNowTempMoist(lon,lat,date);
   rows = {temp:25,moist:100};
 
   let data = JSON.parse(JSON.stringify(req.body));
   let event = data.event;
-  const lon = req.body.lon;
-  const lat = req.body.lat;
+  const lon = parseFloat(req.body.lon) * 10;
+  const lat = parseFloat(req.body.lat) * 10;
+
+//  console.log(lon,lat);
 
   let p_type = data.p_type;
 
