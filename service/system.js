@@ -82,13 +82,12 @@ function growth(lands){
     //4) putin data
     });
 
- //   db.setCarboin(carboin_changes, function(err){
+    db.setCarboin(carboin_changes, function(err){
 
-//    });
+    });
+    db.setLandData(env_changes, function (err) {
 
-//    db.setLandData(env_changes, function (err) {
-
-//    });
+    });
 
 }
 
