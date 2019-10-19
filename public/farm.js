@@ -2,6 +2,19 @@
 var g_user_assets=[];
 var g_cur_location = "";
 
+
+var g_plant_detail=[
+  ["Cedar", "cedar_incs.png", "cedar_incs.txt", "148148", "0.01"],
+  ["Acacia", "acacia_tw.png", "acacia_tw.txt", "5083", "0.05"],
+  ["Rice", "rice_jap.png", "rice_jap.txt", "200", "0.58"],
+  ["Maize", "maize_tmpsbtr.png", "maize_tmpsbtr.txt", "125", "0.6"],
+  ["Wheat", "wheat_subtr.png", "wheat_subtr.txt", "155", "0..45"],
+
+]
+
+
+
+
 function get_cur_location(){
 	
 	return g_cur_location;
@@ -218,10 +231,17 @@ function user_evt(obj_id){
 
 			break;
 		case "evt_plant":
+      document.getElementById('plant_1').innerHTML = g_plant_detail[0][0];
+      document.getElementById('plant_2').innerHTML = g_plant_detail[1][0];
+      document.getElementById('plant_3').innerHTML = g_plant_detail[2][0];
+      document.getElementById('plant_4').innerHTML = g_plant_detail[3][0];
+      document.getElementById('plant_5').innerHTML = g_plant_detail[4][0];
+    
 			$('#plant_tp_panel').panel("open");
 			break;
 		case "evt_fertilize":
-			$('#fer_tp_panel').panel("open");
+			//$('#fer_tp_panel').panel("open");
+      evt_fertilize();
 			break;
 		case "evt_buyLand":
 			evt_buyLand();
@@ -254,7 +274,17 @@ function sel_plant_tp(item_id){
   $('#plant_tp').val(item_id);
   console.log(item_id);
   
+  var idx = parseInt(item_id.substring(6, item_id.length));
+  
   //sel_tp_call_descr_panel
+  console.log("idx = " + idx);
+  console.log("type = " + g_plant_detail[idx][0]);
+  
+  document.getElementById('descr_panel_img').src = "images/"+g_plant_detail[idx][1];
+  document.getElementById('descr_panel_title').innerHTML = g_plant_detail[idx][0];
+  document.getElementById('descr_panel_detail').innerHTML = g_plant_detail[idx][2];
+  document.getElementById('benefit').innerHTML = "$: "+g_plant_detail[idx][3];
+  document.getElementById('cobon_cost').innerHTML = g_plant_detail[idx][4];
   $('#descr_panel').panel("open");
 }
 
