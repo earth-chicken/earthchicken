@@ -40,14 +40,13 @@ function growth(lands){
             productivity:l.productivity + l.delta_pro,
             fertilization:l.fertilization,
 	    type:l.type,
+	    irrigate:l.irrigate,
+	    plant_time:l.plant_time,
         };
 	var plant = plantData[land.type-1];
-        var user ={
-            carboin:0,};
 	console.log('landData:',land);
         console.log('plantData:',plant);
-	console.log('userData',user);
-        console.log('=========================================read in');
+        
         //2) calculate X, and reset carbon cash
         console.log('>>> calculate X <<<');
 	
@@ -56,28 +55,30 @@ function growth(lands){
         if (land.moisture >= plant.pwet_min && land.moisture <= plant.pwet_max) {
             console.log('base rate:',plant.rate_ratio* 104,'Netp:',Ntep,'Ngf:',N.gf);
             var X = Ntep* N.gf* plant.rate_ratio* 104 ;
-            console.log('with water: product carboin rate',Ntep*N.gf, X);
+            console.log('=> with water: product carboin rate',Ntep*N.gf, X);
+	} else if (land.irrigate == 1){
+	    var X = Ntep* N.gf* plant.rate_ratio* 104 ;
+	    console.log('=> with irrigate: production carboin rate', Ntep*N.gf, X);
         } else {
             var X = 0;
-            console.log('without water: product carboin rate',X);
+            console.log('=> without water: product carboin rate',X);
         }
 
         //3) feedback
         console.log('>>> feedback <<<');
 //        let deltaC = user.carboin + plant.Ncarboin * X;
         let deltaC =  X;
-        let tempshift = 0;
+        let deltaProduct = X / Number(plant.carboin_ratio);
 //        let deltaPro = plant.productivity + N.oc * X;
         let deltaPro = N.oc * X;
 //        let deltaMoi = user.delta_moist - N.wet* X;
         let deltaMoi = -N.wet* X;
-	console.log(N.wet,X,'deltaMoi');
-        let deltaTemp = tempshift;
+        let deltaTemp = 0;
 
+        //4) put data back
         carboin_changes.push([l.uid,deltaC]);
-        env_changes.push([l.uid,l.id,deltaTemp,deltaMoi,deltaPro]);
-        console.log('uid & id=',l.uid,l.id);
-	console.log('deltaMoi:',deltaMoi,'deltaPro:',deltaPro);
+        env_changes.push([l.uid,l.id,deltaTemp,deltaMoi,deltaPro,Math.floor(deltaProduct)]);
+	console.log('deltaMoi:',deltaMoi,' ,deltaPro:',deltaPro,' ,product;',deltaProduct);
 
     //4) putin data
     });
@@ -209,7 +210,7 @@ function get_active_land(opt,callback) {
                         sql_get_land_loc += "SELECT id, lon, lat from lands_" + (entry.id) +
                             " WHERE gid = "+(entry.gid)+" AND valid IN (0,1);\n";
                     } else if (opt == 'gwt') {
-                        sql_get_land_loc += "SELECT id, lon, lat, moisture, temperature, productivity, fertilization, delta_temp, delta_moist, delta_pro, type from lands_" + (entry.id) +
+                        sql_get_land_loc += "SELECT id, lon, lat, moisture, temperature, productivity, fertilization, delta_temp, delta_moist, delta_pro, type, irrigate, product, plant_time from lands_" + (entry.id) +
                             " WHERE gid = "+(entry.gid)+" AND valid = 1;\n";
                     }
 

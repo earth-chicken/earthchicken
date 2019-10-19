@@ -1,16 +1,50 @@
-ecoregion,land_temperature,land_we,land_moisture,land_fer,land_productivity
-Tropical_subtropical_moist_broadleaf_forests,23,1,60,0,45.5
-Tropical_subtropical_dry_broadleaf_forests,20,2,45,0,45.5
-Tropical_subtropical_coniferous_forests,14,3,45,0,45.5
-Temperate_broadleaf_mixed_forests,11,4,45,0,45.5
-Temperate_conifer_forests,9.5,5,60,0,74.8
-Boreal_forests_taiga,5,6,80,0,74.8
-Tropical_subtropical_grasslands_savannas_shrublands,23,7,35,0,45.5
-Temperate_grasslands_savannas_shrublands,13,8,39,0,45.5
-Flooded_Grasslands_Savannas,17,9,45,0,60
-Montane_grasslands_shrublands,8,10,60,0,35
-Tundra,3,11,75,0,5
-Mediterranean_forests_woodlands_scrub,23,12,50,0,30
-Deserts_xeric_shrublands,26,13,15,0,10
-Mangroves,25,14,90,0,80
-,,,,,
+land_we,ecoregion,land_temperature,land_moisture,land_fer,land_productivity
+1,Tropical_subtropical_moist_broadleaf_forests,23,60,0,45.5
+2,Tropical_subtropical_dry_broadleaf_forests,20,45,0,45.5
+3,Tropical_subtropical_coniferous_forests,14,45,0,45.5
+4,Temperate_broadleaf_mixed_forests,11,45,0,45.5
+5,Temperate_conifer_forests,9.5,60,0,74.8
+6,Boreal_forests_taiga,5,80,0,74.8
+7,Tropical_subtropical_grasslands_savannas_shrublands,23,35,0,45.5
+8,Temperate_grasslands_savannas_shrublands,13,39,0,45.5
+9,Flooded_Grasslands_Savannas,17,45,0,60
+10,Montane_grasslands_shrublands,8,60,0,35
+11,Tundra,3,75,0,5
+12,Mediterranean_forests_woodlands_scrub,23,50,0,30
+13,Deserts_xeric_shrublands,26,15,0,10
+14,Mangroves,25,90,0,80
+100,Polar Domain,,,,
+110,Icecap Division,,,,0
+M110,Icecap Regime Mts. ,,,,0
+120,Tundra Division,,,,5
+M120,Tundra Regime Mts. ,,,,5
+130,Subarctic Division,,,,74.8
+M130,Subarctic Regime Mts.,,,,74.8
+200,Humid Temperate Domain,,,,
+210,Warm Continental Division,,,,74.8
+M210,Warm Continental Regime Mountains,,,,74.8
+220,Hot Continental Division,,,,45.5
+M220,Hot Continental Regime Mountains,,,,45.5
+230,Subtropical Division,,,,45.5
+M230,Subtropical Regime Mountains,,,,45.5
+240,Marine Division,,,,45.5
+M240,Marine Regime Mountains,,,,45.5
+250,Prairie Division,,,,45.5
+M250,Prairie Regime Mountains,,,,45.5
+260,Mediterranean Division ,,,,45.5
+M260,Mediterranean Regime Mountains,,,,45.5
+300,Dry Domain ,,,,
+310,Tropical/Subtropical Steppe Division,,,,45.5
+M310,Tropical/Subtropical Steppe Regime Mountains,,,,45.5
+320,Tropical/Subtropical Desert Division,,,,45.5
+M320,Tropical/Subtropical Desert Regime Mountains,,,,45.5
+330,Temperate Steppe Division,,,,45.5
+M330,Temperate Steppe Regime Mountains,,,,45.5
+340,Temperate Desert Division,,,,45.5
+M340,Temperate Desert Regime Mountains,,,,45.5
+400,Humid Tropical Domain,,,,45.5
+410,Savanna Division ,,,,45.5
+M410,Savanna Regime Mountains,,,,45.5
+420,Rainforest Division,,,,45.5
+M420,Rainforest Regime Mountains,,,,45.5
+M,Mountains with altitudinal zonation,,,,45.5

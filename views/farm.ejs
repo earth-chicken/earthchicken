@@ -47,10 +47,10 @@
 			<!--script src="/javascripts/jquery.mobile-1.4.5.js"></script-->
 			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
-			<script src="common.js" async defer></script>
-      <script src="farm.js" async defer></script>
-      <script src="event_user.js" async defer></script>
-			<script src="/javascripts/d3.js" async defer></script>
+			<script src="common.js"></script>
+      <script src="farm.js"></script>
+      <script src="event_user.js"></script>
+			<script src="/javascripts/d3.js"></script>
 
 			<!-- google login button -->
 			<meta name="google-signin-scope" content="profile email">
@@ -107,11 +107,11 @@
 			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:40%" id="plant_tp_panel" data-position="right">
 				<ul data-role="listview">
           <h2 style="margin:10; text-align:center;">Plant</h2>
-					<li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_1">plant_tp1</a></li>
+					<li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_0">plant_tp0</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_1">plant_tp1</a></li>
           <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_2">plant_tp2</a></li>
           <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_3">plant_tp3</a></li>
           <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_4">plant_tp4</a></li>
-          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_5">plant_tp5</a></li>
           <span id="add_menu" class="ui-list"></span>
 				</ul>
 			</div>
@@ -119,11 +119,11 @@
 			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:40%" id="fer_tp_panel" data-position="right">
 				<ul data-role="listview" >
           <h2 style="margin:10; text-align:center;">Fertilize</h2>
-					<li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_1">fer_tp1</a></li>
+					<li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_0">fer_tp0</a></li>
+          <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_1">fer_tp1</a></li>
           <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_2">fer_tp2</a></li>
           <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_3">fer_tp3</a></li>
           <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_4">fer_tp4</a></li>
-          <li ui-icon="carat-l"><a onClick="sel_fer_tp(this.id)" id="fer_5">fer_tp5</a></li>
           <span id="add_menu" class="ui-list"></span>
 				</ul>
 			</div>
@@ -132,7 +132,7 @@
       
       <!-- Right-Bar 2-->
 			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:35%" id="descr_panel" data-position="right">
-        <div><img id="descr_panel_img" src="images/unknown-513.png" alt="detail" class=''></div>
+        <div><img id="descr_panel_img" src="images/unknown-513.png" alt="detail" class='img_40'></div>
         <p align="center" style="position:relative; border-top:1px solid #CCCCCC">
         <h2 style="margin:12;" id="descr_panel_title">type</h2>
           <p id="descr_panel_detail">descriptions ...</p>
@@ -149,20 +149,21 @@
       
 			
       <div class="flex">
-        <div class="teacherpic"><img id="main_pic" src="images/unknown-513.png" alt="img__map_china" class=''></div>
+        <div class="teacherpic"><img id="farm_pic" src="images/unknown-513.png" alt="img__map_china" class=''></div>
         <div>
           <h2>Name: <%= name %> </h2>
-            <h3>Asset</h3><p></p>
+            <h3>Assets</h3>
+            <p id="farm_money">$$</p>
+            <p id="farm_carbon">$C</p>
           <h2>Location</h2>
             <p>Lon: <%= lon %> Lat: <%= lat %></p>
           <h2>Temporature</h2>
-            <p>descriptions ...</p>
-          <h2>Dry</h2>
-            <p>descriptions ...</p>
+            <p id="farm_bar1">descriptions ...</p>
+            <p id="farm_bar2">descriptions ...</p>
         </div>
       </div>
 
-      <div class="flex">
+      <!--div class="flex">
         <div>
           <h2>Location</h2>
             <p>descriptions ...</p>
@@ -172,7 +173,7 @@
             <p>Back to Dash Board ...</p>
         </div>
         <div class="teacherpic"><img id="main_pic" src="images/unknown-513.png" alt="img__map_china"></div>
-      </div>
+      </div-->
 
 
       <!-- bottom assets board -->

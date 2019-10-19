@@ -1,0 +1,39 @@
+100 Polar Domain
+110 Icecap Division				Agassi Ice cap/Paul Gierszewski 
+M110 Icecap Regime Mts. 		Agassi Ice cap/Paul Gierszewski 
+120 Tundra Division				Tundra extends west from the Neacola Mountains near Big Valley by NPS/L. Wilcox
+M120 Tundra Regime Mts.			Tundra extends west from the Neacola Mountains near Big Valley by NPS/L. Wilcox
+130 Subarctic Division			Llewellyn Glacier in the Yukon River Basin / Kirk Miller
+M130 Subarctic Regime Mts.		Llewellyn Glacier in the Yukon River Basin / Kirk Miller
+
+200 Humid Temperate Domain
+210 Warm Continential Division	Vermont Hogback Mountain/ chensiyuan
+M210 Warm Continential Regime Mountains	Vermont Hogback Mountain/ chensiyuan
+220 Hot Continental Division
+M220 Hot Continental Regime Mountains
+230 Subtropical Division
+M230 Subtropical Regime Mountains
+240 Marine Division
+M240 Marine Regime Mountains
+250 Prairie Division
+M250 Prairie Regime Mountains
+260 Mediterranean Division 
+M260 Mediterranean Regime Mountains
+
+300 Dry Domain 
+310 Tropical/Subtropical Steppe Division
+M310 Tropical/Subtropical Steppe Regime Mountains
+320 Tropical/Subtropical Desert Division
+M320 Tropical/Subtropical Desert Regime Mountains
+330 Temperate Steppe Division
+M330 Temperate Steppe Regime Mountains
+340 Temperate Desert Division
+M340 Temperate Desert Regime Mountains
+
+400 Humid Tropical Domain
+410 Savanna Division 
+M410 Savanna Regime Mountains
+420 Rainforest Division
+M420 Rainforest Regime Mountains
+
+M Mountains with altitudinal zonation
