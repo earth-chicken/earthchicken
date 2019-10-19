@@ -9,11 +9,11 @@ var plant_txt3 = "Maize was found in Americas, and then was distributed worldwid
 var plant_txt4 = "Wheat is the major source of humankind: mostly made for flour and all kinds of processed food. It does not require high nutritious condition to grow and especially for water making it tolerance to drought. It is adaptive to temperate regions in which the major production areas are plains of Europe, big grassland of the north America, and Pampa of Argentina, part of East Asia, and South Asia.";
 
 var g_plant_detail=[
-  ["Cedar", "cedar_incs.png", plant_txt0, "148148", "0.01"],
-  ["Acacia", "acacia_tw.png", plant_txt1, "5083", "0.05"],
-  ["Rice", "rice_jap.png", plant_txt2, "200", "0.58"],
-  ["Maize", "maize_tmpsbtr.png", plant_txt3, "125", "0.6"],
-  ["Wheat", "wheat_subtr.png", plant_txt4, "155", "0..45"],
+  ["Cedar", "plant0_cedar.png", plant_txt0, "148148", "0.01"],
+  ["Acacia", "plant1_acasia.png", plant_txt1, "5083", "0.05"],
+  ["Rice", "plant2_rice.png", plant_txt2, "200", "0.58"],
+  ["Maize", "plant3_maize.png", plant_txt3, "125", "0.6"],
+  ["Wheat", "plant4_wheat.png", plant_txt4, "155", "0.45"],
 
 ]
 
@@ -288,8 +288,8 @@ function sel_plant_tp(item_id){
   document.getElementById('descr_panel_img').src = "images/"+g_plant_detail[idx][1];
   document.getElementById('descr_panel_title').innerHTML = g_plant_detail[idx][0];
   document.getElementById('descr_panel_detail').innerHTML = g_plant_detail[idx][2];
-  document.getElementById('benefit').innerHTML = "$: "+g_plant_detail[idx][3];
-  document.getElementById('cobon_cost').innerHTML = g_plant_detail[idx][4];
+  document.getElementById('benefit').innerHTML = "$"+g_plant_detail[idx][3];
+  document.getElementById('cobon_cost').innerHTML = g_plant_detail[idx][4]+"C (kg/km^2)";
   $('#descr_panel').panel("open");
 }
 
