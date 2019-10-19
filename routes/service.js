@@ -106,6 +106,7 @@ router.post('/gameAction', function (req,res, next) {
       });
       break;
     case "user_evt_buyLand":
+      console.log('user_evt_buyLand now')
       db.evt_buy_land(uid,gid,lon,lat, function (err,currency) {
         res.send({
           currency: currency,

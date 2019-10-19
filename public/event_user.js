@@ -36,7 +36,7 @@ const g_user_assets_title = [
 	"X"
 ];
 
-//const URL_SERVICE = '/service/gameAction';
+const URL_SERVICE = '/service/gameAction';
 var g_user_assets=[];
 var g_cur_location = "";
 

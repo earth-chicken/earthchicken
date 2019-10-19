@@ -1,0 +1,6 @@
+species,name,image,descrpition,price_ton,carbonfix_kgcm2mt
+cedar_incs,Cedar,cedar_incs.png,cedar_incs.txt,148148,0.01
+acacia_tw,Acacia,acacia_tw.png,acacia_tw.txt,5083,0.05
+rice_jap,Rice,rice_jap.png,rice_jap.txt,200,0.58
+maize_tmpsbtr,Maize,maize_tmpsbtr.png,maize_tmpsbtr.txt,125,0.6
+wheat_subtr,Wheat,wheat_subtr.png,wheat_subtr.txt,155,0.45

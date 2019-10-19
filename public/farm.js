@@ -1,4 +1,4 @@
-const URL_SERVICE = '/service/gameAction';
+// const URL_SERVICE = '/service/gameAction';
 var g_user_assets=[];
 var g_cur_location = "";
 
@@ -157,8 +157,7 @@ function evt_buyLand(){
 	var data = {event:"user_evt_buyLand",
 		lon:'120.8',
 		lat:'23.3'};
-
-	$.post(URL_SERVICE, data, function(res){
+	$.post('/service/gameAction', data, function(res){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
@@ -187,20 +186,21 @@ function evt_gameStart() {
 
 function user_evt(obj_id){
 	console.log(arguments.callee.name+" "+obj_id);
-	
+
+
 	switch (obj_id) {
 		case "evt_gameStart":
 			evt_gameStart();
 			$('#pop_start').popup("close");
-			break;
-		case "evt_buyLand":
-			evt_buyLand();
 			break;
 		case "evt_plant":
 			$('#plant_tp_panel').panel("open");
 			break;
 		case "evt_fertilize":
 			$('#fer_tp_panel').panel("open");
+			break;
+		case "evt_buyLand":
+			evt_buyLand();
 			break;
 		case "evt_plant_tmp":
 			evt_plant();
