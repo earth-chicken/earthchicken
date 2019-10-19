@@ -41,6 +41,7 @@
       <div data-role="header">
         <div data-role="controlgroup">
         <a href="#nav_panel" data-role="button" data-inline="true" data-icon="bars" style="float: left">Start</a>
+        <!--div id="gSignIn" class="g-signin2" data-onsuccess="onSuccess" data-theme="dark" style="float: left"></div-->
         <a href="#/introduce" data-role="button" data-inline="true" data-icon="eye" style="float: left">Introduce</a>
         <center><img src="images/chicken.jpg" alt="img__map_china" class='img_logo' style="display:inline;">
 				<label id="topic" class='title' style="display:inline; line-height:30px; font-weight:bolder;" >Earth Chicken</label>
@@ -60,12 +61,10 @@
 				</ul>
 			</div>
 			
-			<div id="list_load" role="main" class="ui-content" style="display:block">
-				<ul data-role="listview" data-inset="true" style="-webkit-border-radius:0.1px;border-radius:0.1px; margin-top:0px;">
-					<li id="welcome"> <a href="" target="_self" > <h1 id="txt_item_welcome">Welcome to Earth Chicken</h1><span id="item_welcome"></span></a></li>
-          <li id="game_start"> <a href="test" target="_self" > <h1 id="txt_game_start">Login and play $C !!! (popup and login???)</h1><span id="game_start"></span></a></li>
-				</ul>
-			</div>
+			<p align="center" style="position:relative; border-top:1px solid #CCCCCC">
+				<img id="main_pic" src="images/frontpageimg4.png" alt="img__map_china" class='img_100'>
+        <a href="#/game" data-role="button" data-icon="arrow-r" data-iconpos="right" style="float:right;" >Game Start</a>
+			</p>
 			
 			<div id="gSignIn" class="g-signin2" data-onsuccess="onSuccess" data-theme="dark"></div>
 
@@ -77,37 +76,9 @@
 
 
 		<div id="gSignOut" style="display: none;">
-				<a href="#" onclick="signOut();">Sign out</a>
+      <a href="#" onclick="signOut();">Sign out</a>
+    </div>
 
-			</div>
-
-
-			
-			<!--popup example-->
-			<!--div data-role="popup" id="Password" data-overlay-theme="b" style="min-width:300px;">
-				<div data-role="header">
-						<a href="#pagehome" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-						<h1  style="margin:0;"></h1>
-				</div>
-
-				<div role="main" class="ui-content" >
-					<div align="center" style="margin-left:auto; margin-right:auto; ">
-						<div class="hdmicec_txt" style="margin-right:10px;">
-							<legend id="le_password">Password:</legend>
-						</div>
-						<div id="hidenssid">
-							<fieldset>
-								<input type="text" value="" name="appsk" id="appsk" >  
-							</fieldset>
-						</div>
-					</div>
-					<div id="psk_warn_txt" class="warn_txt"></div>
-				</div>
-				<p align="center" style="border-top:1px solid #CCCCCC">
-					<a href="#"     class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="set_appsk_ok" onclick="set_ap_pswd()">OK</a>
-					<a href="#page" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="set_appsk_cel">Cancel</a>
-				</p>
-			</div-->
 		</div>
 
   </body>
