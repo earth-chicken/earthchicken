@@ -83,7 +83,7 @@ router.post('/gameAction', function (req,res, next) {
 
   switch (event) {
     case "user_if_gameStart":
-      db.evt_gameStart(uid, function (err,status,new_gid,currency,carboin) {
+      db.if_gameStart(uid, function (err,status,new_gid,currency,carboin) {
         req.session.gid = new_gid;
         res.send({
           err: err,

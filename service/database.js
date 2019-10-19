@@ -613,6 +613,7 @@ module.exports = {
     evt_add_on: evt_add_on,
     setCarboin: setCarboin,
     setLandData: setLandData,
+    if_gameStart: if_gameStart,
 };
 
 function processData(allText) {
