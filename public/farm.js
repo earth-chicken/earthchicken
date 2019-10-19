@@ -275,3 +275,30 @@ function confirm_form(){
   { console.log("event_tp not in expected ?");}
   
 }
+
+function hover_farmEvtImg(obj){
+  console.log(arguments.callee.name + " " + obj.src);
+  
+  var str = obj.src;
+  str = str.substring(22, str.length-4);
+  //console.log(str);
+  str = str.concat("b.png");
+  //console.log(str);
+  obj.src = str;
+}
+
+
+function unhover_farmEvtImg(obj){
+  console.log(arguments.callee.name + " " + obj.src);
+  
+  var str = obj.src;
+  str = str.substring(22, str.length-5);
+  //console.log(str);
+  str = str.concat(".png");
+  //console.log(str);
+  obj.src = str;
+  
+}
+
+
+
