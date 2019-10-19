@@ -100,7 +100,7 @@ router.get('/finish', function(req, res, next) {
         const uid = req.session.uid;
         let username = req.session.name;
 
-        res.render('game.ejs');
+        res.render('finish.ejs');
     } else {
         console.log('need to login');
         res.redirect('/');

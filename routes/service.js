@@ -83,7 +83,7 @@ router.post('/gameAction', function (req,res, next) {
 
   switch (event) {
     case "user_if_gameStart":
-      db.if_gameStart(uid, function (err,status,new_gid,currency,carboin) {
+      db.if_gameStart(uid, function (err,status,new_gid,currency,carboin,remain_time) {
         req.session.gid = new_gid;
         res.send({
           err: err,
@@ -91,6 +91,7 @@ router.post('/gameAction', function (req,res, next) {
           gid: new_gid,
           currency: currency,
           carboin: carboin,
+          remain_time: remain_time,
         });
       });
       break;

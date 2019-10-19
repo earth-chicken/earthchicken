@@ -48,7 +48,16 @@
 			
       function web_onload(){
         setTimeout(function(){
-		  $("#pop_start").popup("open");
+			if_gameStart(function (status,remain_time) {
+				if (status) {
+					setTimeout(function () {
+						window.location.href = "/finish";
+					},remain_time*1000);
+
+				} else {
+					$("#pop_start").popup("open");
+				}
+			})
         }, 500);
       }
       
