@@ -60,12 +60,23 @@
 				console.log("port = "+port);
 				
 			});
-      
-			</script>
+
+            function web_onload(){
+                if_gameStart(function (status,remain_time) {
+                    if (status) {
+                        setTimeout(function () {
+                            window.location.href = "/finish";
+                        },remain_time*1000);
+                    }
+                })
+            }
+
+
+            </script>
 		<!-- JavaScript --end-- -->
   </head>
 
-  <body>
+  <body onload="web_onload()">
     <div data-role="page" id="farm" data-theme="a" data-transition="none">
       <!-- Header -->
       <div data-role="header">
