@@ -206,10 +206,10 @@ function if_gameStart(uid, callback) {
         checkGameTime(data, function (err, game_time) {
             // if not in game time
             if (game_time > 900) {
-                callback(null, false, data.gid, data.currency, data.carboin);
+                callback(null, false, data.gid, data.currency, data.carboin,900-game_time);
             } else {
                 console.log('uid: ' + (uid) + ' gid: ' + (data.gid) + ' is in game now ...', game_time);
-                callback(null, true, data.gid, data.currency, data.carboin);
+                callback(null, true, data.gid, data.currency, data.carboin,900-game_time);
             }
         });
     });

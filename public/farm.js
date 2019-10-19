@@ -183,15 +183,39 @@ function evt_gameStart() {
 	});
 }
 
+function if_gameStart(callback) {
+	console.log(arguments.callee.name);
+	var data = {event: "user_if_gameStart"};
+
+	$.post(URL_SERVICE, data, function (res) {
+		console.log(res);
+
+		const remain_time = res.remain_time;
+		if (res.length <= 0) {
+			console.log("post return nothing");
+			return;
+		}
+		callback(res.status,remain_time);
+
+	});
+}
+
 
 function user_evt(obj_id){
 	console.log(arguments.callee.name+" "+obj_id);
 
 
 	switch (obj_id) {
+		case "if_gameStart":
+			if_gameStart();
+			break;
 		case "evt_gameStart":
 			evt_gameStart();
 			$('#pop_start').popup("close");
+			setTimeout(function () {
+				window.location.href = "/finish";
+			},900000);
+
 			break;
 		case "evt_plant":
 			$('#plant_tp_panel').panel("open");
