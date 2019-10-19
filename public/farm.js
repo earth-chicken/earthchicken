@@ -303,7 +303,6 @@ function sel_fer_tp(item_id){
 function confirm_form(){
   console.log(arguments.callee.name);
 
-
   var event_tp = document.getElementById("event_tp").value;
   var fer_tp = document.getElementById("fer_tp").value;
   var plant_tp = document.getElementById("plant_tp").value;
@@ -317,17 +316,19 @@ function confirm_form(){
   if("plant" == event_tp)
   {
     evt_plant(plant_tp);
-    
   }
   else if("fer" == event_tp)
   {
-    //mapping plant_tp ?
     evt_fertilize(fer_tp);
-    
   }
   else
   { console.log("event_tp not in expected ?");}
-  
+
+  $('#descr_panel').panel("close");
+}
+
+function cancel_form(){
+  $('#descr_panel').panel("close");
 }
 
 function hover_farmEvtImg(obj){
