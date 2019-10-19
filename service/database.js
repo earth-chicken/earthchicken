@@ -338,6 +338,49 @@ function castMoney(uid,cast,callback) {
 
 }
 
+function getCarboin(uid,callback) {
+	    let sql_get_carboin = "SELECT carboin from users WHERE id =" + (uid) + ';';
+
+	    let connection = mysql.createConnection(mysql_config);
+	    connection.query(sql_get_carboin, (err, rows) => {
+		            if (err) throw  err;
+		            var data = JSON.parse(JSON.stringify(rows))[0];
+		            let carb = data.carboin;
+		            connection.end();
+		            callback(carb);
+		        });
+}
+
+function resetCarboin(uid,value,callback) {
+
+	    getCarboin(uid, (old_carboin)=> {
+		    let new_carboin = old_carboin + value;
+            });
+}
+
+
+function getProduct(uid,callback) {
+	    let sql_get_product = "SELECT product from users WHERE id =" + (uid) + ';';
+
+	    let connection = mysql.createConnection(mysql_config);
+	    connection.query(sql_get_product, (err, rows) => {
+		            if (err) throw  err;
+		            var data = JSON.parse(JSON.stringify(rows))[0];
+		            let prod = data.product;
+		            connection.end();
+		            callback(prod);
+		        });
+}
+
+function resetProduct(uid,value,callback) {
+
+	    getMoney(uid, (old_product)=> {
+		            let new_product = old_product - value;
+	    });
+}
+
+
+
 function useAddOn(uid,gid,lon,lat,action,callback) {
     let connection = mysql.createConnection(mysql_config);
     let sql_add_moisture = "UPDATE lands_" + (uid) +
