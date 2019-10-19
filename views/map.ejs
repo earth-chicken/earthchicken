@@ -66,10 +66,25 @@
 		if (res.length <= 0) {
 			console.log("post return nothing");
 			return;
-		}	
-    	        var grid1 = {"type":"FeatureCollection","features":[
-{"type":"Feature","id":"0054","properties":{"name":"Station:0054<img src='./img/0054_spectrum.jpg'  height=2 width=4 >"},"geometry":{"type":"Polygon","coordinates":[[[121.625000,25.375000],[121.375000,25.375000],[121.375000,25.125000],[121.825000,25.125000],[121.625000,25.375000]]]}},
-		]};
+		}
+		var grid1 = {
+			"type":"FeatureCollection",
+			"features":[{
+				"type":"Feature",
+				"id":"0054",
+				"properties":{"name":"Station:0054<img src='./img/0054_spectrum.jpg'  height=2 width=4 >"},
+				"geometry":{
+					"type":"Polygon",
+					"coordinates":[[
+						[121.625000,25.375000],
+						[121.375000,25.375000],
+						[121.375000,25.125000],
+						[121.825000,25.125000],
+						[121.625000,25.375000]
+					]]
+				}},
+			]
+		};
 		map.removeLayer(geojson);
 		geojson = L.geoJson(grid1, {
                     style: style,

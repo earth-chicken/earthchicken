@@ -56,7 +56,7 @@ let sql_create_user_land = " (" +
     "         completeness TINYINT NOT NULL," + // 17 0-100 (-128 - 127)
     //    "         healthiness TINYINT NOT NULL," + // 0-100 (-128 - 127)
     "         prod_rate FLOAT NOT NULL," +      // 18
-    "         product TINYINT NOT NULL," +      // 19 0-100
+    "         product INT NOT NULL," +      // 19 
     "         irrigate TINYINT NOT NULL," +      // 20 0 - 1
     "         fertilize TINYINT NOT NULL," +      // 21 0 - 1
     "         debug TINYINT NOT NULL," +      // 22 0 - 1
@@ -644,7 +644,7 @@ function concludeUserProperty(uid,gid,callback) {
     connection.query(sql_check_property,[], (err, rows) => {
         if (err) throw err;
         const nland = rows.length;
-        var ind_buy_land = action_cast_head.indexOf('user_evt_buyLand');
+        var ind_buy_land = action_cast[0]['p_user_evt_buyLand'] * -1;
         const land_to_currency = nland * action_cast[ind_buy_land].chg_currency;
         let sql_add_currency = "UPDATE users SET currency = currency + "+(land_to_currency)+ ", concluded = 1 " +
             "WHERE id = "+(uid)+";";

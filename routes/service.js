@@ -241,7 +241,7 @@ router.post('/get_poly', function(req, res, next) {
   });
 });
 
-land_file = fs.readFileSync('data/NS60_land.dat','utf-8');
+land_file = fs.readFileSync('data/climate_red.dat','utf-8');
 
 let land_points = land_file.split('\n').map(function(line, index) {
   return (line.split(' '));
@@ -259,7 +259,7 @@ function getPoints(lon,lat,callback) {
         let tmp_lat = near_lat+j*0.25;
         land_points.forEach(function (land) {
           if ((tmp_lon) == land[0] &&  (tmp_lat) == land[1]) {
-            points.push({lon:tmp_lon,lat:tmp_lat});
+            points.push({lon:tmp_lon,lat:tmp_lat,clm:land[2]});
           }
         })
       }
