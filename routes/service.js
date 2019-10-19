@@ -192,7 +192,7 @@ router.post('/get_poly', function(req, res, next) {
   let lat = req.body.lat;
 
   console.log(lon,lat)
-
+  res.send('Back end got message and response ...')
 });
 
 
