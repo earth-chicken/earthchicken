@@ -199,6 +199,23 @@ function renewOnset(uid, callback) {
 
 }
 
+function if_gameStart(uid, callback) {
+
+    getUserStatus(uid, function (data) {
+
+        checkGameTime(data, function (err, game_time) {
+            // if not in game time
+            if (game_time > 900) {
+                callback(null, false, data.gid, data.currency, data.carboin);
+            } else {
+                console.log('uid: ' + (uid) + ' gid: ' + (data.gid) + ' is in game now ...', game_time);
+                callback(null, true, data.gid, data.currency, data.carboin);
+            }
+        });
+    });
+}
+
+
 function evt_gameStart(uid, callback) {
 
     getUserStatus(uid, function (data) {

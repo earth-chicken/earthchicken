@@ -82,6 +82,18 @@ router.post('/gameAction', function (req,res, next) {
   let p_type = data.p_type;
 
   switch (event) {
+    case "user_if_gameStart":
+      db.evt_gameStart(uid, function (err,status,new_gid,currency,carboin) {
+        req.session.gid = new_gid;
+        res.send({
+          err: err,
+          status: status,
+          gid: new_gid,
+          currency: currency,
+          carboin: carboin,
+        });
+      });
+      break;
     case "user_evt_gameStart":
       db.evt_gameStart(uid, function (err,new_gid,currency,carboin) {
         req.session.gid = new_gid;

@@ -191,6 +191,7 @@ function user_evt(obj_id){
 	switch (obj_id) {
 		case "evt_gameStart":
 			evt_gameStart();
+			$('#pop_start').popup("close");
 			break;
 		case "evt_buyLand":
 			evt_buyLand();

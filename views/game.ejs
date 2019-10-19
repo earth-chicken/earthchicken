@@ -48,15 +48,14 @@
 			
       function web_onload(){
         setTimeout(function(){
-          $("#pop_start").popup("open");
-        }, 5000);
+		  $("#pop_start").popup("open");
+        }, 500);
       }
       
-			$(document).ready(function()
-			{
-				console.log("web initial");
-        
-			});
+	$(document).ready(function()
+	{
+		console.log("web initial");
+	});
       
 			</script>
 		<!-- JavaScript --end-- -->
@@ -105,10 +104,10 @@
 			
       <div data-role="popup" id="pop_start" data-overlay-theme="b" style="min-width:300px;">
 				<div data-role="header">
-					<a href="#pagehome" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+					<a class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 					<h1 style="margin:0;">Click picture to start</h1>
 				</div>
-        <div id="game_start"><img id="main_pic" src="images/start.jpg" alt="img__start" class='img_full' onClick="game_start()"></div>
+        <div id="game_start"><img id="main_pic" src="images/start.jpg" alt="img__start" class='img_full' onClick="user_evt('evt_gameStart')"></div>
       </div>
 
 			<!--div data-role="popup" id="sel_location" data-overlay-theme="b" style="min-width:300px;">
