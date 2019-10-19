@@ -7,7 +7,7 @@ var exec = require('child_process').exec;
 
 let mysql_config;
 try {
-    mysql_config = JSON.parse(fs.readFiileSync('certs/mysql_config.true.json', 'utf-8'));
+    mysql_config = JSON.parse(fs.readFileSync('certs/mysql_config.true.json', 'utf-8'));
 }
 catch (e) {
     console.log('Server MySQL config not found, use Raspberry Pi MySQL instead ...');

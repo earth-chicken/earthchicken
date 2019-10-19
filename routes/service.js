@@ -82,6 +82,19 @@ router.post('/gameAction', function (req,res, next) {
   let p_type = data.p_type;
 
   switch (event) {
+    case "user_if_gameStart":
+      db.if_gameStart(uid, function (err,status,new_gid,currency,carboin,remain_time) {
+        req.session.gid = new_gid;
+        res.send({
+          err: err,
+          status: status,
+          gid: new_gid,
+          currency: currency,
+          carboin: carboin,
+          remain_time: remain_time,
+        });
+      });
+      break;
     case "user_evt_gameStart":
       db.evt_gameStart(uid, function (err,new_gid,currency,carboin) {
         req.session.gid = new_gid;
@@ -94,6 +107,7 @@ router.post('/gameAction', function (req,res, next) {
       });
       break;
     case "user_evt_buyLand":
+      console.log('user_evt_buyLand now')
       db.evt_buy_land(uid,gid,lon,lat, function (err,currency) {
         res.send({
           currency: currency,

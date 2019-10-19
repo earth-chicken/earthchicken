@@ -199,6 +199,23 @@ function renewOnset(uid, callback) {
 
 }
 
+function if_gameStart(uid, callback) {
+
+    getUserStatus(uid, function (data) {
+
+        checkGameTime(data, function (err, game_time) {
+            // if not in game time
+            if (game_time > 900) {
+                callback(null, false, data.gid, data.currency, data.carboin,900-game_time);
+            } else {
+                console.log('uid: ' + (uid) + ' gid: ' + (data.gid) + ' is in game now ...', game_time);
+                callback(null, true, data.gid, data.currency, data.carboin,900-game_time);
+            }
+        });
+    });
+}
+
+
 function evt_gameStart(uid, callback) {
 
     getUserStatus(uid, function (data) {
@@ -596,6 +613,7 @@ module.exports = {
     evt_add_on: evt_add_on,
     setCarboin: setCarboin,
     setLandData: setLandData,
+    if_gameStart: if_gameStart,
 };
 
 function processData(allText) {

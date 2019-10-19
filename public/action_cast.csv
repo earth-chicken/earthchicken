@@ -1,0 +1,8 @@
+action,chg_currency,chg_carboin
+user_evt_buyLand,-1000,0
+user_evt_plant,-100,-100
+user_evt_harvest,-100,-500
+user_evt_irrigate,-100,-100
+user_evt_fertilize,-100,-100
+user_evt_debug,-100,-100
+user_evt_greenhouse,-100,-100

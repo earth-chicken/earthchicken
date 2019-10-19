@@ -24,35 +24,47 @@
 		</style>
 		
 		<!-- JavaScript --beg-- -->
-			<script src="/javascripts/jquery-3.3.1.js"></script>
-			<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+	  <script src="/javascripts/jquery-3.3.1.js"></script>
+	  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
       <script src="/javascripts/jquery-1.8.3.min.js"></script>
-			<!--script src="/javascripts/jquery.mobile-1.4.5.js"></script-->
-			<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-			<script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
-			<script src="common.js" async defer></script>
+	  <!--script src="/javascripts/jquery.mobile-1.4.5.js"></script-->
+	  <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+	  <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
+	  <script src="common.js" async defer></script>
       <script src="event_user.js" async defer></script>
-			<script src="/javascripts/d3.js" async defer></script>
+	  <script src="farm.js" async defer></script>
+
+	  <script src="/javascripts/d3.js" async defer></script>
       
 			<!-- google login button -->
 			<meta name="google-signin-scope" content="profile email">
 			<meta name="google-signin-client_id" content="795354931669-g57mp7k3fb52u9vk1mscp78unk19sied.apps.googleusercontent.com">
-	  		<script src="/javascripts/google_login.js"></script>
-	  		<script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
+	  <script src="/javascripts/google_login.js"></script>
+	  <script src="farm.js"></script>
+
+	  <script src="https://apis.google.com/js/platform.js?onload=onLoad" async defer></script>
 
 			<script type="text/javascript">
 			
       function web_onload(){
         setTimeout(function(){
-          $("#pop_start").popup("open");
-        }, 5000);
+			if_gameStart(function (status,remain_time) {
+				if (status) {
+					setTimeout(function () {
+						window.location.href = "/finish";
+					},remain_time*1000);
+
+				} else {
+					$("#pop_start").popup("open");
+				}
+			})
+        }, 500);
       }
       
-			$(document).ready(function()
-			{
-				console.log("web initial");
-        
-			});
+	$(document).ready(function()
+	{
+		console.log("web initial");
+	});
       
 			</script>
 		<!-- JavaScript --end-- -->
@@ -72,15 +84,25 @@
         <a href="#/about" data-role="button" data-inline="true" data-icon="carat-d" style="float:right">About</a>
         </div>
       </div>
-			
-			<!-- Left-Bar -->
+
+		<!-- Left-Bar -->
 			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:200px" id="nav_panel">
 				<ul data-role="listview" >
 					<li data-icon="delete"><a href="#" id="dash_close">Close</a></li>
 					<!--li data-icon="" id="dash_assets" onClick="click_assets()" ><a>Assets</a></li-->
-          <li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#">Assets</a></li>
+					<li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#">Assets</a></li>
 					<li data-icon="carat-r" id="others"><a>Others</a></li>
-          <li data-icon="carat-r" id="evt_test"><a href="#desc_map">Events Test</a></li>
+					<li data-icon="carat-r" id="evt_test"><a href="#desc_map">Events Test</a></li>
+
+					<li data-icon="carat-r" id="evt_gameStart" 	onClick="user_evt(this.id)"><a>evt_gameStart</a></li>
+					<li data-icon="carat-r" id="evt_buyLand" 	onClick="user_evt(this.id)"><a>evt_buyland</a></li>
+					<li data-icon="carat-r" id="evt_plant_tmp" 	onClick="user_evt(this.id)"><a>evt_plant</a></li>
+					<li data-icon="carat-r" id="evt_irrigate" 	onClick="user_evt(this.id)"><a>evt_irrigate</a></li>
+					<li data-icon="carat-r" id="evt_debug" 		onClick="user_evt(this.id)"><a>evt_debug</a></li>
+					<li data-icon="carat-r" id="evt_greenhouse" onClick="user_evt(this.id)"><a>evt_greenhouse</a></li>
+					<li data-icon="carat-r" id="evt_fertilize_tmp" onClick="user_evt(this.id)"><a>evt_fertilize</a></li>
+					<li data-icon="carat-r" id="evt_harvest" 	onClick="user_evt(this.id)"><a>evt_harvest</a></li>
+
 					<li data-icon="carat-r" id="sign_out"><a onclick="signOut();">Sign out</a></li>
 					<!--li data-icon="carat-r" id="sign_out">
 						<a href="#sel_location" data-rel="popup"  data-position-to="window">Select Map</a>
@@ -91,10 +113,10 @@
 			
       <div data-role="popup" id="pop_start" data-overlay-theme="b" style="min-width:300px;">
 				<div data-role="header">
-					<a href="#pagehome" class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+					<a class="ui-btn ui-corner-all ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
 					<h1 style="margin:0;">Click picture to start</h1>
 				</div>
-        <div id="game_start"><img id="main_pic" src="images/start.jpg" alt="img__start" class='img_full' onClick="game_start()"></div>
+        <div id="game_start"><img id="main_pic" src="images/start.jpg" alt="img__start" class='img_full' onClick="user_evt('evt_gameStart')"></div>
       </div>
 
 			<!--div data-role="popup" id="sel_location" data-overlay-theme="b" style="min-width:300px;">
@@ -127,8 +149,9 @@
 			<!-- main_page -->
 			<div id="list_load" role="main" class="ui-content" style="display:block">
 				<div id="pagecontainer"><img id="main_pic" src="images/map_china.jpg" alt="img__map_china" class='img_full'></div>
+                <div></div>
 			</div>
-			
+
 			<!-- dashboard -->
       <div>
         <h3>Welcome to Earth Chicken, <%= name %>>
