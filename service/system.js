@@ -4,6 +4,14 @@ const path = require('path');
 //const {spawn} = require('child_process');
 var db = require('../service/database');
 var exec = require('child_process').exec;
+var csv =require('csv-array');
+
+var plantData;
+csv.parseCSV('data/species_param.csv',function(data){
+    plantData = data;
+    data.forEach(function (d) {
+    })
+});
 
 let mysql_config;
 try {
@@ -18,127 +26,90 @@ mysql_config.multipleStatements = true;
 //mysql_config.debug = true;
 
 function growth(lands){	
-    console.log('<=======',lands,'=====>');
-    console.log('LENGHT:',lands.length);
-
-    let templand = lands[0];
-    console.log(typeof templand.uid,templand.uid,templand.id);
-
     
     //1) read user/land/plant data
     let connection = mysql.createConnection(mysql_config);
-    
-//    let sql_get_user_data="SELECT username, carboin FROM users WHERE id =" +(templand.uid)+ ";";
-//    let user;
-//    connection.query(sql_get_user_data,function(err, rows, fields) {
-//       if (err) throw err;
-//	user = JSON.parse(JSON.stringify(rows[0]));
-//	connection.end();
-//        console.log('userData:',user);	
-//    });
-
-//    let sql_get_userland_data ="SELECT * FROM lands_" +(templand.uid)+ " WHERE id = " +(templand.id)+ ";";
-//    let land;
-//    connection.query(sql_get_userland_data,function(err, rows, fields) {
-//        if (err) throw err; 
-//	land = JSON.parse(JSON.stringify(rows[0]));
-//	connection.end();
-//	console.log('landData:',land);
-//    });
-
-    //read plant data
 
     let carboin_changes = [];
     let env_changes = [];
     lands.forEach(function(l) {
-
-        var plant ={
-            h : 200,
-            cyc : 4,
-            T1 : 5,
-            T2 : 20,
-            Ntep : 0.3,
-            wet1 : 5,
-            wet2 : 90,
-            oc1 : 3,
-            oc2 : -2,
-            Ncarboin: 200,
-            Nwater: 3,};
-
+        console.log(l);
         var land ={
             temperature:l.temperature + l.delta_temp,
             moisture:l.moisture + l.delta_moist,
             productivity:l.productivity + l.delta_pro,
-            fertilization:l.fertilize,
+            fertilization:l.fertilization,
+	    type:l.type,
         };
+	var plant = plantData[land.type-1];
         var user ={
             carboin:0,};
-
+	console.log('landData:',land);
+        console.log('plantData:',plant);
+	console.log('userData',user);
+        console.log('=========================================read in');
         //2) calculate X, and reset carbon cash
-        console.log('calculate X');
-        let Ntep = OptTep(land.temperature,plant.T1,plant.T2,plant.Ntep) ;
-        let N  = OptGF(land.productivity,land.fertilization,plant.oc1,plant.oc2,plant.Nwater);
-        if (land.moisture >= plant.wet1 && land.moisture <= plant.wet2) {
-            console.log('Ph:',plant.h,'Pcyc:',plant.cyc,'Netp:',Ntep,'Ngf:',N.gf);
-            var X = Ntep * N.gf * plant.h / plant.cyc;
-            console.log('with water: product rate', X);
+        console.log('>>> calculate X <<<');
+	
+        let Ntep = OptTep(Number(land.temperature),Number(plant.ptep1),Number(plant.ptep2),Number(plant.Ntep)) ;
+        let N  = OptGF(Number(land.productivity),Number(land.fertilization),Number(plant.oc1),Number(plant.oc2),Number(plant.Nwet),Number(plant.Nfer));
+        if (land.moisture >= plant.pwet_min && land.moisture <= plant.pwet_max) {
+            console.log('base rate:',plant.rate_ratio* 104,'Netp:',Ntep,'Ngf:',N.gf);
+            var X = Ntep* N.gf* plant.rate_ratio* 104 ;
+            console.log('with water: product carboin rate',Ntep*N.gf, X);
         } else {
             var X = 0;
-            console.log('without water: product rate',X);
+            console.log('without water: product carboin rate',X);
         }
-        console.log('product rate:',X);
 
         //3) feedback
-        console.log('feedback');
+        console.log('>>> feedback <<<');
 //        let deltaC = user.carboin + plant.Ncarboin * X;
-        let deltaC = plant.Ncarboin * X;
+        let deltaC =  X;
         let tempshift = 0;
 //        let deltaPro = plant.productivity + N.oc * X;
         let deltaPro = N.oc * X;
 //        let deltaMoi = user.delta_moist - N.wet* X;
-        let deltaMoi = - N.wet* X;
+        let deltaMoi = -N.wet* X;
+	console.log(N.wet,X,'deltaMoi');
         let deltaTemp = tempshift;
 
         carboin_changes.push([l.uid,deltaC]);
         env_changes.push([l.uid,l.id,deltaTemp,deltaMoi,deltaPro]);
-        console.log(l.uid,l.id,deltaTemp,deltaMoi,deltaPro);
+        console.log('uid & id=',l.uid,l.id);
+	console.log('deltaMoi:',deltaMoi,'deltaPro:',deltaPro);
 
     //4) putin data
-//    db.setCarboin(land.uid,deltaC, function(err){
-//       if (err) throw 'reset carboin err';});
-//    db.setLandData(land.uid,land.id,"delta_temp",deltaTemp, function(err) {
-//       if (err) throw 'err';});
-//    db.setLandData(land.uid,land.id,"delta_moist",deltaMio, function(err) {
-//       if (err) throw 'err';});
-//    db.setLandData(land.uid,land.id,"productivity",deltaPro, function(err) {
-//       if (err) throw 'err';});
     });
 
-    db.setCarboin(carboin_changes, function(err){
+ //   db.setCarboin(carboin_changes, function(err){
 
-    });
+//    });
 
-    db.setLandData(env_changes, function (err) {
+//    db.setLandData(env_changes, function (err) {
 
-    });
+//    });
 
 }
 
 
 function OptTep(Tep,Pt1,Pt2,Ntep){
    if (Tep < Pt2) {
-        var N = (Tep-Pt1) * (1-Ntep) / (Pt2-Pt1) + Ntep;
+        var N = ((Tep-Pt1) * (1-Ntep) / (Pt2-Pt1)) + Ntep;
+	//console.log('OptTep case1_1',N);
 	if (N <= Ntep) {var N = Ntep;}
+	//console.log('OptTep case1:',N);
    } else { 
-	console.log(Tep,Pt1,Pt2,Ntep);
+	//console.log(Tep-2*Pt2+Pt1,1-Ntep,Pt1-Pt2,Ntep);
 	var N = (Tep-2*Pt2+Pt1) * (1-Ntep) / (Pt1-Pt2) + Ntep;
-	if (N <= Ntep) {var N =Ntep;}   
+	//console.log('OprTep case2_1',N);
+	if (N <= Ntep) {var N =Ntep;}
+	//console.log('OptTep case2:',N);
    }
    return N;
 }
 
-function OptGF(Lpro,Lfer,oc1,oc2,Nwater){
-   console.log(Lpro,Lfer,oc1,oc2,Nwater);
+function OptGF(Lpro,Lfer,oc1,oc2,Nwater,Nfer){
    if (Lfer == 0){
 	var N ={
 	    gf : Lpro /80,
@@ -146,11 +117,11 @@ function OptGF(Lpro,Lfer,oc1,oc2,Nwater){
 	    wet : 0,}
    } else {
 	var N ={
-	    gf : 1.5,
+	    gf : Nfer,
 	    oc : oc2,
 	    wet : Nwater,}
    };
-   console.log(N);
+   console.log('OptGF output:',N);
    return N;
 }
 
@@ -238,7 +209,7 @@ function get_active_land(opt,callback) {
                         sql_get_land_loc += "SELECT id, lon, lat from lands_" + (entry.id) +
                             " WHERE gid = "+(entry.gid)+" AND valid IN (0,1);\n";
                     } else if (opt == 'gwt') {
-                        sql_get_land_loc += "SELECT id, lon, lat, moisture, temperature, productivity, fertilize, delta_temp, delta_moist, delta_pro from lands_" + (entry.id) +
+                        sql_get_land_loc += "SELECT id, lon, lat, moisture, temperature, productivity, fertilization, delta_temp, delta_moist, delta_pro, type from lands_" + (entry.id) +
                             " WHERE gid = "+(entry.gid)+" AND valid = 1;\n";
                     }
 
@@ -316,7 +287,7 @@ function nature() {
                     growth(lands);
                 }
             });
-        },15000);
+        },2000);
 
     },1000);
 }
