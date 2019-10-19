@@ -93,12 +93,37 @@ router.get('/game', function(req, res, next) {
     }
 });
 
+router.post('/farm', function(req, res, next) {
+    console.log('at /farm');
+    var lon = req.body.lon;
+    var lat = req.body.lat;
+
+    if(req.session.isLogin) {
+        const uid = req.session.uid;
+        let username = req.session.name;
+
+        res.render('farm.ejs', {
+            name: username,
+            lands: '123'
+        });
+    } else {
+        console.log('need to login');
+        res.redirect('/');
+    }
+});
+
+
+
+
 router.get('/finish', function(req, res, next) {
     console.log('at /finish');
 
     if(req.session.isLogin) {
         const uid = req.session.uid;
         let username = req.session.name;
+
+        // todo update user historic record
+
 
         res.render('finish.ejs');
     } else {

@@ -1,6 +1,8 @@
 var express = require('express');
 const https = require('https');
 var db = require('../service/database');
+const fs = require('fs');
+
 
 var router = express.Router();
 
@@ -26,6 +28,31 @@ router.post('/login', function(req, res, next) {
     });
   });
 });
+
+router.get('/conclude', function(req, res, next) {
+  console.log('at /service/conclude');
+
+  if (req.session.isLogin >= 0) {
+    let uid = req.session.uid;
+    let gid = req.session.gid;
+    if (req.session.concluded < 1) {
+      db.concludeUserProperty(uid, gid, function (err) {
+        req.session.concluded = 1;
+      });
+    }
+    db.updateUserHistory(uid, function (err) {
+      console.log('user history updated ...');
+      res.redirect('/finish'); // at index.js
+    })
+
+  } else {
+    console.log('need to login');
+    res.redirect('/');
+  }
+});
+
+
+
 
 router.post('/login_guest', function(req, res, next) {
   console.log('at /service/login_guest');
@@ -82,6 +109,15 @@ router.post('/gameAction', function (req,res, next) {
   let p_type = data.p_type;
 
   switch (event) {
+    case "user_get_rank":
+      db.get_userRank(uid, function (err,rank) {
+        res.send({
+          err: err,
+          rank: rank,
+        });
+      });
+      break;
+
     case "user_if_gameStart":
       db.if_gameStart(uid, function (err,status,new_gid,currency,carboin,remain_time) {
         req.session.gid = new_gid;
@@ -98,6 +134,10 @@ router.post('/gameAction', function (req,res, next) {
     case "user_evt_gameStart":
       db.evt_gameStart(uid, function (err,new_gid,currency,carboin) {
         req.session.gid = new_gid;
+        if (err) {
+        } else {
+          req.session.concluded = 0;
+        }
         res.send({
           err: err,
           gid: new_gid,
@@ -187,13 +227,69 @@ router.post('/gameAction', function (req,res, next) {
 
 router.post('/get_poly', function(req, res, next) {
   console.log('at /service/get_poly');
-
   let lon = req.body.lon;
   let lat = req.body.lat;
+//  console.log(lon,lat);
 
-  console.log(lon,lat)
-  res.send('Back end got message and response ...')
+  getPoints(lon,lat,function (err,points) {
+    if (err) {
+      res.send([{err:err}])
+    } else {
+      console.log(points);
+      res.send([{err:err},points])
+    }
+  });
 });
+
+land_file = fs.readFileSync('data/NS60_land.dat','utf-8');
+
+let land_points = land_file.split('\n').map(function(line, index) {
+  return (line.split(' '));
+});
+
+function getPoints(lon,lat,callback) {
+
+  const near_lon = Math.floor(lon/0.25)*0.25 + 0.125;
+  const near_lat = Math.floor(lat/0.25)*0.25 + 0.125;
+  let points = [];
+  for (let i=-2;i<3;i++) {
+    for (let j = -2; j < 3; j++) {
+      if (i^2+i^2 <= 4) {
+        let tmp_lon = near_lon+i*0.25;
+        let tmp_lat = near_lat+j*0.25;
+        land_points.forEach(function (land) {
+          if ((tmp_lon) == land[0] &&  (tmp_lat) == land[1]) {
+            points.push({lon:tmp_lon,lat:tmp_lat});
+          }
+        })
+      }
+    }
+  }
+  if (points.length > 0) {
+    callback(null, points)
+  } else {
+    callback(1)
+  }
+}
+
+function inside(point, vs) {
+  // ray-casting algorithm based on
+  // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+
+  var x = point[0], y = point[1];
+
+  var inside = false;
+  for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+    var xi = vs[i][0], yi = vs[i][1];
+    var xj = vs[j][0], yj = vs[j][1];
+
+    var intersect = ((yi > y) != (yj > y))
+        && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+
+  return inside;
+};
 
 
 module.exports = router;
