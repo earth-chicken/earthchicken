@@ -27,6 +27,31 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+router.get('/conclude', function(req, res, next) {
+  console.log('at /service/conclude');
+
+  if (req.session.isLogin >= 0) {
+    let uid = req.session.uid;
+    let gid = req.session.gid;
+    if (req.session.concluded < 1) {
+      db.concludeUserProperty(uid, gid, function (err) {
+        req.session.concluded = 1;
+      });
+    }
+    db.updateUserHistory(uid, function (err) {
+      console.log('user history updated ...');
+      res.redirect('/finish'); // at index.js
+    })
+
+  } else {
+    console.log('need to login');
+    res.redirect('/');
+  }
+});
+
+
+
+
 router.post('/login_guest', function(req, res, next) {
   console.log('at /service/login_guest');
   let uid;
@@ -82,6 +107,15 @@ router.post('/gameAction', function (req,res, next) {
   let p_type = data.p_type;
 
   switch (event) {
+    case "user_get_rank":
+      db.get_userRank(uid, function (err,rank) {
+        res.send({
+          err: err,
+          rank: rank,
+        });
+      });
+      break;
+
     case "user_if_gameStart":
       db.if_gameStart(uid, function (err,status,new_gid,currency,carboin,remain_time) {
         req.session.gid = new_gid;
@@ -98,6 +132,10 @@ router.post('/gameAction', function (req,res, next) {
     case "user_evt_gameStart":
       db.evt_gameStart(uid, function (err,new_gid,currency,carboin) {
         req.session.gid = new_gid;
+        if (err) {
+        } else {
+          req.session.concluded = 0;
+        }
         res.send({
           err: err,
           gid: new_gid,

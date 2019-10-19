@@ -2,17 +2,24 @@ var mysql = require('mysql');
 const fs = require('fs');
 var csv = require('csv-array');
 
-let earthchicken_sp;
-let ec_sp_head = [];
-csv.parseCSV('data/earthchicken_sp.csv', function(data){
-    earthchicken_sp = data;
+let species_param;
+let species_param_head = [];
+csv.parseCSV('data/species_param.csv', function(data){
+    species_param = data;
     data.forEach(function (d) {
-        
+        species_param_head.push(d.species)
     })
-
-
 });
 
+// load action cast
+let action_cast;
+let action_cast_head = [];
+csv.parseCSV('data/action_cast.csv', function(data){
+    action_cast = data;
+    data.forEach(function (d) {
+        action_cast_head.push(d.species)
+    });
+});
 
 let mysql_config;
 try {
@@ -101,7 +108,7 @@ function saveUserData(userData,callback) {
 
     let sql_create_user = "INSERT INTO users VALUES (NULL, 'google', '" + userid + "', '" + given_name + "', '" +
         family_name + "', '" + email + "', '" + locale + "', '" + picture + "', '" + given_name + "', 10000, 0, 0, 10000, 0, 0, NOW()," +
-        " NOW(), '2001-01-01', 0, NOW());";
+        " NOW(), '2001-01-01',0 , 0, NOW());";
 
     let sql_check_just_created = "SELECT id, gid FROM users WHERE oauth_provider = 'google'" + " AND oauth_uid = '" + userData['sub'] + "'";
 
@@ -175,6 +182,23 @@ function getUserStatus(uid,callback) {
     });
 }
 
+
+function get_userRank(uid,callback) {
+    let sql_get_user_rank = "SELECT username, max_currency,  FROM mytable ORDER BY amount DESC LIMIT 5";
+
+    let sql_get_user_data = "SELECT username, currency, carboin, onset, gid FROM users WHERE id = "+uid+";";
+    let userData;
+    let connection = mysql.createConnection(mysql_config);
+
+    connection.query(sql_get_user_data, function(err, rows, fields) {
+        if (err) throw err;
+        userData = JSON.parse(JSON.stringify(rows[0]));
+        connection.end();
+        callback(userData);
+    });
+}
+
+
 function checkGameTime(data,callback) {
 
     let t = data.onset.split(/[- T :]/);
@@ -187,7 +211,7 @@ function checkGameTime(data,callback) {
 }
 
 function renewOnset(uid, callback) {
-    let sql_renew_onset = "UPDATE users SET onset = NOW(), currency = 10000, carboin = 0, gid = gid+1 WHERE id = ? ;";
+    let sql_renew_onset = "UPDATE users SET onset = NOW(), currency = 10000, carboin = 0, gid = gid+1, concluded = 0 WHERE id = ? ;";
 //    sql_renew_onset += "DELETE FROM lands_?;";
 
     let connection = mysql.createConnection(mysql_config);
@@ -404,9 +428,10 @@ function carboinChange(uid,chg,callback) {
 
 function getCarboinCast(plant,event) {
 
-    console.log(earthchicken_sp);
+    console.log(species_param);
+    console.log(species_param_head);
 
-//    let csv_file =  fs.readFileSync('data/earthchicken_sp.csv', 'utf-8');
+//    let csv_file =  fs.readFileSync('data/species_param.csv', 'utf-8');
 //    console.log(csv_file);
 
 //    console.log(data);
@@ -601,6 +626,38 @@ function setLandData(changes,callback) {
 }
 
 
+function updateUserHistory(uid,callback) {
+    let connection = mysql.createConnection(mysql_config);
+    let sql_update_user_history = "UPDATE users " +
+        "SET max_currency = currency, max_carboin = carboin, achieved = NOW() " +
+        "WHERE currency > max_currency AND id = "+(uid)+";";
+    connection.query(sql_update_user_history,[], (err, rows) => {
+        if (err) throw err;
+        connection.end();
+        callback(null);
+    });
+}
+
+function concludeUserProperty(uid,gid,callback) {
+    let connection = mysql.createConnection(mysql_config);
+    let sql_check_property = "SELECT id from lands_"+(uid)+ " WHERE gid = "+(gid)+" AND valid in (0,1);";
+    connection.query(sql_check_property,[], (err, rows) => {
+        if (err) throw err;
+        const nland = rows.length;
+        var ind_buy_land = action_cast_head.indexOf('user_evt_buyLand');
+        const land_to_currency = nland * action_cast[ind_buy_land].chg_currency;
+        let sql_add_currency = "UPDATE users SET currency = currency + "+(land_to_currency)+ ", concluded = 1 " +
+            "WHERE id = "+(uid)+";";
+        connection.query(sql_add_currency,[], (err, rows) => {
+            if (err) throw err;
+            connection.end();
+            callback(null);
+        });
+    });
+
+
+}
+
 module.exports = {
     checkDatabase: checkDatabase,
     saveUserData: saveUserData,
@@ -614,6 +671,9 @@ module.exports = {
     setCarboin: setCarboin,
     setLandData: setLandData,
     if_gameStart: if_gameStart,
+    get_userRank: get_userRank,
+    concludeUserProperty: concludeUserProperty,
+    updateUserHistory: updateUserHistory,
 };
 
 function processData(allText) {

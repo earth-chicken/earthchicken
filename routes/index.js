@@ -93,12 +93,17 @@ router.get('/game', function(req, res, next) {
     }
 });
 
+
+
 router.get('/finish', function(req, res, next) {
     console.log('at /finish');
 
     if(req.session.isLogin) {
         const uid = req.session.uid;
         let username = req.session.name;
+
+        // todo update user historic record
+
 
         res.render('finish.ejs');
     } else {

@@ -213,7 +213,7 @@ function user_evt(obj_id){
 			evt_gameStart();
 			$('#pop_start').popup("close");
 			setTimeout(function () {
-				window.location.href = "/finish";
+				window.location.href = "/service/conclude";
 			},900000);
 
 			break;
