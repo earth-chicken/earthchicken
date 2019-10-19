@@ -32,7 +32,7 @@ app.use(session({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/service', serviceRouter.router);
+app.use('/service', serviceRouter);
 app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
@@ -50,5 +50,14 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+var db = require('./service/database');
+var sys = require('./service/system');
+
+db.checkDatabase(function (result) {
+  console.log(result);
+  sys.nature();
+});
+
 
 module.exports = app;

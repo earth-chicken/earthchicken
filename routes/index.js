@@ -1,5 +1,5 @@
 var express = require('express');
-var service = require('./service');
+var db = require('../service/database');
 
 var router = express.Router();
 
@@ -67,21 +67,25 @@ router.get('/introduce', function(req, res, next) {
 
 });
 
+router.get('/farm', function(req, res, next) {
+  console.log('at /farm');
+
+  res.render('farm.ejs',{
+    title : 'farm'
+  })
+
+});
+
 router.get('/game', function(req, res, next) {
     console.log('at /game');
 
     if(req.session.isLogin) {
-        uid = req.session.uid;
-        name = req.session.name;
-        console.log('uid is: ' + uid);
+        const uid = req.session.uid;
+        let username = req.session.name;
 
-        service.getGamerData(uid,function (user,lands) {
-            console.log(user);
-            console.log(lands);
-            res.render('game.ejs', {
-                name: user.username,
-                lands: '123'
-            });
+        res.render('game.ejs', {
+            name: username,
+            lands: '123'
         });
     } else {
         console.log('need to login');
@@ -89,38 +93,19 @@ router.get('/game', function(req, res, next) {
     }
 });
 
+router.get('/finish', function(req, res, next) {
+    console.log('at /finish');
+
+    if(req.session.isLogin) {
+        const uid = req.session.uid;
+        let username = req.session.name;
+
+        res.render('game.ejs');
+    } else {
+        console.log('need to login');
+        res.redirect('/');
+    }
+});
+
+
 module.exports = router;
-
-
-// for sequential access database
-class Database {
-    constructor( config ) {
-        this.connection = mysql.createConnection( mysql_config );
-    }
-    query( sql, args ) {
-        return new Promise( ( resolve, reject ) => {
-            this.connection.query( sql, args, ( err, rows ) => {
-                if ( err )
-                    return reject( err );
-                resolve( rows );
-            } );
-        } );
-    }
-    close() {
-        return new Promise( ( resolve, reject ) => {
-            this.connection.end( err => {
-                if ( err )
-                    return reject( err );
-                resolve();
-            } );
-        } );
-    }
-}
-
-Database.execute = function( config, callback ) {
-    const database = new Database( config );
-    return callback( database ).then(
-        result => database.close().then( () => result ),
-        err => database.close().then( () => { throw err; } )
-    );
-};

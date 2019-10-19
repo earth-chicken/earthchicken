@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+    <script src="/javascripts/google_login.js"></script>
+
+    <!-- google login button -->
+  </head>
+
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+
+    <form id="myForm" action="/service/login_guest" method="post">
+      <p>User name: <input type="text" name="username" /></p>
+      <input type="submit" value="Submit" />
+    </form>
+
+
+
+  </body>
+
+</html>
