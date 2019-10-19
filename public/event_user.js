@@ -36,7 +36,7 @@ const g_user_assets_title = [
 	"X"
 ];
 
-const URL_SERVICE = '/service/gameAction';
+//const URL_SERVICE = '/service/gameAction';
 var g_user_assets=[];
 var g_cur_location = "";
 
@@ -54,41 +54,6 @@ function set_cur_location(new_location){
 	return;
 }
 
-function evt_gameStart() {
-	console.log(arguments.callee.name);
-	var data = {event: "user_evt_gameStart"};
-
-	$.post(URL_SERVICE, data, function (res) {
-		console.log(res);
-		if (res.length <= 0) {
-			console.log("post return nothing");
-			return;
-		}
-
-	});
-}
-
-function evt_buyLand(){
-  console.log(arguments.callee.name);
-	
-	var cur_loc = get_cur_location();
-	//use cur_loc to fill data --- lon, lat
-	var data = {event:"user_evt_buyLand",
-							lon:'120.8',
-							lat:'23.3'};
-
-	$.post(URL_SERVICE, data, function(res){
-		console.log(res);
-		if(res.length<=0)
-		{	console.log("post return nothing"); return;}
-		
-		//parse res and update web
-		//res = jQuery.parseJSON(res);
-		
-	});
-	
-	return;
-}
 
 
 function evt_enterLocation(){

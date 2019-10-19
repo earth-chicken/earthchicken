@@ -149,25 +149,67 @@ function evt_harvest(){
 }
 
 
+function evt_buyLand(){
+	console.log(arguments.callee.name);
 
+	var cur_loc = get_cur_location();
+	//use cur_loc to fill data --- lon, lat
+	var data = {event:"user_evt_buyLand",
+		lon:'120.8',
+		lat:'23.3'};
+
+	$.post(URL_SERVICE, data, function(res){
+		console.log(res);
+		if(res.length<=0)
+		{	console.log("post return nothing"); return;}
+
+		//parse res and update web
+		//res = jQuery.parseJSON(res);
+
+	});
+
+	return;
+}
+function evt_gameStart() {
+	console.log(arguments.callee.name);
+	var data = {event: "user_evt_gameStart"};
+
+	$.post(URL_SERVICE, data, function (res) {
+		console.log(res);
+		if (res.length <= 0) {
+			console.log("post return nothing");
+			return;
+		}
+
+	});
+}
 
 
 function user_evt(obj_id){
 	console.log(arguments.callee.name+" "+obj_id);
 	
 	switch (obj_id) {
+		case "evt_gameStart":
+			evt_gameStart();
+			break;
+		case "evt_buyLand":
+			evt_buyLand();
+			break;
 		case "evt_plant":
 			$('#plant_tp_panel').panel("open");
 			break;
 		case "evt_fertilize":
 			$('#fer_tp_panel').panel("open");
 			break;
-
-
+		case "evt_plant_tmp":
+			evt_plant();
+			break;
+		case "evt_fertilize_tmp":
+			evt_fertilize();
+			break;
 		case "evt_irrigate":
 			evt_irrigate();
 			break;
-
 		case "evt_debug":
 			evt_debug();
 			break;
