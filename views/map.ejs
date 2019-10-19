@@ -61,19 +61,21 @@
 //	  L.marker(event.latlng).addTo(map);
 //	});
   	map.addEventListener('mouseup', function(ev) {
-    	 lat = ev.latlng.lat;
-    	 lng = ev.latlng.lng;
-	 L.marker(ev.latlng).addTo(map);
+  		var lat = ev.latlng.lat;
+		var lng = ev.latlng.lng;
+		L.marker(ev.latlng).addTo(map);
+
+		var data = {lon: lng, lat:lat};
+		$.post('/service/get_poly', data, function (res) {
+			console.log(res);
+			if (res.length <= 0) {
+				console.log("post return nothing");
+				return;
+			}
+		});
+
   	});
 	
-	var data = {lon: 123, lat:23};
-	$.post('/map_get_poly', data, function (res) {
-		console.log(res);
-		if (res.length <= 0) {
-			console.log("post return nothing");
-			return;
-		}
-	});
 
 
 

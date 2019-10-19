@@ -1,6 +1,8 @@
 var express = require('express');
 const https = require('https');
 var db = require('../service/database');
+const fs = require('fs');
+
 
 var router = express.Router();
 
@@ -225,13 +227,69 @@ router.post('/gameAction', function (req,res, next) {
 
 router.post('/get_poly', function(req, res, next) {
   console.log('at /service/get_poly');
-
   let lon = req.body.lon;
   let lat = req.body.lat;
+//  console.log(lon,lat);
 
-  console.log(lon,lat)
-
+  getPoints(lon,lat,function (err,points) {
+    if (err) {
+      res.send([{err:err}])
+    } else {
+      console.log(points);
+      res.send([{err:err},points])
+    }
+  });
 });
+
+land_file = fs.readFileSync('data/NS60_land.dat','utf-8');
+
+let land_points = land_file.split('\n').map(function(line, index) {
+  return (line.split(' '));
+});
+
+function getPoints(lon,lat,callback) {
+
+  const near_lon = Math.floor(lon/0.25)*0.25 + 0.125;
+  const near_lat = Math.floor(lat/0.25)*0.25 + 0.125;
+  let points = [];
+  for (let i=-2;i<3;i++) {
+    for (let j = -2; j < 3; j++) {
+      if (i^2+i^2 <= 4) {
+        let tmp_lon = near_lon+i*0.25;
+        let tmp_lat = near_lat+j*0.25;
+        land_points.forEach(function (land) {
+          if ((tmp_lon) == land[0] &&  (tmp_lat) == land[1]) {
+            points.push({lon:tmp_lon,lat:tmp_lat});
+          }
+        })
+      }
+    }
+  }
+  if (points.length > 0) {
+    callback(null, points)
+  } else {
+    callback(1)
+  }
+}
+
+function inside(point, vs) {
+  // ray-casting algorithm based on
+  // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+
+  var x = point[0], y = point[1];
+
+  var inside = false;
+  for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+    var xi = vs[i][0], yi = vs[i][1];
+    var xj = vs[j][0], yj = vs[j][1];
+
+    var intersect = ((yi > y) != (yj > y))
+        && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+
+  return inside;
+};
 
 
 module.exports = router;
