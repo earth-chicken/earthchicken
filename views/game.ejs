@@ -182,11 +182,11 @@
 
       <div id="pagecontainer"></div>
 			<!-- dashboard -->
-      <div>
+      <p align="center" style="position:relative; border-top:1px solid #CCCCCC">
         <h3>Welcome to Earth Chicken, <%= name %>></h3>
-        <a href="javascript:void(0);" onclick="signOut();">Sign out</a>
-        <a href="#/farm">Call farm</a>
-      </div>
+        <a href="#/farm" data-role="button" data-icon="arrow-r" data-iconpos="right" style="float:right;" >Enter Farm</a>
+      </p>
+      <a href="javascript:void(0);" onclick="signOut();" style="float:left;">Sign out</a>
       
       <!-- Right-Bar -->
       <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="a" id="desc_map" data-position="right">
@@ -221,7 +221,7 @@
 				<div data-role="button" onclick="click_assets()" align="center" data-type="horizontal">
 					<a style="line-height:29px;"><span id="showinfo" class="info_txt ui-icon-carat-u ui-btn-icon-left color_red" data-inline="true"><%= name %>'s Assets</span></a>
 				</div>
-        <div data-role="info_txt" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_land" style="display:none">
+        <div data-role="info_txt" data-position-fixed="true" data-display="overlay" data-theme="b" id="bar_land" style="display:block">
 					<table id="tb_user_assets" border="1" style="line-height:25px;">
 						<tr>
 							<td>Location</td>
