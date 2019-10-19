@@ -657,7 +657,8 @@ function setLandData(changes,callback) {
         sql_set_value += "UPDATE lands_" +(chg[0])+
             " SET delta_temp = delta_temp + "+(chg[2])+" ," +
             "delta_moist = delta_moist + "+(chg[3])+ " ," +
-            "product = product + "+(chg[4])+" WHERE id = " +(chg[1])+ ";";
+            "delta_pro = delta_pro + "+(chg[4])+" ,"+
+            "product = product + "+(chg[5])+" WHERE id = " +(chg[1])+ ";";
     });
     console.log(sql_set_value);
    let connection = mysql.createConnection(mysql_config);
@@ -713,6 +714,8 @@ module.exports = {
     evt_add_on: evt_add_on,
     setCarboin: setCarboin,
     setLandData: setLandData,
+    resetCarboin: resetCarboin,
+    resetProduct: resetProduct,
     if_gameStart: if_gameStart,
     get_userRank: get_userRank,
     concludeUserProperty: concludeUserProperty,
