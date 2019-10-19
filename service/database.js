@@ -56,7 +56,7 @@ let sql_create_user_land = " (" +
     "         completeness TINYINT NOT NULL," + // 17 0-100 (-128 - 127)
     //    "         healthiness TINYINT NOT NULL," + // 0-100 (-128 - 127)
     "         prod_rate FLOAT NOT NULL," +      // 18
-    "         product INT NOT NULL," +      // 19 
+    "         product INT NOT NULL," +      // 19
     "         irrigate TINYINT NOT NULL," +      // 20 0 - 1
     "         fertilize TINYINT NOT NULL," +      // 21 0 - 1
     "         debug TINYINT NOT NULL," +      // 22 0 - 1

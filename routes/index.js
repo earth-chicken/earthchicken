@@ -67,15 +67,6 @@ router.get('/introduce', function(req, res, next) {
 
 });
 
-router.get('/farm', function(req, res, next) {
-  console.log('at /farm');
-
-  res.render('farm.ejs',{
-    title : 'farm'
-  })
-
-});
-
 router.get('/game', function(req, res, next) {
     console.log('at /game');
 
@@ -86,6 +77,29 @@ router.get('/game', function(req, res, next) {
         res.render('game.ejs', {
             name: username,
             lands: '123'
+        });
+    } else {
+        console.log('need to login');
+        res.redirect('/');
+    }
+});
+
+
+router.get('/farm/:lon/:lat/:clt', function(req, res, next) {
+    console.log('at /farm');
+    var lon = req.params.lon;
+    var lat = req.params.lat;
+    var clt = req.params.clt;
+
+    if(req.session.isLogin) {
+        const uid = req.session.uid;
+        let username = req.session.name;
+
+        res.render('farm.ejs', {
+            name: username,
+            lon: lon,
+            lat: lat,
+            clt: clt,
         });
     } else {
         console.log('need to login');
@@ -104,7 +118,8 @@ router.post('/farm', function(req, res, next) {
 
         res.render('farm.ejs', {
             name: username,
-            lands: '123'
+            lon: lon,
+            lat: lat,
         });
     } else {
         console.log('need to login');

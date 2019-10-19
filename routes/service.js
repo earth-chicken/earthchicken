@@ -254,7 +254,7 @@ function getPoints(lon,lat,callback) {
   let points = [];
   for (let i=-2;i<3;i++) {
     for (let j = -2; j < 3; j++) {
-      if (i^2+i^2 <= 4) {
+      if (i^2+i^2 <= 3.5) {
         let tmp_lon = near_lon+i*0.25;
         let tmp_lat = near_lat+j*0.25;
         land_points.forEach(function (land) {
