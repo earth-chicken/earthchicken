@@ -29,29 +29,46 @@ function initmap() {
 function map2(){
   
   map.addEventListener('mouseup', function(ev) {
-    var lat, lng;
-    lat = ev.latlng.lat;
-    lng = ev.latlng.lng;
-    var data = {lon: lng, lat: lat };
-    
-    $.post('/service/get_poly', data, function (res) {
-      console.log(res);
-      if (res.length <= 0) {
-        console.log("post return nothing");
-        return;
-      }	
-      var grid1 = {"type":"FeatureCollection","features":[
-        {"type":"Feature","id":"0054","properties":{"name":"Station:0054<img src='./img/0054_spectrum.jpg'  height=2 width=4 >"},"geometry":{"type":"Polygon","coordinates":[[[121.625000,25.375000],[121.375000,25.375000],[121.375000,25.125000],[121.825000,25.125000],[121.625000,25.375000]]]}},
-      ]};
-      
-      map.removeLayer(geojson);
-      geojson = L.geoJson(grid1, {
-                style: style,
-                onEachFeature: onEachFeature
-          }).addTo(map);
-    //  	 	marker =  L.marker(ev.latlng).addTo(map)  
-    //                       .bindPopup('<a href="http://www.yahoo.com.tw/">Yahoo</a>').openPopup();    
-    });
+	 var lat, lng;
+       lat = ev.latlng.lat;
+       lng = ev.latlng.lng;
+	 var data = {lon: lng, lat: lat };
+	 $.post('/service/get_poly', data, function (res) {
+	 	console.log(res);
+		if (res[0].err) {
+			console.log("no point responce");
+			return;
+
+		} else {
+			grids = [];
+			const points = res[1]
+			points.forEach(function (p) {
+				const dd = 0.125
+				let poly = [[p.lon+dd,p.lat+dd],
+					[p.lon-dd,p.lat+dd],
+					[p.lon-dd,p.lat-dd],
+					[p.lon+dd,p.lat-dd],
+					[p.lon+dd,p.lat+dd]]
+				grid = {
+					"type":"Feature",
+					"lon":(p.lon), "lat":(p.lat), "clm":(p.clm),
+					"properties":{"name":"Climate: "+(p.clm)},
+					"geometry":{
+						"type":"Polygon",
+						"coordinates":[poly]
+					}}
+				grids.push(grid)
+			})
+			let polys = {
+				"type":"FeatureCollection",
+				"features":grids
+			}
+			map.removeLayer(geojson);
+			geojson = L.geoJson(polys, {
+				style: style,
+				onEachFeature: onEachFeature,
+			}).addTo(map);
+		}
   });
   
   
@@ -147,10 +164,15 @@ function resetHighlight(e) {
 function zoomToFeature(e) {
   map.fitBounds(e.target.getBounds());
 }
-    function clickHyperlink(e) { 
-       window.open('http://www.yahoo.com');
-}
-        
+
+	function clickHyperlink(e) {
+		const feature = e.sourceTarget.feature
+		document.getElementById('myForm_lon').value = (feature.lon);
+		document.getElementById('myForm_lat').value = (feature.lat);
+		document.getElementById('myForm_clt').value = (feature.clt);
+		document.getElementById("myForm").submit();
+	}
+
 
 function onEachFeature(feature, layer) {
   layer.on({
