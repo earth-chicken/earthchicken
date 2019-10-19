@@ -2,13 +2,18 @@
 var g_user_assets=[];
 var g_cur_location = "";
 
+var plant_txt0 = "Taiwan Acasia belongs to Acasia genus, which is a type of hardwood species with round evergreen leaves. Its tree shape is short and round. Due to its hard timber texture, it is less profitable with laborious process. It prefers to grow under warm and dry condition and also under low altitude of mountainous area. The Acasia sp. grows fast but with high carbon content that had been widely used for charcoal and now is deemed as one of the major species for carbon sequestration";
+var plant_txt1 = "Cedar is a type of softwood with needle leaves that can withstand water deficit under cold environment. Its tree shape is thin and tall with high timber texture. Of all the above quality mentioned above, cedar trees are valuable timber for architecture and furniture. It prefers to grow under cold and humid climate and can also survive in high altitude area of low latitude region.";
+var plant_txt2 = "Rice is the most important staple food of the world. It has a long history in cultivation and food use. Its total amount of production is in the top two food sources of the world. Currently at least half of the world population relies on rice as their major food source. Rice grows under high temperature and high rainfall areas, of which monsoon influence is the most suitable weather system for rice. Nowadays rice fields can be found in Asia, south Europe, South America, and part of Africa.";
+var plant_txt3 = "Maize was found in Americas, and then was distributed worldwide during the Age of discovery. It is now the top food source of the world. In Asia, maize is often consumed by human while in the north America, it is used as fodder. Maize is a very adaptive crop for it has low requirement for nutrients. Maize can be found in many places around world including Asia, North America, and Europe.";
+var plant_txt4 = "Wheat is the major source of humankind: mostly made for flour and all kinds of processed food. It does not require high nutritious condition to grow and especially for water making it tolerance to drought. It is adaptive to temperate regions in which the major production areas are plains of Europe, big grassland of the north America, and Pampa of Argentina, part of East Asia, and South Asia.";
 
 var g_plant_detail=[
-  ["Cedar", "cedar_incs.png", "cedar_incs.txt", "148148", "0.01"],
-  ["Acacia", "acacia_tw.png", "acacia_tw.txt", "5083", "0.05"],
-  ["Rice", "rice_jap.png", "rice_jap.txt", "200", "0.58"],
-  ["Maize", "maize_tmpsbtr.png", "maize_tmpsbtr.txt", "125", "0.6"],
-  ["Wheat", "wheat_subtr.png", "wheat_subtr.txt", "155", "0..45"],
+  ["Cedar", "cedar_incs.png", plant_txt0, "148148", "0.01"],
+  ["Acacia", "acacia_tw.png", plant_txt1, "5083", "0.05"],
+  ["Rice", "rice_jap.png", plant_txt2, "200", "0.58"],
+  ["Maize", "maize_tmpsbtr.png", plant_txt3, "125", "0.6"],
+  ["Wheat", "wheat_subtr.png", plant_txt4, "155", "0..45"],
 
 ]
 
@@ -231,11 +236,11 @@ function user_evt(obj_id){
 
 			break;
 		case "evt_plant":
-      document.getElementById('plant_1').innerHTML = g_plant_detail[0][0];
-      document.getElementById('plant_2').innerHTML = g_plant_detail[1][0];
-      document.getElementById('plant_3').innerHTML = g_plant_detail[2][0];
-      document.getElementById('plant_4').innerHTML = g_plant_detail[3][0];
-      document.getElementById('plant_5').innerHTML = g_plant_detail[4][0];
+      document.getElementById('plant_0').innerHTML = g_plant_detail[0][0];
+      document.getElementById('plant_1').innerHTML = g_plant_detail[1][0];
+      document.getElementById('plant_2').innerHTML = g_plant_detail[2][0];
+      document.getElementById('plant_3').innerHTML = g_plant_detail[3][0];
+      document.getElementById('plant_4').innerHTML = g_plant_detail[4][0];
     
 			$('#plant_tp_panel').panel("open");
 			break;
@@ -334,20 +339,29 @@ function cancel_form(){
 function hover_farmEvtImg(obj){
   console.log(arguments.callee.name + " " + obj.src);
   
+  var host = window.location.hostname;
+  var port = window.location.port;
+  var beg_idx = 8+host.length+port.length+1-1;
+  // 8: "https://" , +1: ":" , -1: start 0 
+  
   var str = obj.src;
-  str = str.substring(22, str.length-4);
-  //console.log(str);
+  str = str.substring(beg_idx, str.length-4);
+  console.log(str);
   str = str.concat("b.png");
-  //console.log(str);
+  console.log(str);
   obj.src = str;
 }
 
 
 function unhover_farmEvtImg(obj){
   console.log(arguments.callee.name + " " + obj.src);
+  var host = window.location.hostname;
+  var port = window.location.port;
+  var beg_idx = 8+host.length+port.length+1-1;
+  // 8: "https://" , +1: ":" , -1: start 0 
   
   var str = obj.src;
-  str = str.substring(22, str.length-5);
+  str = str.substring(beg_idx, str.length-5);
   //console.log(str);
   str = str.concat(".png");
   //console.log(str);

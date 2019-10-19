@@ -42,11 +42,11 @@
 	  <!--script src="/javascripts/jquery.mobile-1.4.5.js"></script-->
 	  <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 	  <script src="http://ajax.googleapis.com/ajax/libs/jquerymobile/1.4.5/jquery.mobile.js"></script>
-	  <script src="common.js" async defer></script>
-      <script src="event_user.js" async defer></script>
-	  <script src="farm.js" async defer></script>
+	  <script src="common.js"></script>
+      <script src="event_user.js"></script>
+	  <script src="farm.js"></script>
 
-	  <script src="/javascripts/d3.js" async defer></script>
+	  <script src="/javascripts/d3.js"></script>
       
 			<!-- google login button -->
 			<meta name="google-signin-scope" content="profile email">
@@ -71,12 +71,13 @@
             }
           })
         }, 500);
+        //load_body_2target('javascripts/new_map.ejs', 'pagecontainer', 'main_pic');
       }
       
       $(document).ready(function()
       {
         console.log("web initial");
-        load_body_2target('javascripts/new_map.ejs', 'pagecontainer', 'main_pic');
+        
       });
           
 		</script>
@@ -109,7 +110,6 @@
 					<li data-icon="delete"><a href="#" id="dash_close">Close</a></li>
 					<!--li data-icon="" id="dash_assets" onClick="click_assets()" ><a>Assets</a></li-->
 					<li data-icon="carat-r" id="assets" onClick="click_assets();"><a href="#">Assets</a></li>
-					<li data-icon="carat-r" id="others"><a>Others</a></li>
 					<li data-icon="carat-r" id="evt_test"><a href="#desc_map">Events Test</a></li>
 
 					<li data-icon="carat-r" id="evt_gameStart" 	onClick="user_evt(this.id)"><a>evt_gameStart</a></li>
@@ -165,25 +165,31 @@
 			
 			
 			<!-- main_page -->
-      <div id="pagecontainer"></div>
-			<div id="list_load" role="main" class="ui-content" style="display:block">
-				<img id="main_pic" src="images/map_china.jpg" alt="img__map_china" class='img_full'>
-			</div>
 
+      <div>
+        <center>
+        <table width="1500" border="1">
+
+          <div id='map'></div>  <!--Column 1 -->
+          <!--   <script type="text/javascript" src="./data/TWN_county.js"></script>  -->
+          <script type="text/javascript" src="TaiwanSquare.js"></script> 
+          <!--	var map = L.map('map').setView([25.0, 121.5],8); -->
+          <script type="text/javascript" src="map_init.js"></script> 
+
+        </table>
+        </center>
+      </div>
+
+      <div id="pagecontainer"></div>
 			<!-- dashboard -->
       <div>
         <h3>Welcome to Earth Chicken, <%= name %>></h3>
         <a href="javascript:void(0);" onclick="signOut();">Sign out</a>
-
         <a href="#/farm">Call farm</a>
-        <button id = "call_map" type = "button" class = "btn1" onClick="call_map();">Call map</button>
       </div>
-
-			<a href="/logout" onClick="signOut();">Sign out</a>
       
       <!-- Right-Bar -->
       <div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="a" id="desc_map" data-position="right">
-
         <div data-role="collapsibleset" data-theme="a" data-content-theme="a">
           <h2 style="margin:10;">Map Introduction</h2>
           <div data-role="collapsible">
@@ -201,8 +207,8 @@
         </div>
 
         <p align="center" style="position:relative; border-top:1px solid #CCCCCC">
-          <a href="#pagehome" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" onClick="buy_land()" id="buy_land">Buy</a>
-          <a href="#pagehome" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="buy_land_cancel">Cancel</a>
+          <a href="#/form" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="enter_land">Enter</a>
+          <a href="#/form" class="ui-btn ui-corner-all ui-shadow ui-btn-inline" id="enter_land_cancel">Cancel</a>
         </p>
       </div>
 
