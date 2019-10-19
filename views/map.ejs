@@ -34,7 +34,14 @@
 <h2><font size="7" color="yellow" >Earth Chicken</font></h2>
 <table width="1500" border="1">
 
-<div id='map'></div>  <!--Column 1 -->
+	<form id="myForm" action="/farm" method="post" style="display: none">
+		<input id="myForm_lon" type="hidden" name="lon" value="">
+		<input id="myForm_lat" type="hidden" name="lat" value="">
+		<input id="myForm_clt" type="hidden" name="clt" value="">
+	</form>
+
+
+	<div id='map'></div>  <!--Column 1 -->
 
 <!--   <script type="text/javascript" src="./data/TWN_county.js"></script>  -->
        <script type="text/javascript" src="TaiwanSquare.js"></script> 
@@ -79,9 +86,7 @@
 					[p.lon+dd,p.lat+dd]]
 				grid = {
 					"type":"Feature",
-					"lon":(p.lon),
-					"lat":(p.lat),
-					"clm":(p.clm),
+					"lon":(p.lon), "lat":(p.lat), "clm":(p.clm),
 					"properties":{"name":"Climate: "+(p.clm)},
 					"geometry":{
 						"type":"Polygon",
@@ -185,9 +190,13 @@
 	function zoomToFeature(e) {
 		map.fitBounds(e.target.getBounds());
 	}
-    	function clickHyperlink(e) {
-			const feature = e.sourceTarget.feature
-			window.location.href='/farm/'+(feature.lon)+'/'+(feature.lat)+'/'+feature.clt;
+
+	function clickHyperlink(e) {
+		const feature = e.sourceTarget.feature
+		document.getElementById('myForm_lon').value = (feature.lon);
+		document.getElementById('myForm_lat').value = (feature.lat);
+		document.getElementById('myForm_clt').value = (feature.clt);
+		document.getElementById("myForm").submit();
 	}
 
 	function onEachFeature(feature, layer) {
