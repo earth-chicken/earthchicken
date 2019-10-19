@@ -29,48 +29,48 @@ function initmap() {
 function map2(){
   
   map.addEventListener('mouseup', function(ev) {
-	 var lat, lng;
+    var lat, lng;
        lat = ev.latlng.lat;
        lng = ev.latlng.lng;
-	 var data = {lon: lng, lat: lat };
-	 $.post('/service/get_poly', data, function (res) {
-	 	console.log(res);
-		if (res[0].err) {
-			console.log("no point responce");
-			return;
+    var data = {lon: lng, lat: lat };
+    $.post('/service/get_poly', data, function (res) {
+    console.log(res);
+    if (res[0].err) {
+      console.log("no point responce");
+      return;
 
-		} else {
-			grids = [];
-			const points = res[1]
-			points.forEach(function (p) {
-				const dd = 0.125
-				let poly = [[p.lon+dd,p.lat+dd],
-					[p.lon-dd,p.lat+dd],
-					[p.lon-dd,p.lat-dd],
-					[p.lon+dd,p.lat-dd],
-					[p.lon+dd,p.lat+dd]]
-				grid = {
-					"type":"Feature",
-					"lon":(p.lon), "lat":(p.lat), "clm":(p.clm),
-					"properties":{"name":"Climate: "+(p.clm)},
-					"geometry":{
-						"type":"Polygon",
-						"coordinates":[poly]
-					}}
-				grids.push(grid)
-			})
-			let polys = {
-				"type":"FeatureCollection",
-				"features":grids
-			}
-			map.removeLayer(geojson);
-			geojson = L.geoJson(polys, {
-				style: style,
-				onEachFeature: onEachFeature,
-			}).addTo(map);
-		}
+    } else {
+      grids = [];
+      const points = res[1]
+      points.forEach(function (p) {
+        const dd = 0.125
+        let poly = [[p.lon+dd,p.lat+dd],
+          [p.lon-dd,p.lat+dd],
+          [p.lon-dd,p.lat-dd],
+          [p.lon+dd,p.lat-dd],
+          [p.lon+dd,p.lat+dd]]
+        grid = {
+          "type":"Feature",
+          "lon":(p.lon), "lat":(p.lat), "clm":(p.clm),
+          "properties":{"name":"Climate: "+(p.clm)},
+          "geometry":{
+            "type":"Polygon",
+            "coordinates":[poly]
+          }}
+        grids.push(grid)
+      })
+      let polys = {
+        "type":"FeatureCollection",
+        "features":grids
+      }
+      map.removeLayer(geojson);
+      geojson = L.geoJson(polys, {
+        style: style,
+        onEachFeature: onEachFeature,
+      }).addTo(map);
+    }
+    });
   });
-  
   
 }
 
