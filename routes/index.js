@@ -48,6 +48,16 @@ router.get('/about', function(req, res, next) {
 
 });
 
+router.get('/map', function(req, res, next) {
+  console.log('at /about');
+
+  res.render('map.ejs',{
+    title : 'map'
+  })
+
+});
+
+
 router.get('/introduce', function(req, res, next) {
   console.log('at /introduce');
 
