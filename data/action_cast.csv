@@ -1,8 +1,7 @@
-action,chg_currency,chg_carboin
-user_evt_buyLand,-1000,0
-user_evt_plant,-100,-100
-user_evt_harvest,-100,-500
-user_evt_irrigate,-100,-100
-user_evt_fertilize,-100,-100
-user_evt_debug,-100,-100
-user_evt_greenhouse,-100,-100
+species,p_user_evt_buyLand,p_user_evt_plant,p_user_evt_fertilize,p_user_evt_irrigate,p_user_evt_harvest,c_user_evt_buyLand,c_user_evt_plant,c_user_evt_fertilize,c_user_evt_irrigate,c_user_evt_harvest
+cedar_incs,10,1,0.2,0.05,1000,0,1,0.2,0.05,400
+acacia_tw,10,1,0.2,0.05,200,0,1,0.2,0.05,50
+rice_jap,10,0.5,0.1,0.05,30,0,0.5,0.1,0.05,10
+maize_tmpsbtr,10,0.5,0.1,0.05,30,0,0.5,0.1,0.05,10
+wheat_subtr,10,0.5,0.1,0.05,30,0,0.5,0.1,0.05,10
+,,,,,,,,,,

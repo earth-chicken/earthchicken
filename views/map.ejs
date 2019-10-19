@@ -36,9 +36,8 @@
 
 <div id='map'></div>  <!--Column 1 -->
 
-<!--   <script type="text/javascript" src="./data/TWN_county.js"></script> -->
-<script type="text/javascript" src="TaiwanSquare.js"></script>
-
+<!--   <script type="text/javascript" src="./data/TWN_county.js"></script>  -->
+       <script type="text/javascript" src="TaiwanSquare.js"></script> 
 <script type="text/javascript">
 
 <!--	var map = L.map('map').setView([25.0, 121.5],8); -->
@@ -51,29 +50,36 @@
 		id: 'mapbox.satellite'
 	}).addTo(map);
     	function onLocationFound(e) {
-                var radius = e.accuracy / 2;
-                          L.marker(e.latlng).addTo(map)    
-                      .bindPopup('<a href="http://www.yahoo.com.tw/">Yahoo</a>').openPopup();    
-<!--                  .bindPopup("You are within " + radius + " meters from this point").openPopup(); -->
+//                var radius = e.accuracy / 2;
+                            L.marker(e.latlng).addTo(map);    
+//                       .bindPopup('<a href="http://www.yahoo.com.tw/">Yahoo</a>');    
+//                      .bindPopup('<a href="http://www.yahoo.com.tw/">Yahoo</a>').openPopup();    
 <!--                L.circle(e.latlng, radius).addTo(map); -->
          } 
-//	map.on("contextmenu", function (event) {
-//	  L.marker(event.latlng).addTo(map);
-//	});
   	map.addEventListener('mouseup', function(ev) {
-    	 lat = ev.latlng.lat;
-    	 lng = ev.latlng.lng;
-	 L.marker(ev.latlng).addTo(map);
-  	});
-	
-	var data = {lon: 123, lat:23};
-	$.post('/map_get_poly', data, function (res) {
+	 var lat, lng;
+      	 lat = ev.latlng.lat;
+      	 lng = ev.latlng.lng;
+	 var data = {lon: lng, lat: lat };
+	 $.post('/service/get_poly', data, function (res) {
 		console.log(res);
 		if (res.length <= 0) {
 			console.log("post return nothing");
 			return;
-		}
-	});
+		}	
+    	        var grid1 = {"type":"FeatureCollection","features":[
+{"type":"Feature","id":"0054","properties":{"name":"Station:0054<img src='./img/0054_spectrum.jpg'  height=2 width=4 >"},"geometry":{"type":"Polygon","coordinates":[[[121.625000,25.375000],[121.375000,25.375000],[121.375000,25.125000],[121.825000,25.125000],[121.625000,25.375000]]]}},
+		]};
+		map.removeLayer(geojson);
+		geojson = L.geoJson(grid1, {
+                    style: style,
+                    onEachFeature: onEachFeature
+                }).addTo(map);
+//  	 	marker =  L.marker(ev.latlng).addTo(map)  
+//                       .bindPopup('<a href="http://www.yahoo.com.tw/">Yahoo</a>').openPopup();    
+	 });
+  	});
+				console.log("post return nothing");
 
 
 
@@ -167,13 +173,10 @@
 		});
 	}
 
-	geojson = L.geoJson(statesData, {
+     	geojson = L.geoJson(statesData , {  //skip default polygon
 		style: style,
 		onEachFeature: onEachFeature
-	}).addTo(map);
-
-
-
+  	}).addTo(map);    
 
 
 </script>

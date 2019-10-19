@@ -1,9 +1,9 @@
 const g_plant_tp = [
-	"rice",
-	"corn",
-  "potato",
-  "oliver",
-  "soybean"
+	"Cedar",
+	"Acacia",
+  "Rice",
+  "Maize",
+  "Wheat"
 ];
 
 const g_fertilize_tp = [
