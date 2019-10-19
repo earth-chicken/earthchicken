@@ -29,6 +29,15 @@
         padding:150px;
 
       }
+        
+      .divs .imgs{
+      	width: 15%;
+	height: 15%;
+          display: inline-block;
+          vertical-align: middle;
+          text-align : center;
+          width:200px border-radius:50%;
+      }
 		</style>
 		
 		<!-- JavaScript --beg-- -->
@@ -162,17 +171,15 @@
         <div class="teacherpic"><img id="main_pic" src="images/unknown-513.png" alt="img__map_china"></div>
       </div>
 
-        <script src="farm.js" async defer></script>
-
 
       <!-- bottom assets board -->
 			<div data-role="footer" data-position="fixed" data-fullscreen="false" data-theme="a">
-                <div id="event_set" data-role="controlgroup" data-type="horizontal">
-                    <img class='img_15' onClick="user_evt(this.id)" id="evt_irrigate" src="images/Act_1irr.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;">
-                    <img class='img_15' onClick="user_evt(this.id)" id="evt_fertilize" src="images/Act_2fer.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;">
-                    <!--img class='img_15' onClick="user_evt(this.id)" id="" src="images/Act_3byland.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;"-->
-                    <img class='img_15' onClick="user_evt(this.id)" id="evt_harvest" src="images/Act_4harv.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;">
-                    <img class='img_15' onClick="user_evt(this.id)" id="evt_plant" src="images/Act_5plant.png"  alt="Avatar" data-inline="true" style="width:200px border-radius:50%;">
+        <div class="divs">
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="evt_plant" src="images/act_0plant.png"><pre>Plant</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="evt_irrigate" src="images/act_1irr.png"><pre>Irrigate</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="evt_fertilize" src="images/act_2fer.png"><pre>Fertilize</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="" src="images/act_3byland.png"><pre>Buy Land</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="evt_harvest" src="images/act_4harv.png"><pre>Harvest</pre></div>
 				</div>
       </div>
 
