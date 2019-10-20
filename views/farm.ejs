@@ -99,6 +99,8 @@
       <input type="text" id="event_tp" name="" value="-1">
       <input type="text" id="plant_tp" name="" value="-1">
       <input type="text" id="fer_tp" name="" value="-1">
+      <input type="text" id="lon_tp" name="" value=<%= lon %> >
+      <input type="text" id="lat_tp" name="" value=<%= lat %> >
       </div>
       
       
@@ -106,13 +108,13 @@
       <!-- Right-Bar 1-->
 			<div data-role="panel" data-position-fixed="true" data-display="overlay" data-theme="b" style="width:40%" id="plant_tp_panel" data-position="right">
 				<ul data-role="listview">
-          <h2 style="margin:10; text-align:center;">Plant</h2>
-					<li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_0">plant_tp0</a></li>
-          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_1">plant_tp1</a></li>
-          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_2">plant_tp2</a></li>
-          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_3">plant_tp3</a></li>
-          <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_4">plant_tp4</a></li>
-          <span id="add_menu" class="ui-list"></span>
+                    <h2 style="margin:10; text-align:center;">Plant</h2>
+                    <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_0">plant_tp0</a></li>
+                    <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_1">plant_tp1</a></li>
+                    <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_2">plant_tp2</a></li>
+                    <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_3">plant_tp3</a></li>
+                    <li ui-icon="carat-l"><a onClick="sel_plant_tp(this.id)" id="plant_4">plant_tp4</a></li>
+                    <span id="add_menu" class="ui-list"></span>
 				</ul>
 			</div>
       
@@ -153,13 +155,12 @@
         <div>
           <h2>Name: <%= name %> </h2>
             <h3>Assets</h3>
-            <p id="farm_money">$$</p>
-            <p id="farm_carbon">$C</p>
+            <p id="farm_money">$$: <%= currency %></p>
+            <p id="farm_carboin">$C: <%= carboin %></p>
           <h2>Location</h2>
             <p>Lon: <%= lon %> Lat: <%= lat %></p>
-          <h2>Temporature</h2>
-            <p id="farm_bar1">descriptions ...</p>
-            <p id="farm_bar2">descriptions ...</p>
+          <h2>Climate</h2>
+            <p id="farm_bar1"> <%= climate %> ...</p>
         </div>
       </div>
 
@@ -179,11 +180,11 @@
       <!-- bottom assets board -->
 			<div data-role="footer" data-position="fixed" data-fullscreen="false" data-theme="a">
         <div class="divs">
-          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="evt_plant" src="images/act_0plant.png"><pre>Plant</pre></div>
-          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="evt_irrigate" src="images/act_1irr.png"><pre>Irrigate</pre></div>
-          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="evt_fertilize" src="images/act_2fer.png"><pre>Fertilize</pre></div>
-          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="" src="images/act_3byland.png"><pre>Buy Land</pre></div>
-          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id)" id="evt_harvest" src="images/act_4harv.png"><pre>Harvest</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id,<%= lon %>,<%= lat %>)" id="evt_plant" src="images/act_0plant.png"><pre>Plant</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id,<%= lon %>,<%= lat %>)" id="evt_irrigate" src="images/act_1irr.png"><pre>Irrigate</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id,<%= lon %>,<%= lat %>)" id="evt_fertilize" src="images/act_2fer.png"><pre>Fertilize</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id,<%= lon %>,<%= lat %>)" id="evt_buyLand" src="images/act_3byland.png"><pre>Buy Land</pre></div>
+          <div class="imgs"><img class='img_auto' onmouseover="hover_farmEvtImg(this)" onmouseout="unhover_farmEvtImg(this)" onClick="user_evt(this.id,<%= lon %>,<%= lat %>)" id="evt_harvest" src="images/act_4harv.png"><pre>Harvest</pre></div>
 				</div>
       </div>
 

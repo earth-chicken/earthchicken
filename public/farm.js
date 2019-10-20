@@ -31,22 +31,25 @@ function set_cur_location(new_location){
 	return;
 }
 
+plant_ind = {plant_0:1,plant_1:2,plant_2:3,plant_3:4,plant_4:5};
 
-function evt_plant(plant_tp){
+function evt_plant(plant_tp,lon,lat){
   console.log(arguments.callee.name +" farm.js");
 	
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_plant",
-							lon:'120.8',
-							lat:'23.3',
-							p_type:'1'};
+							lon:lon,
+							lat:lat,
+							p_type:plant_ind[plant_tp]};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		
+		document.getElementById("farm_money").value = res.currency;
+		document.getElementById("farm_carboin").value = res.carboin;
+
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
 		
@@ -55,20 +58,21 @@ function evt_plant(plant_tp){
 	return;
 }
 
-function evt_irrigate(){
+function evt_irrigate(lon,lat){
   console.log(arguments.callee.name);
 	
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_irrigate",
-							lon:'120.8',
-							lat:'23.3'};
+		lon:lon, lat:lat};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		
+		document.getElementById("farm_money").value = res.currency;
+		document.getElementById("farm_carboin").value = res.carboin;
+
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
 		
@@ -77,20 +81,22 @@ function evt_irrigate(){
 	return;
 }
 
-function evt_fertilize(fer_tp){
+function evt_fertilize(lon,lat){
   console.log(arguments.callee.name +" farm.js");
 	
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_fertilize",
-							lon:'120.8',
-							lat:'23.3'};
+							lon:lon,
+							lat:lat};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		
+		document.getElementById("farm_money").value = res.currency;
+		document.getElementById("farm_carboin").value = res.carboin;
+
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
 		
@@ -99,20 +105,21 @@ function evt_fertilize(fer_tp){
 	return;
 }
 
-function evt_debug(){
+function evt_debug(lon,lat){
   console.log(arguments.callee.name);
 
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_debug",
-							lon:'120.8',
-							lat:'23.3'};
+							lon:lon, lat:lat};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		
+		document.getElementById("farm_money").value = res.currency;
+		document.getElementById("farm_carboin").value = res.carboin;
+
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
 		
@@ -121,20 +128,21 @@ function evt_debug(){
 	return;
 }
 
-function evt_greenhouse(){
+function evt_greenhouse(lon,lat){
   console.log(arguments.callee.name);
 
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_greenhouse",
-							lon:'120.8',
-							lat:'23.3'};
+							lon:lon, lat:lat};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		
+		document.getElementById("farm_money").value = res.currency;
+		document.getElementById("farm_carboin").value = res.carboin;
+
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
 		
@@ -143,21 +151,22 @@ function evt_greenhouse(){
   return;
 }
 
-function evt_harvest(){
+function evt_harvest(lon,lat){
   console.log(arguments.callee.name);
 
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_harvest",
-							lon:'120.8',
-							lat:'23.3',
-							/*p_type:'1'*/};
+		lon:lon, lat:lat,
+		/*p_type:'1'*/};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		
+		document.getElementById("farm_money").value = res.currency;
+		document.getElementById("farm_carboin").value = res.carboin;
+
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
 		
@@ -167,18 +176,19 @@ function evt_harvest(){
 }
 
 
-function evt_buyLand(){
+function evt_buyLand(lon,lat){
 	console.log(arguments.callee.name);
 
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_buyLand",
-		lon:'120.8',
-		lat:'23.3'};
+		lon:lon, lat:lat};
 	$.post('/service/gameAction', data, function(res){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
+		document.getElementById("farm_money").value = res.currency;
+		document.getElementById("farm_carboin").value = res.carboin;
 
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
@@ -219,7 +229,7 @@ function if_gameStart(callback) {
 }
 
 
-function user_evt(obj_id){
+function user_evt(obj_id,lon,lat){
 	console.log(arguments.callee.name+" "+obj_id);
 
 
@@ -246,33 +256,33 @@ function user_evt(obj_id){
 			break;
 		case "evt_fertilize":
 			//$('#fer_tp_panel').panel("open");
-      evt_fertilize();
+      		evt_fertilize(lon,lat);
 			break;
 		case "evt_buyLand":
-			evt_buyLand();
+			evt_buyLand(lon,lat);
 			break;
 		case "evt_plant_tmp":
-			evt_plant();
+			evt_plant(1,lon,lat);
 			break;
 		case "evt_fertilize_tmp":
-			evt_fertilize();
+			evt_fertilize(lon,lat);
 			break;
 		case "evt_irrigate":
-			evt_irrigate();
+			evt_irrigate(lon,lat);
 			break;
 		case "evt_debug":
-			evt_debug();
+			evt_debug(lon,lat);
 			break;
 		case "evt_greenhouse":
-			evt_greenhouse();
+			evt_greenhouse(lon,lat);
 			break;
 		case "evt_harvest":
-			evt_harvest();
+			evt_harvest(lon,lat);
 			break;
 	}
 };
 
-function sel_plant_tp(item_id){
+function sel_plant_tp(item_id,lon,lat){
   console.log(arguments.callee.name);
   $('#event_tp').val("plant");
   
@@ -311,20 +321,24 @@ function confirm_form(){
   var event_tp = document.getElementById("event_tp").value;
   var fer_tp = document.getElementById("fer_tp").value;
   var plant_tp = document.getElementById("plant_tp").value;
+	var lon_tp = document.getElementById("lon_tp").value;
+	var lat_tp = document.getElementById("lat_tp").value;
 
   console.log("event_tp "+event_tp);
   console.log("fer_tp "+fer_tp);
   console.log("plant_tp "+plant_tp);
-  
+	console.log("lon_tp "+lon_tp);
+	console.log("lat_tp "+lat_tp);
+
   //post_2server
   
   if("plant" == event_tp)
   {
-    evt_plant(plant_tp);
+    evt_plant(plant_tp,lon_tp,lat_tp);
   }
   else if("fer" == event_tp)
   {
-    evt_fertilize(fer_tp);
+    evt_fertilize(fer_tp,lon_tp,lat_tp);
   }
   else
   { console.log("event_tp not in expected ?");}

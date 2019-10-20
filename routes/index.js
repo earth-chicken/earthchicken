@@ -86,20 +86,30 @@ router.get('/game', function(req, res, next) {
 
 router.post('/farm', function(req, res, next) {
     console.log('at /farm');
-    var lon = req.body.lon;
-    var lat = req.body.lat;
-    var clt = req.body.clt;
 
     if(req.session.isLogin) {
         const uid = req.session.uid;
         let username = req.session.name;
 
-        res.render('farm.ejs', {
-            name: username,
-            lon: lon,
-            lat: lat,
-            clt: clt,
+        let lon = req.body.lon;
+        let lat = req.body.lat;
+        let clm = req.body.clm;
+        let currency;
+        let carboin;
+        db.getUserStatus(uid, function (userData) {
+            currency = userData.currency;
+            carboin = userData.carboin;
+
+            res.render('farm.ejs', {
+                name: username,
+                currency: currency,
+                carboin: carboin,
+                lon: lon,
+                lat: lat,
+                climate: clm,
+            });
         });
+
     } else {
         console.log('need to login');
         res.redirect('/');
