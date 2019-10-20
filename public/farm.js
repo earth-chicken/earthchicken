@@ -32,14 +32,14 @@ function set_cur_location(new_location){
 }
 
 
-function evt_plant(plant_tp){
+function evt_plant(plant_tp,lon_1,lat_1){
   console.log(arguments.callee.name +" farm.js");
 	
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_plant",
-							lon:'120.8',
-							lat:'23.3',
+							lon:lon_1,
+							lat:lat_1,
 							p_type:'1'};
 
 	$.post(URL_SERVICE, data, function(res){
@@ -55,14 +55,14 @@ function evt_plant(plant_tp){
 	return;
 }
 
-function evt_irrigate(){
+function evt_irrigate(lon_1,lat_1){
   console.log(arguments.callee.name);
 	
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_irrigate",
-							lon:'120.8',
-							lat:'23.3'};
+							lon:lon_1,
+							lat:lat_1};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
@@ -77,14 +77,14 @@ function evt_irrigate(){
 	return;
 }
 
-function evt_fertilize(fer_tp){
+function evt_fertilize(lon_1,lat_1){
   console.log(arguments.callee.name +" farm.js");
 	
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_fertilize",
-							lon:'120.8',
-							lat:'23.3'};
+							lon:lon_1,
+							lat:lat_1};
 
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
@@ -143,16 +143,15 @@ function evt_greenhouse(){
   return;
 }
 
-function evt_harvest(){
+function evt_harvest(lon_1,lat_1){
   console.log(arguments.callee.name);
 
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_harvest",
-							lon:'120.8',
-							lat:'23.3',
-							/*p_type:'1'*/};
-
+							lon:lon_1,
+							lat:lat_1};
+	console.log(data);
 	$.post(URL_SERVICE, data, function(res){
 		console.log(res);
 		if(res.length<=0)
@@ -167,14 +166,15 @@ function evt_harvest(){
 }
 
 
-function evt_buyLand(){
+function evt_buyLand(lon_1,lat_1){
 	console.log(arguments.callee.name);
+
 
 	var cur_loc = get_cur_location();
 	//use cur_loc to fill data --- lon, lat
 	var data = {event:"user_evt_buyLand",
-		lon:'120.8',
-		lat:'23.3'};
+		lon:lon_1,
+		lat:lat_1};
 	$.post('/service/gameAction', data, function(res){
 		console.log(res);
 		if(res.length<=0)
@@ -219,9 +219,9 @@ function if_gameStart(callback) {
 }
 
 
-function user_evt(obj_id){
+function user_evt(obj_id,lon,lat){
 	console.log(arguments.callee.name+" "+obj_id);
-
+	console.log(lon,lat);
 
 	switch (obj_id) {
 		case "if_gameStart":
@@ -246,19 +246,19 @@ function user_evt(obj_id){
 			break;
 		case "evt_fertilize":
 			//$('#fer_tp_panel').panel("open");
-      evt_fertilize();
+      		evt_fertilize(lon,lat);
 			break;
 		case "evt_buyLand":
-			evt_buyLand();
+			evt_buyLand(lon,lat);
 			break;
 		case "evt_plant_tmp":
-			evt_plant();
+			evt_plant(null,lon,lat);
 			break;
 		case "evt_fertilize_tmp":
-			evt_fertilize();
+			evt_fertilize(lon,lat);
 			break;
 		case "evt_irrigate":
-			evt_irrigate();
+			evt_irrigate(lon,lat);
 			break;
 		case "evt_debug":
 			evt_debug();
@@ -267,7 +267,8 @@ function user_evt(obj_id){
 			evt_greenhouse();
 			break;
 		case "evt_harvest":
-			evt_harvest();
+			console.log('switch',lon,lat)
+			evt_harvest(lon,lat);
 			break;
 	}
 };
@@ -311,6 +312,8 @@ function confirm_form(){
   var event_tp = document.getElementById("event_tp").value;
   var fer_tp = document.getElementById("fer_tp").value;
   var plant_tp = document.getElementById("plant_tp").value;
+	var lon_1 = document.getElementById("lon_tp").value;
+	var lat_1 = document.getElementById("lat_tp").value;
 
   console.log("event_tp "+event_tp);
   console.log("fer_tp "+fer_tp);
@@ -320,7 +323,7 @@ function confirm_form(){
   
   if("plant" == event_tp)
   {
-    evt_plant(plant_tp);
+    evt_plant(plant_tp,lon_1,lat_1);
   }
   else if("fer" == event_tp)
   {

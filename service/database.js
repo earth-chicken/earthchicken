@@ -524,40 +524,44 @@ function evt_add_on(uid,gid,lon,lat,evt,callback) {
 function evt_harvest(uid,gid,lon,lat,callback) {
 
     checkLand(uid,gid,lon,lat, (err,status)=> {
-        if (err) throw 'database land self-inconsistent.';
-//        if (status.valid == 1 && status.completeness >= 100) {
-        if (status.valid == 1) {
-            const p_type = status.type;
+        if (err) {
+            console.log('you havent own this land');
+            callback(1,null);
+        } else {
+            //        if (status.valid == 1 && status.completeness >= 100) {
+            if (status.valid == 1) {
+                const p_type = status.type;
 
-            // todo get price of p_type
-            const price = 100;
-            const transfer_cast = -100;
-            getCarboinCast();
+                // todo get price of p_type
+                const price = 100;
+                const transfer_cast = -100;
+                getCarboinCast();
 
-            let earn = status.product * price;
-            let carboin_chg = status.product * transfer_cast;
+                let earn = status.product * price;
+                let carboin_chg = status.product * transfer_cast;
 
-            carboinChange(uid, carboin_chg,  (err,carboin) => {
-                console.log('new carboin ',carboin);
-                getMoney(uid, (currency) => {
-                    let old_money = currency;
-                    let new_currency = old_money + earn;
-                    console.log('new_currency ',new_currency);
-                    setMoney(uid, new_currency, () => {
-                        console.log('Currency updated ...');
+                carboinChange(uid, carboin_chg,  (err,carboin) => {
+                    console.log('new carboin ',carboin);
+                    getMoney(uid, (currency) => {
+                        let old_money = currency;
+                        let new_currency = old_money + earn;
+                        console.log('new_currency ',new_currency);
+                        setMoney(uid, new_currency, () => {
+                            console.log('Currency updated ...');
 
-                        cleanLand(uid,gid,lon,lat,function (err) {
-                            console.log('Land cleaned ...');
-                            callback(err, new_currency,earn, carboin, carboin_chg);
+                            cleanLand(uid,gid,lon,lat,function (err) {
+                                console.log('Land cleaned ...');
+                                callback(err, new_currency,earn, carboin, carboin_chg);
+                            });
                         });
                     });
+
                 });
 
-            });
-
-        } else {
-            console.log('no plant to be harvested ...')
-            callback(1,null);
+            } else {
+                console.log('no plant to be harvested ...')
+                callback(1,null);
+            }
         }
     });
 }

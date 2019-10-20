@@ -104,7 +104,7 @@ router.post('/gameAction', function (req,res, next) {
   const lon = parseFloat(req.body.lon) * 1000;
   const lat = parseFloat(req.body.lat) * 1000;
 
-//  console.log(lon,lat);
+  console.log(req.body);
 
   let p_type = data.p_type;
 
@@ -147,7 +147,7 @@ router.post('/gameAction', function (req,res, next) {
       });
       break;
     case "user_evt_buyLand":
-      console.log('user_evt_buyLand now')
+      console.log('user_evt_buyLand now',lon,lat);
       db.evt_buy_land(uid,gid,lon,lat, function (err,currency) {
         res.send({
           currency: currency,
@@ -157,6 +157,7 @@ router.post('/gameAction', function (req,res, next) {
       });
       break;
     case "user_evt_plant":
+      console.log('user_evt_plant now',lon,lat);
       db.evt_plant(uid,gid,lon,lat,p_type, function (err,currency) {
         res.send({
           currency: currency,
@@ -166,6 +167,7 @@ router.post('/gameAction', function (req,res, next) {
       });
       break;
     case "user_evt_harvest":
+      console.log('user_evt_harvest now',lon,lat);
       db.evt_harvest(uid,gid,lon,lat, function (err,currency,earn,carboin,cb_chg) {
         res.send({
           currency: currency,

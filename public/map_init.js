@@ -81,7 +81,7 @@ function map3(){
   map.locate({setView: true, maxZoom: 8});
 
   // control that shows state info on hover
-  var info = L.control({position: 'bottomleft'});
+  info = L.control({position: 'bottomleft'});
 
   info.onAdd = function (map) {
     this._div = L.DomUtil.create('div', 'info');
@@ -166,10 +166,10 @@ function zoomToFeature(e) {
 }
 
 	function clickHyperlink(e) {
-		const feature = e.sourceTarget.feature
+		const feature = e.sourceTarget.feature;
 		document.getElementById('myForm_lon').value = (feature.lon);
 		document.getElementById('myForm_lat').value = (feature.lat);
-		document.getElementById('myForm_clt').value = (feature.clt);
+		document.getElementById('myForm_clt').value = (feature.clm);
 		document.getElementById("myForm").submit();
 	}
 

@@ -52,6 +52,13 @@ a {
 	vertical-align:middle;
 	object-fit: contain;
 }
+.img_70 {
+	width: 150%;
+	height: 150%;
+	vertical-align:middle;
+	horiz-align:left;
+	object-fit: contain;
+}
 
 .img_100 {
 	width: 100%;
