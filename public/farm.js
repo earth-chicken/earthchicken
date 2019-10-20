@@ -31,7 +31,6 @@ function set_cur_location(new_location){
 	return;
 }
 
-plant_ind = {plant_0:1,plant_1:2,plant_2:3,plant_3:4,plant_4:5};
 
 function evt_plant(plant_tp,lon_1,lat_1){
   console.log(arguments.callee.name +" farm.js");
@@ -47,8 +46,6 @@ function evt_plant(plant_tp,lon_1,lat_1){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		document.getElementById("farm_money").value = res.currency;
-		document.getElementById("farm_carboin").value = res.carboin;
 
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
@@ -71,8 +68,6 @@ function evt_irrigate(lon_1,lat_1){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		document.getElementById("farm_money").value = res.currency;
-		document.getElementById("farm_carboin").value = res.carboin;
 
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
@@ -95,8 +90,6 @@ function evt_fertilize(lon_1,lat_1){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		document.getElementById("farm_money").value = res.currency;
-		document.getElementById("farm_carboin").value = res.carboin;
 
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
@@ -118,8 +111,6 @@ function evt_debug(lon,lat){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		document.getElementById("farm_money").value = res.currency;
-		document.getElementById("farm_carboin").value = res.carboin;
 
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
@@ -141,8 +132,6 @@ function evt_greenhouse(lon,lat){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		document.getElementById("farm_money").value = res.currency;
-		document.getElementById("farm_carboin").value = res.carboin;
 
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
@@ -165,8 +154,6 @@ function evt_harvest(lon_1,lat_1){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		document.getElementById("farm_money").value = res.currency;
-		document.getElementById("farm_carboin").value = res.carboin;
 
 		//parse res and update web
 		//res = jQuery.parseJSON(res);
@@ -190,8 +177,6 @@ function evt_buyLand(lon_1,lat_1){
 		console.log(res);
 		if(res.length<=0)
 		{	console.log("post return nothing"); return;}
-		document.getElementById("farm_money").value = res.currency;
-		document.getElementById("farm_carboin").value = res.carboin;
 
 		//parse res and update web
 		//res = jQuery.parseJSON(res);

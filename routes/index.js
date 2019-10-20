@@ -106,7 +106,7 @@ router.post('/farm', function(req, res, next) {
                 carboin: carboin,
                 lon: lon,
                 lat: lat,
-                climate: clm,
+                clm: clm,
             });
         });
 
