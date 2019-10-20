@@ -169,7 +169,7 @@ function zoomToFeature(e) {
 		const feature = e.sourceTarget.feature;
 		document.getElementById('myForm_lon').value = (feature.lon);
 		document.getElementById('myForm_lat').value = (feature.lat);
-		document.getElementById('myForm_clt').value = (feature.clm);
+		document.getElementById('myForm_clm').value = (feature.clm);
 		document.getElementById("myForm").submit();
 	}
 
