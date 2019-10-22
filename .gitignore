@@ -5,3 +5,5 @@ node_modules
 .idea
 certs
 data/NASA
+nohup.out
+data

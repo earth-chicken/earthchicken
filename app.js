@@ -56,7 +56,7 @@ var sys = require('./service/system');
 
 db.checkDatabase(function (result) {
    console.log(result);
-//   sys.nature();
+   sys.nature();
 });
 
 
