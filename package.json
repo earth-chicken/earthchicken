@@ -9,7 +9,7 @@
     "cookie-parser": "~1.4.4",
     "csv-array": "0.0.22",
     "debug": "~2.6.9",
-    "ejs": "~2.6.1",
+    "ejs": "~3.1.7",
     "exec-php": "0.0.5",
     "express": "~4.17.3",
     "express-session": "^1.16.2",
