@@ -10,7 +10,7 @@
     "csv-array": "0.0.22",
     "debug": "~2.6.9",
     "ejs": "~2.6.1",
-    "exec-php": "0.0.5",
+    "exec-php": "0.0.6",
     "express": "~4.17.3",
     "express-session": "^1.16.2",
     "fast-csv": "^3.4.0",
